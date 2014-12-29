@@ -1,0 +1,17 @@
+<template name="login">
+  <div class="container">
+    {{#if currentUser}}
+    {{> checkouts}}
+    {{else}}
+    <div id="linkblue-login center-block">
+      <div id="please-login">
+        <h3>Welcome to A&S Checkouts!</h3>
+        <p>Please login with your <a target="_blank" href="http://www.uky.edu/UKHome/subpages/linkblue.html">LinkBlue</a> credentials to begin.</p>
+      </div>
+      <div id="login-form">
+        {{ > ldapLogin }}
+      </div>
+    </div>
+    {{/if}}
+  </div>
+</template>

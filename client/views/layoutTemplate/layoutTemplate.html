@@ -1,0 +1,20 @@
+<head>
+  <title>A&S Checkouts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" media="print" href="/print.css" />
+  <link rel="icon" sizes="32x32" href="/favicon.png">
+</head>
+
+<template name="layoutTemplate">
+  {{> navBar}}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        {{> yield}}
+      </div>
+    </div>
+  </div>
+</template>
+
+

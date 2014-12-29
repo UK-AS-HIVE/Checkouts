@@ -1,0 +1,79 @@
+<template name="checkouts">
+<div class="container">
+  {{> newCheckout}}
+    <br/>
+    <br/>
+    <table class="table table-bordered table-striped table-hover checkoutsTable pagination-sm table-condensed" id="checkoutTable">
+      <thead class="checkouts-header">
+        <tr>
+          <th id="name-header" width='auto'>Name</th>
+          <th id="description-header">Description</th>
+          <th id="picture-header">Picture</th>
+          <th>Item Type</th>
+          <th>Checked Out To</th>
+          <th>Expected Return Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each checkoutItem}}
+          {{> checkoutRow}}
+        {{/each}}
+      </tbody>
+    </table>
+    <button id="goTop">Go To Top</button>
+  </div>
+</template>
+
+
+<template name="checkoutRow">
+  <tr class="parent">
+    <td>
+      <div>
+        <strong>{{name}}</strong>
+        <i class="glyphicon glyphicon-edit"></i>
+      </div>
+    </td>
+    <td>
+      <div>
+        {{description}}
+        <i class="glyphicon glyphicon-edit"></i>
+      </div>
+    </td>
+    <td>
+      <div>
+        <strong>Picture!</strong>
+        <i class="glyphicon glyphicon-edit"></i>
+      </div>
+    </td>
+    <td>
+      <div>
+        {{category}}
+        <i class="glyphicon glyphicon-edit"></i>
+      </div>
+    </td>
+    <td>
+      <div>
+        {{assignedTo}}
+        <i class="glyphicon glyphicon-edit"></i>
+      </div>
+    </td>
+    <td>
+      <div>
+        Return time
+        <i class="glyphicon glyphicon-edit"></i>
+      </div>
+    </td>
+  </tr>
+  <tr style="display: none;" class ="details">
+    <td colspan='5'>
+      <div class="row">
+      <div class='col-md-6'>
+        <div class="row">
+        <div class="col-md-12">
+        </div>
+        </div>
+      </div>
+      </div>
+    </td>
+  </tr>
+</template>
