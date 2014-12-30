@@ -1,6 +1,8 @@
 <template name="checkouts">
 <div class="container">
+  {{#if isAdmin}}
   {{> newCheckout}}
+  {{/if}}
     <br/>
     <br/>
     <table class="table table-bordered table-striped table-hover checkoutsTable pagination-sm table-condensed" id="checkoutTable">
@@ -10,7 +12,7 @@
           <th id="description-header">Description</th>
           <th id="picture-header">Picture</th>
           <th>Item Type</th>
-          <th>Checked Out To</th>
+          <th>Checked Out</th>
           <th>Expected Return Date</th>
         </tr>
       </thead>
@@ -30,37 +32,39 @@
     <td>
       <div>
         <strong>{{name}}</strong>
-        <i class="glyphicon glyphicon-edit"></i>
       </div>
     </td>
     <td>
       <div>
         {{description}}
-        <i class="glyphicon glyphicon-edit"></i>
       </div>
     </td>
     <td>
       <div>
         <strong>Picture!</strong>
-        <i class="glyphicon glyphicon-edit"></i>
       </div>
     </td>
     <td>
       <div>
         {{category}}
-        <i class="glyphicon glyphicon-edit"></i>
       </div>
     </td>
     <td>
       <div>
-        {{assignedTo}}
-        <i class="glyphicon glyphicon-edit"></i>
+        {{#if assignedTo}}<span class="unavailable">
+          {{#if isAdmin}}
+          {{assignedTo}}
+          {{else}}
+          Unavailable
+          {{/if}}</span>
+        {{else}}
+        <span class="available">Available</span>
+        {{/if}}
       </div>
     </td>
     <td>
       <div>
         Return time
-        <i class="glyphicon glyphicon-edit"></i>
       </div>
     </td>
   </tr>

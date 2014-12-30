@@ -1,3 +1,4 @@
+
 Template.newCheckout.events
   'click #submitItem': (e, tmpl) ->
     addItem(e, tmpl)
@@ -5,16 +6,14 @@ Template.newCheckout.events
     if (e.charCode == 13) 
       addItem(e, tmpl)
 
-Template.newCheckout.rendered = ->
-  #TODO: Why does selectize not pick up any of our categories from the template? 
-  #Tried putting it in via this script but the find doesn't work.
-  cats = _.uniq Inventory.find({}, {'category': 1}).fetch().map (x) ->
+Template.newCheckout.helpers
+  category: ->
+    _.uniq Inventory.find({}, {'category':1}).fetch().map (x) ->
       return x.category
-  console.log cats
-  $('#category').selectize
-    create: true
-    sortField: 'text'
-    options: cats
+
+Template.newCheckout.rendered = ->
+  #This doesn't work, and I'm not sure it ever will.
+  #$("#category").selectize()
 
 addItem = (e, tmpl) ->
   #TODO: Check and see if everything is cool. "Name", "description", "category" are definitely required; probably image too.

@@ -91,6 +91,16 @@ span.deleteTag{
   border: 0;
 }
 
+.available {
+  font-weight: bold;
+  color: green;
+}
+
+.unavailable {
+  font-weight: bold;
+  color: red;
+}
+
 .addTagContainer{
   width:14px;
 }

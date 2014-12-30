@@ -1,6 +1,3 @@
-isAdmin = (userId) ->
-  return Meteor.users.findOne {_id: userId, memberOf: /.*SGASSupportStaff.*/ }
-
 @Inventory = new Meteor.Collection 'inventory'
 @Inventory.allow
   insert: (userId, doc) ->
