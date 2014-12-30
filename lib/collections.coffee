@@ -1,3 +1,9 @@
+@isAdmin = ->
+  #No arguments needed. Will use the currently logged in userId
+  if Meteor.users.findOne {_id: Meteor.userId(), memberOf: /.*SGASSupportStaff.*/ }
+    return true
+  return false
+
 @Inventory = new Meteor.Collection 'inventory'
 @Inventory.allow
   insert: (userId, doc) ->

@@ -1,4 +1,3 @@
-
 Template.newCheckout.events
   'click #submitItem': (e, tmpl) ->
     addItem(e, tmpl)
@@ -6,14 +5,17 @@ Template.newCheckout.events
     if (e.charCode == 13) 
       addItem(e, tmpl)
 
-Template.newCheckout.helpers
-  category: ->
-    _.uniq Inventory.find({}, {'category':1}).fetch().map (x) ->
-      return x.category
-
 Template.newCheckout.rendered = ->
-  #This doesn't work, and I'm not sure it ever will.
-  #$("#category").selectize()
+  cats = _.uniq Inventory.find({}, {'category': 1}).map (x) ->
+      return {id: x._id, text:x.category}
+  console.log cats
+  $select = $('#category').selectize
+    create: true
+    maxItems: 1,
+    valueField: 'text',
+    labelField: 'text',
+    searchField: 'text',
+    options: cats
 
 addItem = (e, tmpl) ->
   #TODO: Check and see if everything is cool. "Name", "description", "category" are definitely required; probably image too.
@@ -21,7 +23,7 @@ addItem = (e, tmpl) ->
   description = tmpl.find('input[name=description]').value
   serialNo = tmpl.find('input[name=serialNo]').value
   propertyTag = tmpl.find('input[name=propertyTag]').value
-  category = "test"
+  category = tmpl.find('#category').value
   image = "test"
   barcode = "test"
   $('#newCheckout').modal('toggle')

@@ -6,5 +6,5 @@ Meteor.publish 'inventory', ->
   #We may not publish the assignedTo field in the future to non-admin users.
   return Inventory.find()
 
-Meteor.publish 'admins', ->
-  return Meteor.users.find {admin: 1}
+Meteor.publish 'userData', ->
+  return Meteor.users.find {},{fields: {memberOf: 1}}

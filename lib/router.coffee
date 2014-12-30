@@ -2,11 +2,13 @@ Router.configure
   layoutTemplate: 'layoutTemplate'
   waitOn: -> [Meteor.subscribe 'fileRegistry']
 
-Router.route '/', ->
-  if !this.userId
-    this.render('login')
-  else
-    this.render('checkouts')
+Router.route '/',
+  action: ->
+    if !this.userId
+      this.render('login')
+    else
+      this.render('checkouts')
+  waitOn: -> [Meteor.subscribe 'userData']
 
 Router.map ->
   @route 'serveFile',
