@@ -16,7 +16,7 @@
           </tr>
           <tr>
             <td><label for="description">Description:</label></td>
-            <td><input type="text" size="80" class="input input-xlarge description checkoutInput" name="description" id="description"></td>
+            <td><input type="text" size="60" class="input input-xlarge description checkoutInput" name="description" id="description"></td>
           </tr>
           <tr>
             <td><label for="serialNo">Serial Number or Service Tag:</label></td>
@@ -36,7 +36,7 @@
           </tr>
           <tr>
             <td><label>Picture:</label></td>
-            <td>Upload/picture taking buttons go here</td>
+            <td>{{#if isCordova}}<button type="button" class="btn btn-primary" id="takePicture">Take Picture</button>{{/if}}<button type="button" class="btn btn-primary" id="uploadPicture">Upload Picture</button></td>
           </tr>
           <tr>
             <td><label>Barcode:</label></td>

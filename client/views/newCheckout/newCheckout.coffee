@@ -21,6 +21,12 @@ Template.newCheckout.events
          $('input[name=barcode]').val(res.text)
        else
          alert("Error in scanning barcode.")
+   'click #takePicture': ->
+     #TODO: Show a thumbnail, associate image with inventory item, remove upload if cancelled. 
+     getMediaFunctions.capturePhoto()
+   'click #uploadPicture': ->
+     #TODO: See above.
+     getMediaFunctions().pickLocalFile()
 
 addItem = (e, tmpl) ->
   #TODO: Check and see if everything is cool. "Name", "description", "category" are definitely required; probably image too.
@@ -30,7 +36,7 @@ addItem = (e, tmpl) ->
   propertyTag = tmpl.find('input[name=propertyTag]').value
   category = tmpl.find('#category').value
   image = "test"
-  barcode = "test"
+  barcode = tmp.find('input[name=barcode]').value
   $('#newCheckout').modal('toggle')
 
 
@@ -42,4 +48,14 @@ addItem = (e, tmpl) ->
     category: category
     image: image
     barcode: barcode
+
+
+
+
+getMediaFunctions = ->
+  requiredFunctions = ['pickLocalFile', 'capturePhoto', 'captureAudio', 'captureVideo']
+  if Meteor.isCordova
+    CordovaMedia
+  else
+    WebMedia
 
