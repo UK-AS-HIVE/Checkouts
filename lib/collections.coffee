@@ -28,6 +28,10 @@
   category:
     type: String
     label: "Category"
+  barcode:
+    type: String
+    label: "Barcode"
+    optional: true
   assignedTo:
     type: String
     label: "Assigned to User"

@@ -36,7 +36,7 @@ addItem = (e, tmpl) ->
   propertyTag = tmpl.find('input[name=propertyTag]').value
   category = tmpl.find('#category').value
   image = "test"
-  barcode = tmp.find('input[name=barcode]').value
+  barcode = tmpl.find('input[name=barcode]').value
   $('#newCheckout').modal('toggle')
 
 

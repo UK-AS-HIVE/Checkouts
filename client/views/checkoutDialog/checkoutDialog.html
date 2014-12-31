@@ -1,0 +1,44 @@
+<template name="checkoutDialog">
+<button data-toggle="modal" data-target="#checkoutDialog" class="checkoutDialogBtn pull-left btn-success btn btn-sm">{{#if isCordova}}Scan an item{{else}}Check an item in or out{{/if}}</button>
+<div class="modal fade" id="checkoutDialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Check an item in or out</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <table>
+          <th width="25%"></th><th></th>
+          <tr>
+            <td><label for="Barcode">Barcode:</label></td>
+            <td><input type="text" size="35" class="input input-xlarge barcode checkoutInput" name="barcode" id="barcode"><button type="button" class="btn-success" id="checkBarcode">Look up Barcode</button></td>
+          </tr>
+          <tr>
+            <td><label for="Name">Name:</label></td>
+            <td><input type="text" size="35" class="input input-xlarge name checkoutInput" name="name" id="name"><button type="button" class="btn-success" id="checkName">Look up Name</button></td>
+          </tr>
+          <tr>
+            <td><label for="Description">Description:</label></td>
+            <td><input type="text" size="60" class="input input-xlarge description checkoutInput" name="description" id="description" disabled="disabled"></td>
+          </tr>
+          <tr>
+            <td><label for="Picture">Picture:</label></td>
+            <td>Picture goes here</td>
+          </tr>
+          <tr></tr><tr></tr>
+          <tr>
+            <td><label for="assignedTo">Assign this item to:</label></td>
+            <td><input type="text" size="25" class="input input-xlarge assignedTo checkoutInput" name="assignedTo" id="assignedTo"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+         <button type="button" class="btn btn-primary" id="submitItem">Submit Item</button>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+

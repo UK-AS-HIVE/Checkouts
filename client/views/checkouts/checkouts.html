@@ -1,7 +1,8 @@
 <template name="checkouts">
 <div class="container">
   {{#if isAdmin}}
-  {{#if isCordova}}{{> checkoutButtons}}{{/if}}
+  {{#if isCordova}}{{> barcodeScanButton}}{{/if}}
+  {{> checkoutDialog}}
   {{> newCheckout}}
   {{/if}}
     <br/>
@@ -28,7 +29,7 @@
 </template>
 
 <template name="checkoutButtons">
-<button class="checkoutBtn pull-left btn-success btn btn-sm" id="checkOutButton">Check Out an Item</button><button class="checkInBtn pull-left btn-success btn-sm" id="checkInButton">Check In an Item</button>
+<button class="checkoutBtn pull-left btn-success btn btn-sm" id="checkOutButton">Scan a Barcode</button>
 </template>
 
 <template name="checkoutRow">
