@@ -12,19 +12,19 @@
           <th width="25%"></th><th></th>
           <tr>
             <td><label for="name">Item Name:</label></td>
-            <td><input type="text" size="35" class="input input-xlarge name checkoutInput" name="name" value="{{checkout.name}}" id="name"></td>
+            <td><input type="text" size="35" class="input input-xlarge name checkoutInput" name="name" id="name"></td>
           </tr>
           <tr>
             <td><label for="description">Description:</label></td>
-            <td><input type="text" size="80" class="input input-xlarge description checkoutInput" name="description" value="{{checkout.description}}" id="description"></td>
+            <td><input type="text" size="80" class="input input-xlarge description checkoutInput" name="description" id="description"></td>
           </tr>
           <tr>
             <td><label for="serialNo">Serial Number or Service Tag:</label></td>
-            <td><input type="text" placeholder="optional" class="input input-xlarge serialNo checkoutInput" name="serialNo" value="{{checkout.serialNo}}" id="serialNo"></td>
+            <td><input type="text" placeholder="optional" class="input input-xlarge serialNo checkoutInput" name="serialNo" id="serialNo"></td>
           </tr>
           <tr>
             <td><label for="propertyTag">Property Tag:</label></td>
-            <td><input type="text" placeholder="optional" class="input input-xlarge propertyTag checkoutInput" name="propertyTag" value="{{checkout.propertyTag}}" id="propertyTag"></td>
+            <td><input type="text" placeholder="optional" class="input input-xlarge propertyTag checkoutInput" name="propertyTag" id="propertyTag"></td>
           </tr>
           <tr>
             <td><label>Category:</label></td>
@@ -40,7 +40,8 @@
           </tr>
           <tr>
             <td><label>Barcode:</label></td>
-            <td>Option to just manually enter Barcode #? Otherwise we're limited to just creating items from mobile.</td>
+            <td>{{#if isCordova}}<button type="button" class="btn btn-primary" id="scanBarcode">Scan Barcode</button>{{/if}}
+              <input type="text" size="35" name="barcode" placeholder="Enter barcode numerical value"></td>
           </tr>
         </table>
         <div class="modal-footer">
