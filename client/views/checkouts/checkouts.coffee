@@ -10,4 +10,13 @@ Template.checkouts.events
         openCheckoutDialog(res.text)
       else
         alert("Error in scanning barcode.") #Make this meaningful.
-
+  'click .expand': (e,tmpl) ->
+    console.log 'doin stuff'
+    console.log $(e.target)
+    $(e.target).next().slideToggle 100
+    $expand = $(e.target).find(">:first-child")
+    if $expand.text() is "+"
+      $expand.text "-"
+    else
+      $expand.text "+"
+   

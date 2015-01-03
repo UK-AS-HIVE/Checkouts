@@ -5,27 +5,27 @@
   {{> checkoutDialog}}
   {{> newCheckout}}
   {{/if}}
-    <br/>
-    <br/>
-    <table class="table table-bordered table-striped table-hover checkoutsTable pagination-sm table-condensed" id="checkoutTable">
-      <thead class="checkouts-header">
-        <tr>
-          <th id="name-header" width='auto'>Name</th>
-          <th id="description-header">Description</th>
-          <th id="picture-header">Picture</th>
-          <th>Item Type</th>
-          <th>Checked Out</th>
-          <th>Expected Return Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each checkoutItem}}
-          {{> checkoutRow}}
-        {{/each}}
-      </tbody>
-    </table>
-    <button id="goTop">Go To Top</button>
-  </div>
+  <br/>
+  <br/>
+  <table class="table table-condensed" style="border-collapse:collapse;">
+    <thead class="checkouts-header">
+      <tr>
+        <th>&nbsp;</th>
+        <th>Picture</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Item Type</th>
+        <th>Checked Out</th>
+        <th>Expected Return Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each checkoutItem}}
+      {{> checkoutRow}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
 </template>
 
 <template name="checkoutButtons">
@@ -33,56 +33,43 @@
 </template>
 
 <template name="checkoutRow">
-  <tr class="parent">
-    <td>
-      <div>
-        <strong>{{name}}</strong>
-      </div>
-    </td>
-    <td>
-      <div>
-        {{description}}
-      </div>
-    </td>
-    <td>
-      <div>
-        <strong>Picture!</strong>
-      </div>
-    </td>
-    <td>
-      <div>
-        {{category}}
-      </div>
-    </td>
-    <td>
-      <div>
-        {{#if assignedTo}}<span class="unavailable">
-          {{#if isAdmin}}
-          {{assignedTo}}
-          {{else}}
-          Unavailable
-          {{/if}}</span>
-        {{else}}
-        <span class="available">Available</span>
-        {{/if}}
-      </div>
-    </td>
-    <td>
-      <div>
-        Return time
-      </div>
-    </td>
-  </tr>
-  <tr style="display: none;" class ="details">
-    <td colspan='5'>
-      <div class="row">
-      <div class='col-md-6'>
-        <div class="row">
-        <div class="col-md-12">
-        </div>
-        </div>
-      </div>
-      </div>
-    </td>
-  </tr>
+<tr data-toggle="collapse" data-target="#{{_id}}" class="accordion-toggle">
+  <td>
+    <span class="glyphicon glyphicon-plus"></span>
+  </td>
+  <td>
+    <img src="http://placehold.it/50x50">
+  </td>
+  <td>
+    <strong>{{name}}</strong>
+  </td>
+  <td>
+    {{description}}
+  </td>
+  <td>
+    {{category}}
+  </td>
+  <td>
+    {{#if assignedTo}}<span class="unavailable">
+      {{#if isAdmin}}
+      Checked out to: {{assignedTo}}
+      {{else}}
+      Unavailable
+      {{/if}}</span>
+    {{else}}
+    <span class="available">Available</span>
+    {{/if}}
+  </td>
+  <td>
+    {{#if schedule.expectedReturn}}{{expectedReturn}}{{/if}}
+  </td>
+</tr>
+<tr>
+  <td colspan='7' class="hiddenRow">
+    <div class="accordian-body collapse" id="{{_id}}">
+      Serial No: {{serialNo}} <br />
+      Property Tag: {{propertyTag}} <br />
+    </div>
+  </td>
+</tr>
 </template>

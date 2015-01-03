@@ -12,29 +12,28 @@
   name:
     type: String
     label: "Name"
+    unique: true
   description:
     type: String
     label: "Description"
-  image:
+  imageId:
     type: String
   propertyTag:
     type: String
     label: "Property Tag"
     optional: true
+    unique: true
   serialNo:
     type: String
     label: "Service Tag or Serial Number"
     optional: true
+    unique: true
   category:
     type: String
     label: "Category"
   barcode:
     type: String
     label: "Barcode"
-    optional: true
-  assignedTo:
-    type: String
-    label: "Assigned to User"
     optional: true
   quantity:
     type: Number
@@ -44,21 +43,25 @@
     type: String
     label: "Units"
     optional: true
-
-@Schedule = new Meteor.Collection 'schedule'
-@Schedule.attachSchema new SimpleSchema
-  inventoryId:
+  assignedTo:
     type: String
-    label: "Id"
-  timeCheckedOut:
+    defaultValue: ""
+  schedule:
+    type: Object
+    optional: true
+  'schedule.timeCheckedOut':
     type: new Date()
     label: "Time Checked Out"
-  timeCheckedIn:
+    optional: true
+  'schedule.timeCheckedIn':
     type: new Date()
     label: "Time Checked In"
-  timeReserved:
+    optional: true
+  'schedule.timeReserved':
     type: new Date()
     label: "Time Reserved"
-  timeReservedUntil:
+    optional: true
+  'schedule.expectedReturn':
     type: new Date()
-    label: "Time Reserved Until"
+    label: "Expected Return"
+    optional: true

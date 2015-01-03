@@ -7,8 +7,7 @@ Template.checkoutDialog.events
       $('#assignedTo').val(item.assignedTo)
 
    'click #checkName': (e, tmpl) ->
-     console.log tmpl.find('input[name=name]').value
-     if Inventory.find({barcode: $('#name').value}).count() is 1
+     if Inventory.find({name: tmpl.find('input[name=name]').value}).count() is 1
        item = Inventory.findOne {name: tmpl.find('input[name=name]').value}
        $('#barcode').val(item.barcode)
        $('#description').val(item.description)
@@ -18,10 +17,11 @@ Template.checkoutDialog.events
      name = tmpl.find('input[name=name]').value
      barcode = tmpl.find('input[name=barcode]').value
      assignedTo = tmpl.find('input[name=assignedTo]').value
+     expectedReturn = new Date(tmpl.find('input[name=datepicker]').value) || ""
 
      if not name and not barcode
        alert("You must enter an item to be checked out.")
-     if not assignedTo
+     else if not assignedTo
        alert("You must assign the item to a user!")
      else
        #Check to make sure our barcode/name pair is valid. There might be a better way to do this.
@@ -33,3 +33,5 @@ Template.checkoutDialog.events
        else
          alert("Mismatch in item name and barcode. Please choose a valid item.")
 
+Template.checkoutDialog.rendered = ->
+  $('#datepicker').datepicker()
