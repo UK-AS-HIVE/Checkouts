@@ -14,7 +14,6 @@ accounts-base
 iron:router
 aldeed:collection2
 jeremy:selectize
-
 deepwell:bootstrap-datepicker2
 mizzao:bootstrap-3
-sergeyt:typeahead
+mizzao:autocomplete

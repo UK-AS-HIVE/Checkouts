@@ -1,47 +1,40 @@
 Template.checkoutDialog.events
-   'click #submitButton': (e, tmpl) ->
-     name = tmpl.find('input[name=name]').value
-     barcode = tmpl.find('input[name=barcode]').value
-     assignedTo = tmpl.find('input[name=assignedTo]').value
-     expectedReturn = new Date(tmpl.find('input[name=datepicker]').value) || ""
-
-     if not name and not barcode
-       alert("You must enter an item to be checked out.")
-     else if not assignedTo
-       alert("You must assign the item to a user!")
-     else
-       #Check to make sure our barcode/name pair is valid. There might be a better way to do this.
-       item = Inventory.findOne {name: name}
-       item2 = Inventory.findOne {barcode: barcode}
-       if barcode = item.barcode and name = item2.name
-         Meteor.call("checkOutItem",item._id,assignedTo, expectedReturn)
-         $('#checkoutDialog').modal('toggle')
-         tmpl.$(':input').val('')
-       else
-         alert("Mismatch in item name and barcode. Please choose a valid item.")
-
+    'click #submitButton': (e, tmpl) ->
+      name = tmpl.find('input[name=searchFields]')
+      item = Inventory.findOne {name: name}
+      assignedTo = tmpl.find('input[name=codAssignedTo]')
+      expectedReturn = tmpl.find('input[name=datepicker]')
+      Meteor.call "checkOutItem", item._id, assignedTo, expectedReturn
     'click #cancelButton': (e, tmpl) ->
-      tmpl.$(':input').val('')
+
+    'keyup': (e, tmpl) ->
+      if e.keyCode is 27
+        $('#checkoutDialog').modal('toggle')
 
 Template.checkoutDialog.rendered = ->
   $('#datepicker').datepicker()
-  Meteor.typeahead.inject()
 
 Template.checkoutDialog.helpers
-  searchFields: ->
-    return [
+  settings: {
+    position: 'top'
+    limit: 3
+    rules: [
       {
-        name: 'Barcode'
-        valueKey: 'barcode'
-        local: () -> return Inventory.find().fetch()
-        header: '<h2 class="header">Barcode</h2>'
-        template: 'checkoutBarcode'
-      }
-      {
-        name: 'Name'
-        valueKey: 'name'
-        local: () -> return Inventory.find().fetch()
-        header: '<h2 class="header">Name</h2>'
-        template: 'checkoutName'
+        collection: Inventory
+        template: Template.searchFields
+        matchAll: true
+        field: 'name'
+        selector: (match) ->
+          regex = new RegExp match, 'i'
+          return $or: [{'name': regex}, {'barcode': regex}]
+        callback: (doc, element) ->
+          $('#codDescription').val(doc.description)
+          if doc.assignedTo
+            $('#codAssignedTo').val(doc.assignedTo)
+            $('#codAssignedTo').attr("disabled", "disabled")
+            $('#codDatepicker').val(doc.schedule.expectedReturn)
+            $('#codDatepicker').attr("disabled","disabled")
+          $('#checkoutDialog').find(":hidden").show()
       }
     ]
+  }

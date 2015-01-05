@@ -12,39 +12,36 @@
           <th width="25%"></th><th></th>
           <tr>
             <td><label for="Search">Find an item by Name or Barcode:</label></td>
-            <td><input class="form-control typeahead" type="text" placeholder="Search..." data-sets="searchFields" /></td>
+            <td>{{> inputAutocomplete settings=settings id="searchFields" class="form-control" name="searchFields" placeholder="Search by name or barcode..."}}</td>
           </tr>
           <tr>
-            <td><label for="Description" type="hidden">Description:</label></td>
-            <td><input type="hidden" size="60" class="input input-xlarge description checkoutInput" name="description" id="description" disabled="disabled"></td>
-          </tr>
-          <tr>
-            <td><label for="Picture">Picture:</label></td>
-            <td>Picture goes here</td>
-          </tr>
-          <tr></tr><tr></tr>
-          <tr>
-            <td><label for="assignedTo">Assign this item to:</label></td>
-            <td><input type="text" size="25" class="input input-xlarge assignedTo checkoutInput" name="assignedTo" id="assignedTo"></td>
-          </tr>
-          <tr>
-            <td><label for="datepicker">Expected Date Returned:</label></td>
-            <td><input type="text" id="datepicker" class="input input-xlarge datepicker checkoutInput" name="datepicker"></td>
+              <td><label for="Description" style="display: none;">Description:</label></td>
+              <td><input style="display: none;" type="text" size="60" class="input input-xlarge description checkoutInput" name="description" id="codDescription" disabled="disabled"></td>
+            </tr>
+            <tr>
+              <td><label for="Picture" style="display: none;">Picture:</label></td>
+              <td><span style="display: none;">Picture goes here</span></td>
+            </tr>
+            <tr></tr><tr></tr>
+            <tr>
+              <td><label for="codAssignedTo" style="display: none;">Assign this item to:</label></td>
+              <td><input type="text" style="display: none;" size="25" class="input input-xlarge assignedTo checkoutInput" name="assignedTo" id="codAssignedTo"></td>
+            </tr>
+            <tr>
+              <td><label for="codDatepicker" style="display: none;">Expected Date Returned:</label></td>
+              <td><input type="text" style="display: none;" id="codDatepicker" class="input input-xlarge datepicker checkoutInput" name="datepicker"></td>
           </tr>
         </table>
       </div>
       <div class="modal-footer">
-         <button type="button" class="btn btn-default" id="cancelButton" data-dismiss="modal">Cancel</button>
-         <button type="button" class="btn btn-primary" id="submitButton">Submit Item</button>
+        <button type="button" class="btn btn-default pull-left" id="cancelButton" data-dismiss="modal">Cancel</button>
+        <button style="display: none;" type="button" class="btn btn-primary pull-right" id="submitButton">Submit Item</button>
       </div>
     </div>
   </div>
 </div>
 </template>
 
-<template name="checkoutName">
-<i>{{name}}</i>
-</template>
-<template name="checkoutBarcode">
-<i>{{barcode}}</i>
+<template name="searchFields">
+<span style="color: white; background-color: #00008B">{{barcode}}</span> {{name}}
 </template>
