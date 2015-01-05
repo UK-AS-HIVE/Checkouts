@@ -11,18 +11,19 @@ Template.newCheckout.events
       options: cats
   'click #submitButton': (e, tmpl) ->
     addItem(e, tmpl)
+    tmpl.$(':input').val('')
   'click #cancelButton': (e, tmpl) ->
-    clearFields
+    tmpl.$(':input').val('')
   'keypress .itemInput': (e, tmpl) ->
     if (e.charCode == 13) 
       addItem(e, tmpl)
-   'click #scanBarcode': (e, tmpl) ->
-     result = cordova.plugins.barcodeScanner.scan (res, err) ->
-       if res
-         console.log res
-         $('input[name=barcode]').val(res.text)
-       else
-         alert("Error in scanning barcode.")
+  'click #scanBarcode': (e, tmpl) ->
+    result = cordova.plugins.barcodeScanner.scan (res, err) ->
+      if res
+        console.log res
+        $('input[name=barcode]').val(res.text)
+      else
+        alert("Error in scanning barcode.")
    'click #takePicture': ->
      #TODO: Show a thumbnail, associate image with inventory item, remove upload if cancelled. 
      getMediaFunctions.capturePhoto()
@@ -49,8 +50,6 @@ addItem = (e, tmpl) ->
     imageId: imageId
     barcode: barcode
   }
-
-clearFields = ->
 
 getMediaFunctions = ->
   requiredFunctions = ['pickLocalFile', 'capturePhoto', 'captureAudio', 'captureVideo']

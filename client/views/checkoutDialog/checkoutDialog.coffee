@@ -1,19 +1,5 @@
 Template.checkoutDialog.events
-  'click #checkBarcode': (e, tmpl) ->
-    item = Inventory.findOne {barcode: tmpl.find('input[name=barcode]').value}
-    if (item)
-      $('#name').val(item.name)
-      $('#description').val(item.description)
-      $('#assignedTo').val(item.assignedTo)
-
-   'click #checkName': (e, tmpl) ->
-     if Inventory.find({name: tmpl.find('input[name=name]').value}).count() is 1
-       item = Inventory.findOne {name: tmpl.find('input[name=name]').value}
-       $('#barcode').val(item.barcode)
-       $('#description').val(item.description)
-       $('#assignedTo').val(item.assignedTo)
-
-   'click #submitItem': (e, tmpl) ->
+   'click #submitButton': (e, tmpl) ->
      name = tmpl.find('input[name=name]').value
      barcode = tmpl.find('input[name=barcode]').value
      assignedTo = tmpl.find('input[name=assignedTo]').value
@@ -28,10 +14,34 @@ Template.checkoutDialog.events
        item = Inventory.findOne {name: name}
        item2 = Inventory.findOne {barcode: barcode}
        if barcode = item.barcode and name = item2.name
-         Meteor.call("checkOutItem",item._id,assignedTo)
-         $('#checkoutDialog').modal('toggle') #TODO: Clear form data
+         Meteor.call("checkOutItem",item._id,assignedTo, expectedReturn)
+         $('#checkoutDialog').modal('toggle')
+         tmpl.$(':input').val('')
        else
          alert("Mismatch in item name and barcode. Please choose a valid item.")
 
+    'click #cancelButton': (e, tmpl) ->
+      tmpl.$(':input').val('')
+
 Template.checkoutDialog.rendered = ->
   $('#datepicker').datepicker()
+  Meteor.typeahead.inject()
+
+Template.checkoutDialog.helpers
+  searchFields: ->
+    return [
+      {
+        name: 'Barcode'
+        valueKey: 'barcode'
+        local: () -> return Inventory.find().fetch()
+        header: '<h2 class="header">Barcode</h2>'
+        template: 'checkoutBarcode'
+      }
+      {
+        name: 'Name'
+        valueKey: 'name'
+        local: () -> return Inventory.find().fetch()
+        header: '<h2 class="header">Name</h2>'
+        template: 'checkoutName'
+      }
+    ]

@@ -11,16 +11,12 @@
         <table>
           <th width="25%"></th><th></th>
           <tr>
-            <td><label for="Barcode">Barcode:</label></td>
-            <td><input type="text" size="35" class="input input-xlarge barcode checkoutInput" name="barcode" id="barcode"><button type="button" class="btn-success" id="checkBarcode">Look up Barcode</button></td>
+            <td><label for="Search">Find an item by Name or Barcode:</label></td>
+            <td><input class="form-control typeahead" type="text" placeholder="Search..." data-sets="searchFields" /></td>
           </tr>
           <tr>
-            <td><label for="Name">Name:</label></td>
-            <td><input type="text" size="35" class="input input-xlarge name checkoutInput" name="name" id="name"><button type="button" class="btn-success" id="checkName">Look up Name</button></td>
-          </tr>
-          <tr>
-            <td><label for="Description">Description:</label></td>
-            <td><input type="text" size="60" class="input input-xlarge description checkoutInput" name="description" id="description" disabled="disabled"></td>
+            <td><label for="Description" type="hidden">Description:</label></td>
+            <td><input type="hidden" size="60" class="input input-xlarge description checkoutInput" name="description" id="description" disabled="disabled"></td>
           </tr>
           <tr>
             <td><label for="Picture">Picture:</label></td>
@@ -38,11 +34,17 @@
         </table>
       </div>
       <div class="modal-footer">
-         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-         <button type="button" class="btn btn-primary" id="submitItem">Submit Item</button>
+         <button type="button" class="btn btn-default" id="cancelButton" data-dismiss="modal">Cancel</button>
+         <button type="button" class="btn btn-primary" id="submitButton">Submit Item</button>
       </div>
     </div>
   </div>
 </div>
 </template>
 
+<template name="checkoutName">
+<i>{{name}}</i>
+</template>
+<template name="checkoutBarcode">
+<i>{{barcode}}</i>
+</template>

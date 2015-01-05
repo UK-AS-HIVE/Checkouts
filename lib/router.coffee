@@ -1,6 +1,6 @@
 Router.configure
   layoutTemplate: 'layoutTemplate'
-  waitOn: -> [Meteor.subscribe 'fileRegistry']
+  #wait: -> [Meteor.subscribe 'fileRegistry']
 
 Router.route '/',
   action: ->
@@ -8,7 +8,7 @@ Router.route '/',
       this.render('login')
     else
       this.render('checkouts')
-  waitOn: -> [Meteor.subscribe 'userData']
+  #waitOn: -> [Meteor.subscribe 'userData']
 
 Router.map ->
   @route 'serveFile',
@@ -35,19 +35,4 @@ Router.map ->
         'Content-type': 'image/jpg'
       @response.end fs.readFileSync (FileRegistry.getFileRoot() + @params.filename.substr(0, @params.filename.lastIndexOf('.')) + '_thumbnail.jpg')
 
-  @route 'exportJSON',
-    path: '/export/:dataset/json'
-    where: 'server'
-    action: (dataset) ->
-      # TODO figure out what dataset is and implement
-      # 2nd milestone
-      @response.end '{json: "here"}'
-
-  @route 'exportCSV',
-    path: '/export/:dataset/csv'
-    where: 'server'
-    action: (dataset) ->
-      # TODO ditto
-      # 2nd milestone
-      @response.end 'csv,file'
 

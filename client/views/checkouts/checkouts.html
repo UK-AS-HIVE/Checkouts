@@ -1,7 +1,6 @@
 <template name="checkouts">
 <div class="container">
   {{#if isAdmin}}
-  {{#if isCordova}}{{> barcodeScanButton}}{{/if}}
   {{> checkoutDialog}}
   {{> newCheckout}}
   {{/if}}
@@ -61,7 +60,7 @@
     {{/if}}
   </td>
   <td>
-    {{#if schedule.expectedReturn}}{{expectedReturn}}{{/if}}
+    {{#if schedule.expectedReturn}}{{schedule.expectedReturn}}{{/if}}
   </td>
 </tr>
 <tr>
