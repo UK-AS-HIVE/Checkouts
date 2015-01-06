@@ -1,30 +1,29 @@
 <template name="checkouts">
-<div class="container">
-  {{#if isAdmin}}
-  {{> checkoutDialog}}
-  {{> newCheckout}}
-  {{/if}}
-  <br/>
-  <br/>
-  <table class="table table-condensed" style="border-collapse:collapse;">
-    <thead class="checkouts-header">
-      <tr>
-        <th>&nbsp;</th>
-        <th>Picture</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Item Type</th>
-        <th>Checked Out</th>
-        <th>Expected Return Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each checkoutItem}}
-      {{> checkoutRow}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
+{{#if isAdmin}}
+{{> checkoutDialog}}
+{{> newCheckout}}
+{{/if}}
+<br/>
+<br/>
+<table class="table table-striped" style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>Picture</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Item Type</th>
+      <th>Checked Out</th>
+      <th>Expected Return Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr></tr>
+    {{#each checkoutItem}}
+    {{> checkoutRow}}
+    {{/each}}
+  </tbody>
+</table>
 </template>
 
 <template name="checkoutButtons">
@@ -67,7 +66,7 @@
   <td colspan='7' class="hiddenRow">
     <div class="accordian-body collapse" id="{{_id}}">
       Serial No: {{serialNo}}
-      <button class="checkoutBtn pull-right btn-success btn btn-sm" id="checkItemButton">{{#if assignedTo}}{{#if isAdmin}}Check this item In{{/if}}{{else}}{{#if isAdmin}}Check this item Out{{else}}Reserve this item{{/if}}{{/if}}</button><br />
+      <button class="checkoutBtn pull-right btn-success btn btn-sm" id="checkItemButton">{{#if assignedTo}}{{#if isAdmin}}Check In{{/if}}{{else}}{{#if isAdmin}}Check Out{{else}}Reserve this item{{/if}}{{/if}}</button><br />
       Property Tag: {{propertyTag}}
     </div>
   </td>
