@@ -1,8 +1,12 @@
 Meteor.methods
-  checkOutItem: (id, username, expectedReturn) ->
-    #TODO: Query LDAP to find user (maybe before this method is called). Set checkoutTime and expectedReturn if there is one. Figure out how job logging and scheduling is going to work.
+  checkOutItem: (name, username, expectedReturn) ->
+    #TODO: Query LDAP to find user (maybe before this method is called). Insert into checkout log.
     now = new Date()
-    Inventory.update {_id: id}, {$set: {assignedTo: username, schedule: {timecheckedOut: now, expectedReturn: expectedReturn}}}
+    Inventory.update {name: name}, {$set: {assignedTo: username, 'schedule.timeCheckedOut': now, 'schedule.expectedReturn': expectedReturn, 'schedule.timeCheckedIn': ''}}
+
+  checkInItem: (name) ->
+    now = new Date()
+    Inventory.update {name: name}, {$set: {assignedTo: "", 'schedule.timeCheckedOut': '','schedule.expectedReturn': '', 'schedule.timeCheckedIn': 'now'}}
 
   addItem: (itemObj) ->
     now = new Date()

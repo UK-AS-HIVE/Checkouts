@@ -34,7 +34,7 @@
   barcode:
     type: String
     label: "Barcode"
-    optional: true
+    unique: true
   quantity:
     type: Number
     label: "Quantity"
@@ -46,6 +46,7 @@
   assignedTo:
     type: String
     defaultValue: ""
+    optional: true
   schedule:
     type: Object
     optional: true

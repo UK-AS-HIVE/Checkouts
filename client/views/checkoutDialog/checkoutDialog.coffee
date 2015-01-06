@@ -1,18 +1,32 @@
 Template.checkoutDialog.events
     'click #submitButton': (e, tmpl) ->
-      name = tmpl.find('input[name=searchFields]')
-      item = Inventory.findOne {name: name}
-      assignedTo = tmpl.find('input[name=codAssignedTo]')
-      expectedReturn = tmpl.find('input[name=datepicker]')
-      Meteor.call "checkOutItem", item._id, assignedTo, expectedReturn
+      #Putting this all into one button might make things a bit tough on readability.
+      name = tmpl.find('input[name=searchFields]').value
+      if $('#submitButton').html() is 'Check Out'
+        now = new Date()
+        assignedTo = tmpl.find('input[name=codAssignedTo]').value
+        expectedReturn = tmpl.find('input[name=codDatepicker]').value
+        if new Date(expectedReturn) < now
+          alert("Expected return date must be after today.")
+        else
+          Meteor.call "checkOutItem", name, assignedTo, expectedReturn #We're trusting the name, as the submit button only becomes available when selecting from autocomplete.
+          $('#checkoutDialog').modal('toggle')
+          resetFields tmpl
+      else if $('#submitButton').html() is 'Check In'
+        Meteor.call "checkInItem", name
+        $('#checkoutDialog').modal('toggle')
+        resetFields tmpl
+
     'click #cancelButton': (e, tmpl) ->
+      resetFields tmpl
 
     'keyup': (e, tmpl) ->
       if e.keyCode is 27
         $('#checkoutDialog').modal('toggle')
+        resetFields tmpl
 
 Template.checkoutDialog.rendered = ->
-  $('#datepicker').datepicker()
+  $('#codDatepicker').datepicker()
 
 Template.checkoutDialog.helpers
   settings: {
@@ -28,13 +42,39 @@ Template.checkoutDialog.helpers
           regex = new RegExp match, 'i'
           return $or: [{'name': regex}, {'barcode': regex}]
         callback: (doc, element) ->
-          $('#codDescription').val(doc.description)
-          if doc.assignedTo
-            $('#codAssignedTo').val(doc.assignedTo)
-            $('#codAssignedTo').attr("disabled", "disabled")
-            $('#codDatepicker').val(doc.schedule.expectedReturn)
-            $('#codDatepicker').attr("disabled","disabled")
-          $('#checkoutDialog').find(":hidden").show()
+          fillFields(doc)
       }
     ]
   }
+
+resetFields = (tmpl) ->
+  #Re-hide our rows and the submit button and clear the search field.
+  tmpl.$("tr.hiddenRow").hide()
+  $('#submitButton').hide()
+  $('#searchFields').val('')
+
+fillFields = (item) ->
+  $('#codDescription').val(item.description)
+
+  if item.assignedTo
+    $('#codAssignedTo').val(item.assignedTo)
+    $('#codAssignedTo').css('color', 'red')
+    $('#codAssignedTo').attr("disabled", "disabled")
+    $('#codDatepicker').val(item.schedule.expectedReturn)
+    $('#codDatepicker').css('color','red')
+    $('#codDatepicker').attr("disabled","disabled")
+    $('#codAssignedToLabel').html('Assigned To:')
+    $('#submitButton').html('Check In')
+
+  else
+     $('#codAssignedTo').val('')
+     $('#codAssignedTo').css('color', 'black')
+     $('#codAssignedTo').attr("disabled",false)
+     $('#codDatepicker').val('')
+     $('#codDatepicker').css('color','black')
+     $('#codDatepicker').attr("disabled",false)
+     $('#codAssignedToLabel').html('Assign To:')
+     $('#submitButton').html('Check Out')
+
+  $('#checkoutDialog').find(":hidden").show()
+
