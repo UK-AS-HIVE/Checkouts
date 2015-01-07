@@ -1,0 +1,38 @@
+<template name="sidebar">
+<nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
+<div class="sidebar">
+  <div class="block">
+    <h2>Filter by category:</h2>
+    <div class="content">
+      <ul id="categoryFilter" class="list-unstyled">
+        {{#each categories}}
+        <li>
+        <label for="{{this}}">
+          <input id="{{this}}" type="checkbox" class="categoryBox">
+          <a class="changeCategoryFilter">{{this}}</a>
+        </label>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  <div class="block">
+    <h2>Filter by availability:</h2>
+    <div class="content">
+      <ul id="availabilityFilter" class="list-unstyled">
+        <li><label for="All"><input id="All" name="radio" type="radio" class="availableBox" checked="checked">
+          <a class="changeAvailabilityFilter">All</a>
+        </label></li>
+        <li><label for="Available"><input id="Available" name="radio" type="radio" class="availableBox">
+          <a class="changeAvailabilityFilter">Available</a>
+        </label></li>
+        <li><label for="Unavailable"><input id="Unavailable" name="radio" type="radio" class="availableBox">
+          <a class="changeAvailabilityFilter">Unavailable</a>
+        </label></li>
+      </ul>
+    </div>
+  </div>
+  
+</div>
+</nav>
+</template>

@@ -5,11 +5,14 @@ Template.checkoutDialog.events
       if $('#submitButton').html() is 'Check Out'
         now = new Date()
         assignedTo = tmpl.find('input[name=codAssignedTo]').value
+        #TODO: Verify assingedTo is acceptable.
         expectedReturn = tmpl.find('input[name=codDatepicker]').value
+        #The datepicker control keeps expectedReturn acceptable. Thanks, datepicker!
         if new Date(expectedReturn) < now
           alert("Expected return date must be after today.")
         else
-          Meteor.call "checkOutItem", name, assignedTo, expectedReturn #We're trusting the name, as the submit button only becomes available when selecting from autocomplete.
+          #We're trusting the name, as the submit button only becomes available when selecting from autocomplete.
+          Meteor.call "checkOutItem", name, assignedTo, expectedReturn
           $('#checkoutDialog').modal('toggle')
           resetFields tmpl
       else if $('#submitButton').html() is 'Check In'

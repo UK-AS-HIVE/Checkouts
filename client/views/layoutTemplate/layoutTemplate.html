@@ -7,7 +7,18 @@
 <template name="layoutTemplate">
 {{> navBar}}
 <div class="container">
-  {{> yield}}
+{{#if currentUser}}
+  <div class="row">
+    <div class="col-xs-12 col-md-9">
+      {{> yield}}
+    </div>
+    <div class="col-md-3">
+      {{> sidebar}}
+    </div>
+  </div>
+{{else}}
+{{>login}}
+{{/if}}
 </div>
 </template>
 

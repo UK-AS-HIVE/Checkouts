@@ -1,5 +1,18 @@
 Template.checkouts.helpers
-  checkoutItem: -> Inventory.find()
+  checkoutItem: ->
+    catFilter = Session.get("categoryFilter")
+    if catFilter is "" or catFilter == []
+      catFilter = _.uniq Inventory.find().fetch().map (x) ->
+        return x.category
+    availableFilter = Session.get("availableFilter")
+    switch availableFilter
+      when "All"
+        return Inventory.find {category: {$in: catFilter}}
+      when "Available"
+        return Inventory.find {category: {$in: catFilter}, assignedTo: ""}
+      when "Unavailable"
+        return Inventory.find {category: {$in: catFilter}, assignedTo: {$not: ""}}
+
 
   isAdmin: -> return isAdmin(Meteor.user().id)
 
@@ -18,4 +31,4 @@ Template.checkouts.events
       $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-minus"></span>')
 
 
-   
+

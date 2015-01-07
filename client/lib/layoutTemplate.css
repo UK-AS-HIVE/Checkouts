@@ -185,4 +185,46 @@ table ul.links li {
   padding: 0 1em 0 0;
 }
 
-
+* Login */
+#linkblue-logged-in {
+  background: #333;
+  background: hsla(240, 29%, 20%, 0.35);
+  color: white;
+  position: relative;
+  right: -20px;
+  padding: 6px 20px;
+  line-height: 35px;
+  border-left: solid #666 2px;
+  box-shadow: inset 0px 0px 42px 1px rgba(0, 0, 0, 0.2);
+}
+#linkblue-logged-in .btn {
+  position: relative;
+  top: -4px;
+  margin-left: 10px;
+}
+#linkblue-login {
+  position: absolute;
+  width: 490px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  margin: -175px 0 0 -260px;
+  text-align: center;
+  background: #eee;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px -1px rgba(0, 0, 0, 0.5);
+}
+#linkblue-login label {
+  display: inline-block;
+  width: 80px;
+}
+#login-form {
+  margin-top: 42px;
+}
+#login-form button {
+  position: relative;
+  left: 42px;
+  top: 12px;
+  width: 218px;
+}
