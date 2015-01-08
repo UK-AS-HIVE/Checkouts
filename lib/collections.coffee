@@ -4,7 +4,7 @@
     return true
   return false
 
-@Inventory = new Meteor.Collection 'inventory'
+@Inventory = new Mongo.Collection 'inventory'
 @Inventory.allow
   insert: (userId, doc) ->
     return isAdmin(userId) #TODO: Probably make a method for inserting to check for duplicates

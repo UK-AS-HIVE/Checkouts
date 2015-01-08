@@ -10,5 +10,6 @@ Template.registerHelper 'isCordova', () ->
   return Meteor.isCordova
 
 Meteor.startup () ->
-  Session.set("availableFilter", "All")
-  Session.set("categoryFilter", "")
+  Session.set "availableFilter", "All"
+  Session.set "categoryFilter", []
+  Session.set "textFilter", {type: "", text: ""}

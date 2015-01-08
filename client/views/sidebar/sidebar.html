@@ -32,7 +32,21 @@
       </ul>
     </div>
   </div>
+  <div class="block">
+    <h2>Filter by text:</h2>
+    <div class="content">
+      {{> inputAutocomplete settings=settings id="textSearch" placeholder="Type @, #, or ! to begin" size="18"}}
+    </div>
+  </div>
   
 </div>
 </nav>
+</template>
+
+<template name="categoryTokenSearch">
+{{category}}
+</template>
+
+<template name="assignedToTokenSearch">
+{{assignedTo}}
 </template>
