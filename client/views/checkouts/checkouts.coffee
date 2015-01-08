@@ -6,24 +6,25 @@ Template.checkouts.helpers
         return x.category
     availableFilter = Session.get("availableFilter")
     textFilter = Session.get("textFilter")
-      nameFilter = /./
+    nameFilter = /./
     switch textFilter.type
       when "category"
+        catFilter = []
         catFilter.push(textFilter.text)
       when "name"
-        nameFilter = new RegExp(textFilter.text, i)
+        nameFilter = textFilter.text
       when "assignedTo"
-        availableFilter = new RegExp(textFilter.text, i)
-    console.log nameFilter
+        availableFilter = textFilter.text
+    console.log catFilter
     switch availableFilter
       when "All"
-        return Inventory.find {category: {$in: catFilter}, name: nameFilter}
+        return Inventory.find {category: {$in: catFilter}, name: {$regex: nameFilter, $options: 'i'}}
       when "Available"
-        return Inventory.find {category: {$in: catFilter}, name: nameFilter, assignedTo: ""}
+        return Inventory.find {category: {$in: catFilter}, name: {$regex: nameFilter, $options: 'i'}, assignedTo: ""}
       when "Unavailable"
-        return Inventory.find {category: {$in: catFilter}, name: nameFilter, assignedTo: {$not: ""}}
+        return Inventory.find {category: {$in: catFilter}, name: {$regex: nameFilter, $options: 'i'}, assignedTo: {$not: ""}}
       else
-        return Inventory.find {category: {$in: catFilter}, name: nameFilter, assignedTo: availableFilter}
+        return Inventory.find {category: {$in: catFilter}, name: {$regex: nameFilter, $options: 'i'}, assignedTo: {$regex: availableFilter, $options: 'i'}}
 
 
   isAdmin: -> return isAdmin(Meteor.user().id)
