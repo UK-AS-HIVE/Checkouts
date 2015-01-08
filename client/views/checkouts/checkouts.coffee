@@ -1,7 +1,7 @@
 Template.checkouts.helpers
   checkoutItem: ->
     catFilter = Session.get("categoryFilter")
-    if catFilter is "" or catFilter == []
+    if catFilter == "" or catFilter.length is 0
       catFilter = _.uniq Inventory.find().fetch().map (x) ->
         return x.category
     availableFilter = Session.get("availableFilter")

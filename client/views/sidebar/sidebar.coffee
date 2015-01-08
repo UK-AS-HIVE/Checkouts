@@ -15,6 +15,6 @@ Template.sidebar.events
       catFilter.push(e.target.id)
     else
       index = catFilter.indexOf(e.target.id)
-    catFilter.splice(index,1)
+      catFilter.splice(index,1)
     Session.set("categoryFilter", catFilter)
 
