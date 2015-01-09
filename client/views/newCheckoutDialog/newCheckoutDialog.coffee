@@ -14,9 +14,11 @@ Template.newCheckout.events
     tmpl.$(':input').val('')
   'click #cancelButton': (e, tmpl) ->
     tmpl.$(':input').val('')
-  'keypress .itemInput': (e, tmpl) ->
-    if (e.keyCode == 13) 
-      addItem(e, tmpl)
+  'keyup .itemInput': (e, tmpl) ->
+    if e.keyCode is 13
+      $('#submitButton').click()
+    if e.keyCode is 27
+      $('#cancelButton').click()
   'click #scanBarcode': (e, tmpl) ->
     result = cordova.plugins.barcodeScanner.scan (res, err) ->
       if res

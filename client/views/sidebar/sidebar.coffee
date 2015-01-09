@@ -1,8 +1,23 @@
 Template.sidebar.helpers
-  categories: ->
+  availableFilter: -> Session.get "availableFilter"
+  category: ->
+    #this is janky af. Get the category filters, get the categories, and then for each category check if its in category filters and check the box if so.
+    catFilters = []
+    filters = Session.get("filters")
+    filters.map (x) ->
+      if x.type is "category"
+        catFilters.push x.text
     cats = _.uniq Inventory.find().fetch().map (x) ->
       return x.category
-    return cats
+    array = []
+    for cat in cats
+      if cat in catFilters
+        array.push {name: cat, checked: "checked"}
+      else
+        array.push {name: cat, checked: ""}
+    return array
+  filters: ->
+    return Session.get("filters")
   settings: ->
     return {
       position: "bottom"
@@ -14,7 +29,10 @@ Template.sidebar.helpers
           field: "assignedTo"
           template: Template.assignedToTokenSearch
           callback: (doc, element) ->
-            Session.set "textFilter", {type: "assignedTo", text: doc.assignedTo}
+            filters = Session.get "filters"
+            filters.push({type: "assignedTo", text: doc.assignedTo})
+            Session.set "filters", filters
+            $('#textSearch').val('')
         }
         {
           token: '!'
@@ -26,7 +44,10 @@ Template.sidebar.helpers
             return $or: [{'name': regex}, {'barcode': regex}]
           template: Template.searchFields #Reusing the template from our earlier search.
           callback: (doc, element) ->
-            Session.set "textFilter", {type: "name", text: doc.name}
+            filters = Session.get "filters"
+            filters.push({type: "name", text: doc.name})
+            Session.set "filters", filters
+            $('#textSearch').val('')
         }
         {
           token: '#'
@@ -35,7 +56,13 @@ Template.sidebar.helpers
           matchAll: true
           template: Template.categoryTokenSearch
           callback: (doc, element) ->
-            Session.set "textFilter", {type: "category", text: doc.category}
+            filters = Session.get "filters"
+            filters.push({type: "category", text: doc.category})
+            Session.set "filters", filters
+            $('#textSearch').val('')
+        }
+        {
+          token: 'status:'
         }
       ]
     }
@@ -46,14 +73,19 @@ Template.sidebar.events
 
   'change .categoryBox': (e, tmpl) ->
     #When checkboxes change, add or remove items from the filter array.
-    catFilter = Session.get("categoryFilter") || []
+    filters = Session.get("filters")
     if e.target.checked
-      catFilter.push(e.target.id)
+      filters.push({type: "category", text: e.target.name})
     else
-      index = catFilter.indexOf(e.target.id)
-      catFilter.splice(index,1)
-    Session.set "categoryFilter", catFilter
+      index = filters.indexOf({type: "category", text: e.target.id})
+      filters.splice(index,1)
+    Session.set "filters", filters
 
-  'change .textSearch': (e, tmpl) ->
-    Session.set "textFilter", $(e.target).val()
-
+  'click .removeFilter': (e, tmpl) ->
+    #TODO: Animate this a little?
+    text = e.target.id
+    tmpl.find('input[name='+text+']')
+    filters = Session.get("filters")
+    index = filters.indexOf(e.target.id)
+    filters.splice(index,1)
+    Session.set "filters", filters

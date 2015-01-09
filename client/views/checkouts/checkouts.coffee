@@ -1,30 +1,33 @@
 Template.checkouts.helpers
   checkoutItem: ->
-    catFilter = Session.get("categoryFilter")
-    if catFilter.length == 0
+    catFilter = []
+    nameFilter = []
+    assignedToFilter = []
+    for filter in Session.get "filters"
+      switch filter.type
+        #Is there a better way to do this?
+        when "category"
+          catFilter.push(filter.text)
+        when "name"
+          nameFilter.push(filter.text)
+        when "assignedTo"
+          assignedTo.push(filter.text)
+    if catFilter.length is 0
       catFilter = _.uniq Inventory.find().fetch().map (x) ->
         return x.category
+    if nameFilter.length is 0
+      nameFilter = _.uniq Inventory.find().fetch().map (x) ->
+        return x.name
     availableFilter = Session.get("availableFilter")
-    textFilter = Session.get("textFilter")
-    nameFilter = /./
-    switch textFilter.type
-      when "category"
-        catFilter = []
-        catFilter.push(textFilter.text)
-      when "name"
-        nameFilter = textFilter.text
-      when "assignedTo"
-        availableFilter = textFilter.text
-    console.log catFilter
     switch availableFilter
       when "All"
-        return Inventory.find {category: {$in: catFilter}, name: {$regex: nameFilter, $options: 'i'}}
+        return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}}
       when "Available"
-        return Inventory.find {category: {$in: catFilter}, name: {$regex: nameFilter, $options: 'i'}, assignedTo: ""}
+        return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: ""}
       when "Unavailable"
-        return Inventory.find {category: {$in: catFilter}, name: {$regex: nameFilter, $options: 'i'}, assignedTo: {$not: ""}}
+        return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: {$not: ""}}
       else
-        return Inventory.find {category: {$in: catFilter}, name: {$regex: nameFilter, $options: 'i'}, assignedTo: {$regex: availableFilter, $options: 'i'}}
+        return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: {$in: assignedToFilter}}
 
 
   isAdmin: -> return isAdmin(Meteor.user().id)
@@ -43,5 +46,8 @@ Template.checkouts.events
     else
       $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-minus"></span>')
 
-
+  'click .checkoutItemBtn': (e, tmpl) ->
+    item = Inventory.findOne {name: e.target.id}
+    Session.set "codItem", item
+    $('#checkoutDialog').modal('toggle')
 

@@ -1,21 +1,34 @@
 <template name="sidebar">
 <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
 <div class="sidebar">
+  <!-- Text Search -->
+  <div class="block">
+    <h2>Filter by text:</h2>
+    <div class="content">
+      {{> inputAutocomplete settings=settings id="textSearch" placeholder="Type @, #, or ! to begin" size="18"}}
+      <ul id="textFilters" class="list-unstyled">
+        <li>Availability: {{availableFilter}}</li>
+        {{#each filters}}<li><a href="#" class="removeFilter" id="{{name}}"><span class="glyphicon glyphicon-remove"></span></a> {{type}}: {{text}}</li>{{/each}}
+      </ul>
+    </div>
+  </div>
+  <!-- Category Dropdown -->
   <div class="block">
     <h2>Filter by category:</h2>
     <div class="content">
       <ul id="categoryFilter" class="list-unstyled">
-        {{#each categories}}
+        {{#each category}}
         <li>
-        <label for="{{this}}">
-          <input id="{{this}}" type="checkbox" class="categoryBox">
-          <a class="changeCategoryFilter">{{this}}</a>
+        <label for="sidebar{{name}}">
+          <input id="sidebar{{name}}" name="{{name}}" type="checkbox" class="categoryBox" {{checked}}>
+          <a class="changeCategoryFilter">{{name}}</a>
         </label>
         </li>
         {{/each}}
       </ul>
     </div>
   </div>
+  <!-- Availability Radio Buttons -->
   <div class="block">
     <h2>Filter by availability:</h2>
     <div class="content">
@@ -30,12 +43,6 @@
           <a class="changeAvailabilityFilter">Unavailable</a>
         </label></li>
       </ul>
-    </div>
-  </div>
-  <div class="block">
-    <h2>Filter by text:</h2>
-    <div class="content">
-      {{> inputAutocomplete settings=settings id="textSearch" placeholder="Type @, #, or ! to begin" size="18"}}
     </div>
   </div>
   

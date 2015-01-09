@@ -11,5 +11,4 @@ Template.registerHelper 'isCordova', () ->
 
 Meteor.startup () ->
   Session.set "availableFilter", "All"
-  Session.set "categoryFilter", []
-  Session.set "textFilter", {type: "", text: ""}
+  Session.set "filters", []
