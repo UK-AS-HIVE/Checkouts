@@ -4,14 +4,14 @@ Template.checkouts.helpers
     nameFilter = []
     assignedToFilter = []
     for filter in Session.get "filters"
-      switch filter.type
-        #Is there a better way to do this?
-        when "category"
-          catFilter.push(filter.text)
-        when "name"
-          nameFilter.push(filter.text)
-        when "assignedTo"
-          assignedTo.push(filter.text)
+      type = filter.substr(0,1)
+      switch type
+        when "#"
+          catFilter.push(filter.substr(1))
+        when "!"
+          nameFilter.push(filter.substr(1))
+        when "@"
+          assignedTo.push(filter.substr(1))
     if catFilter.length is 0
       catFilter = _.uniq Inventory.find().fetch().map (x) ->
         return x.category

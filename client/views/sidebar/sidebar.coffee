@@ -1,23 +1,30 @@
 Template.sidebar.helpers
   availableFilter: -> Session.get "availableFilter"
   category: ->
-    #this is janky af. Get the category filters, get the categories, and then for each category check if its in category filters and check the box if so.
-    catFilters = []
-    filters = Session.get("filters")
-    filters.map (x) ->
-      if x.type is "category"
-        catFilters.push x.text
     cats = _.uniq Inventory.find().fetch().map (x) ->
       return x.category
+    filters = Session.get "filters"
     array = []
-    for cat in cats
-      if cat in catFilters
-        array.push {name: cat, checked: "checked"}
+    cats.map (x) ->
+      if ("#" + x) in filters
+        array.push {name: x, checked: "checked"}
       else
-        array.push {name: cat, checked: ""}
+        array.push {name: x, checked: null}
+    console.log array
     return array
   filters: ->
-    return Session.get("filters")
+    filters = Session.get("filters")
+    filters.map (x) ->
+      type = x.substr(0,1)
+      text = x.substr(1)
+      switch type
+        when "#"
+          obj = {type: "category", text: text, id: x}
+        when "!"
+          obj = {type: "name", text: text, id: x}
+        when "@"
+          obj = {type: "assignedTo", text: text, id: x}
+      return obj
   settings: ->
     return {
       position: "bottom"
@@ -30,7 +37,7 @@ Template.sidebar.helpers
           template: Template.assignedToTokenSearch
           callback: (doc, element) ->
             filters = Session.get "filters"
-            filters.push({type: "assignedTo", text: doc.assignedTo})
+            filters.push('@' + doc.assignedTo)
             Session.set "filters", filters
             $('#textSearch').val('')
         }
@@ -45,7 +52,7 @@ Template.sidebar.helpers
           template: Template.searchFields #Reusing the template from our earlier search.
           callback: (doc, element) ->
             filters = Session.get "filters"
-            filters.push({type: "name", text: doc.name})
+            filters.push('!' + doc.name)
             Session.set "filters", filters
             $('#textSearch').val('')
         }
@@ -57,7 +64,7 @@ Template.sidebar.helpers
           template: Template.categoryTokenSearch
           callback: (doc, element) ->
             filters = Session.get "filters"
-            filters.push({type: "category", text: doc.category})
+            filters.push("#" + doc.category)
             Session.set "filters", filters
             $('#textSearch').val('')
         }
@@ -75,17 +82,36 @@ Template.sidebar.events
     #When checkboxes change, add or remove items from the filter array.
     filters = Session.get("filters")
     if e.target.checked
-      filters.push({type: "category", text: e.target.name})
+      filters.push('#' + e.target.name)
     else
-      index = filters.indexOf({type: "category", text: e.target.id})
+      index = filters.indexOf('#' + e.target.name)
       filters.splice(index,1)
     Session.set "filters", filters
 
   'click .removeFilter': (e, tmpl) ->
-    #TODO: Animate this a little?
-    text = e.target.id
-    tmpl.find('input[name='+text+']')
+    console.log e.target.id
     filters = Session.get("filters")
     index = filters.indexOf(e.target.id)
     filters.splice(index,1)
     Session.set "filters", filters
+
+Template.sidebar.rendered = ->
+  @$('.animated')[0]._uihooks = {
+    insertElement: (node, next) ->
+      $(node).addClass('off').insertBefore(next)
+
+      Tracker.afterFlush ->
+        $(node).removeClass('off')
+
+    removeElement: (node) ->
+      #These are events that are triggered at the end of a CSS transition. 
+      finishEvent = 'webkitTransitionEnd
+        oTransitionEnd
+        transitionEnd
+        msTransitionEnd
+        transitionend'
+
+      $(node).addClass('off')
+      $(node).on finishEvent, ->
+        $(node).remove()
+  }

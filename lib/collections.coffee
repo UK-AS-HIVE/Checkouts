@@ -45,7 +45,6 @@
     optional: true
   assignedTo:
     type: String
-    defaultValue: ""
     optional: true
   schedule:
     type: Object

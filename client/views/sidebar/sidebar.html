@@ -6,9 +6,9 @@
     <h2>Filter by text:</h2>
     <div class="content">
       {{> inputAutocomplete settings=settings id="textSearch" placeholder="Type @, #, or ! to begin" size="18"}}
-      <ul id="textFilters" class="list-unstyled">
+      <ul id="textFilters" class="list-unstyled animated">
         <li>Availability: {{availableFilter}}</li>
-        {{#each filters}}<li><a href="#" class="removeFilter" id="{{name}}"><span class="glyphicon glyphicon-remove"></span></a> {{type}}: {{text}}</li>{{/each}}
+        {{#each filters}}<li class="fade"><a href="#" class="removeFilter"><span class="glyphicon glyphicon-remove" id="{{id}}"></span></a> {{type}}: {{text}}</li>{{/each}}
       </ul>
     </div>
   </div>

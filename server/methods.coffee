@@ -18,6 +18,7 @@ Meteor.methods
       category: itemObj.category
       imageId: itemObj.imageId
       barcode: itemObj.barcode
+      assignedTo: null
       schedule:
         timeCheckedOut: null
         timeCheckedIn: null
