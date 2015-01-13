@@ -1,7 +1,8 @@
 <template name="checkouts">
 {{#if isAdmin}}
 {{> checkoutDialog}}
-{{> newCheckout}}
+{{> newCheckoutDialog}}
+{{> deleteItemDialog}}
 {{/if}}
 <br/>
 <br/>
@@ -66,9 +67,14 @@
   <td colspan='7' class="hiddenRow">
     <div class="accordian-body collapse" id="{{_id}}">
       Serial No: {{serialNo}}
-      <button class="checkoutItemBtn pull-right btn-success btn btn-sm" data-target="{{name}}">{{#if assignedTo}}{{#if isAdmin}}Check In{{/if}}{{else}}{{#if isAdmin}}Check Out{{else}}Reserve this item{{/if}}{{/if}}</button><br />
+      {{#if isAdmin}}
+      &nbsp;<button class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
+      &nbsp;<button class="editItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
+      {{/if}}
+      <button class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}{{#if isAdmin}}Check In{{/if}}{{else}}{{#if isAdmin}}Check Out{{else}}Reserve this item{{/if}}{{/if}}</button>
+      <br>
       Property Tag: {{propertyTag}}
-      {{#if isAdmin}}<br><button class="editItemBtn pull-right btn-success btn btn-sm" data-target="{{name}}">Edit Item</button>{{/if}}
+
     </div>
   </td>
 </tr>

@@ -48,12 +48,20 @@ Template.checkouts.events
       $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-minus"></span>')
 
   'click .checkoutItemBtn': (e, tmpl) ->
-    item = Inventory.findOne {name: e.target.data-target}
+    id = $(e.target).data("item")
+    item = Inventory.findOne {_id: id}
     Session.set "codItem", item
     $('#checkoutDialog').modal('toggle')
 
   'click .editItemBtn': (e, tmpl) ->
-    item = Inventory.findOne {name: e.target.data-target}
+    id = $(e.target).data("item")
+    item = Inventory.findOne {_id: id}
     Session.set "editCheckoutItem", item
     $('#newCheckout').modal('toggle')
+
+  'click .deleteItemBtn': (e, tmpl) ->
+    id = $(e.target).data("item")
+    item = Inventory.findOne {_id: id}
+    Session.set "deleteItem", item
+    $('#deleteItem').modal('toggle')
 

@@ -1,4 +1,4 @@
-Template.newCheckout.helpers
+Template.newCheckoutDialog.helpers
   categoryHelper: {
     position: 'bottom'
     limit: 3
@@ -11,16 +11,17 @@ Template.newCheckout.helpers
       }
     ]
   }
-  item: Session.get "editCheckoutItem"
+  item: -> Session.get "editCheckoutItem"
 
 Template.noMatchTemplate.helpers
   input: -> $('#newCheckoutCategory').val()
 
-Template.newCheckout.events
+Template.newCheckoutDialog.events
   'click #submitButton': (e, tmpl) ->
     addItem(e, tmpl)
     tmpl.$(':input').val('')
   'click #cancelButton': (e, tmpl) ->
+    Session.set "editCheckoutItem", null
     tmpl.$(':input').val('')
   'keyup .itemInput': (e, tmpl) ->
     if e.keyCode is 13
@@ -51,15 +52,28 @@ addItem = (e, tmpl) ->
   imageId = "test"
   barcode = tmpl.find('input[name=barcode]').value
   $('#newCheckout').modal('toggle')
-  item = Meteor.call "addItem", {
-    name: name
-    description: description
-    serialNo: serialNo
-    propertyTag: propertyTag
-    category: category
-    imageId: imageId
-    barcode: barcode
-  }
+  if $('#submitButton').html() is "Add Item"
+    item = Inventory.insert  {
+      name: name
+      description: description
+      serialNo: serialNo
+      propertyTag: propertyTag
+      category: category
+      imageId: imageId
+      barcode: barcode
+    }
+  else
+    item = Session.get "editCheckoutItem"
+    Inventory.update {_id: item._id}, {$set: {
+      name: name
+      description: description
+      serialNo: serialNo
+      propertyTag: propertyTag
+      category: category
+      imageId: imageId
+      barcode: barcode
+    }}
+  Session.set "editCheckoutItem", null
 
 getMediaFunctions = ->
   requiredFunctions = ['pickLocalFile', 'capturePhoto', 'captureAudio', 'captureVideo']

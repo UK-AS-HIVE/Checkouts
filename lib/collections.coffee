@@ -4,10 +4,19 @@
     return true
   return false
 
+@DeletedInventory = new Mongo.Collection 'deletedInventory'
+@DeletedInventory.allow
+  insert: (userId, doc) ->
+    return isAdmin(userId)
+
 @Inventory = new Mongo.Collection 'inventory'
 @Inventory.allow
   insert: (userId, doc) ->
-    return isAdmin(userId) #TODO: Probably make a method for inserting to check for duplicates
+    return isAdmin(userId)
+  update: (userId, doc) ->
+    return isAdmin(userId)
+  remove: (userId, doc) ->
+    return isAdmin(userId)
 @Inventory.attachSchema new SimpleSchema
   name:
     type: String

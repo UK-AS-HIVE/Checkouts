@@ -25,3 +25,5 @@ Meteor.methods
         timeReserved: null
         expectedReturn: null
 
+  addDeletedItem: (itemObj) ->
+    DeletedInventory.insert itemObj

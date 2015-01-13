@@ -1,0 +1,51 @@
+<template name="deleteItemDialog">
+<div class="modal fade" id="deleteItem">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Delete Item</h4>
+      </div>
+      <div class="modal-body">
+        You are deleting the following item. <br>
+        Are you sure you want to continue? This action is permanent.
+        <table>
+          <th width="25%"></th><th></th>
+          <tr>
+            <td><label for="name">Item Name:</label></td>
+            <td>{{item.name}}</td>
+          </tr>
+          <tr>
+            <td><label for="description">Description:</label></td>
+            <td>{{item.description}}</td>
+          </tr>
+          <tr>
+            <td><label for="serialNo">Serial Number or Service Tag:</label></td>
+            <td>{{item.serialNo}}</td>
+          </tr>
+          <tr>
+            <td><label for="propertyTag">Property Tag:</label></td>
+            <td>{{item.propertyTag}}</td>
+          </tr>
+          <tr>
+            <td><label>Category:</label></td>
+            <td>{{item.category}}</td>
+          </tr>
+          <tr>
+            <td><label>Picture:</label></td>
+            <td>{{item.imageId}}</td>
+          </tr>
+          <tr>
+            <td><label>Barcode:</label></td>
+            <td>{{item.barcode}}</td>
+          </tr>
+        </table>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left"  data-dismiss="modal" data-action="cancelDeleteItem">Cancel</button>
+          <button type="button" class="btn btn-danger" data-action="deleteItem">Delete Item</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>

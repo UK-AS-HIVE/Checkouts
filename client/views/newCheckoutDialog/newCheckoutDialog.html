@@ -1,4 +1,4 @@
-<template name="newCheckout">
+<template name="newCheckoutDialog">
 <button  data-toggle="modal" data-target="#newCheckout" class="newCheckoutBtn pull-right btn-success btn btn-sm">Add new Checkout item</button>
 <div class="modal fade" id='newCheckout'>
   <div class="modal-dialog">
@@ -37,11 +37,11 @@
           <tr>
             <td><label>Barcode:</label></td>
             <td>{{#if isCordova}}<button type="button" class="btn btn-primary" id="scanBarcode">Scan Barcode</button>{{/if}}
-              <input type="text" size="35" name="barcode" placeholder="Enter barcode numerical value"></td>
+              <input type="text" size="35" name="barcode" placeholder="Enter barcode numerical value" value="{{item.barcode}}"></td>
           </tr>
         </table>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" id="cancelButton" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-default pull-left" id="cancelButton" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-primary" id="submitButton">{{#if item}}Edit Item{{else}}Submit Item{{/if}}</button>
         </div>
       </div>
