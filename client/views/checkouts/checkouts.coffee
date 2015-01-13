@@ -4,14 +4,15 @@ Template.checkouts.helpers
     nameFilter = []
     assignedToFilter = []
     for filter in Session.get "filters"
-      type = filter.substr(0,1)
+      index = filter.indexOf('.')
+      type = filter.substr(0,index)
       switch type
         when "#"
-          catFilter.push(filter.substr(1))
-        when "!"
-          nameFilter.push(filter.substr(1))
+          catFilter.push(filter.substr(index+1))
+        when "name"
+          nameFilter.push(filter.substr(index+1))
         when "@"
-          assignedTo.push(filter.substr(1))
+          assignedTo.push(filter.substr(index+1))
     if catFilter.length is 0
       catFilter = _.uniq Inventory.find().fetch().map (x) ->
         return x.category
@@ -20,7 +21,7 @@ Template.checkouts.helpers
         return x.name
     availableFilter = Session.get("availableFilter")
     switch availableFilter
-      when "All"
+      when "Any"
         return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}}
       when "Available"
         return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: ""}
@@ -47,7 +48,12 @@ Template.checkouts.events
       $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-minus"></span>')
 
   'click .checkoutItemBtn': (e, tmpl) ->
-    item = Inventory.findOne {name: e.target.id}
+    item = Inventory.findOne {name: e.target.data-target}
     Session.set "codItem", item
     $('#checkoutDialog').modal('toggle')
+
+  'click .editItemBtn': (e, tmpl) ->
+    item = Inventory.findOne {name: e.target.data-target}
+    Session.set "editCheckoutItem", item
+    $('#newCheckout').modal('toggle')
 

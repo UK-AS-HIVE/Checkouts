@@ -3,57 +3,14 @@
 <div class="sidebar">
   <!-- Text Search -->
   <div class="block">
-    <h2>Filter by text:</h2>
+    <h2>Current filters:</h2>
     <div class="content">
-      {{> inputAutocomplete settings=settings id="textSearch" placeholder="Type @, #, or ! to begin" size="18"}}
       <ul id="textFilters" class="list-unstyled animated">
         <li>Availability: {{availableFilter}}</li>
         {{#each filters}}<li class="fade"><a href="#" class="removeFilter"><span class="glyphicon glyphicon-remove" id="{{id}}"></span></a> {{type}}: {{text}}</li>{{/each}}
       </ul>
     </div>
   </div>
-  <!-- Category Dropdown -->
-  <div class="block">
-    <h2>Filter by category:</h2>
-    <div class="content">
-      <ul id="categoryFilter" class="list-unstyled">
-        {{#each category}}
-        <li>
-        <label for="sidebar{{name}}">
-          <input id="sidebar{{name}}" name="{{name}}" type="checkbox" class="categoryBox" {{checked}}>
-          <a class="changeCategoryFilter">{{name}}</a>
-        </label>
-        </li>
-        {{/each}}
-      </ul>
-    </div>
-  </div>
-  <!-- Availability Radio Buttons -->
-  <div class="block">
-    <h2>Filter by availability:</h2>
-    <div class="content">
-      <ul id="availabilityFilter" class="list-unstyled">
-        <li><label for="All"><input id="All" name="radio" type="radio" class="availableBox" checked="checked">
-          <a class="changeAvailabilityFilter">All</a>
-        </label></li>
-        <li><label for="Available"><input id="Available" name="radio" type="radio" class="availableBox">
-          <a class="changeAvailabilityFilter">Available</a>
-        </label></li>
-        <li><label for="Unavailable"><input id="Unavailable" name="radio" type="radio" class="availableBox">
-          <a class="changeAvailabilityFilter">Unavailable</a>
-        </label></li>
-      </ul>
-    </div>
-  </div>
-  
 </div>
 </nav>
-</template>
-
-<template name="categoryTokenSearch">
-{{category}}
-</template>
-
-<template name="assignedToTokenSearch">
-{{assignedTo}}
 </template>

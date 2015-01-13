@@ -1,14 +1,22 @@
+Template.newCheckout.helpers
+  categoryHelper: {
+    position: 'bottom'
+    limit: 3
+    rules: [
+      {
+        collection: Inventory
+        field: "category"
+        template: Template.categoryTokenSearch
+        noMatchTemplate: Template.noMatchTemplate
+      }
+    ]
+  }
+  item: Session.get "editCheckoutItem"
+
+Template.noMatchTemplate.helpers
+  input: -> $('#newCheckoutCategory').val()
+
 Template.newCheckout.events
-  'click #newCheckout': (e, tmpl) ->
-    cats = _.uniq Inventory.find({}, {'category': 1}).map (x) ->
-      return {id: x._id, text:x.category}
-    $select = $('#category').selectize #Approximate reactivity by getting new data when the new checkout button is clicked. 
-      create: true
-      maxItems: 1,
-      valueField: 'text',
-      labelField: 'text',
-      searchField: 'text',
-      options: cats
   'click #submitButton': (e, tmpl) ->
     addItem(e, tmpl)
     tmpl.$(':input').val('')
@@ -39,7 +47,7 @@ addItem = (e, tmpl) ->
   description = tmpl.find('input[name=description]').value
   serialNo = tmpl.find('input[name=serialNo]').value
   propertyTag = tmpl.find('input[name=propertyTag]').value
-  category = tmpl.find('#category').value
+  category = tmpl.find('#newCheckoutCategory').value
   imageId = "test"
   barcode = tmpl.find('input[name=barcode]').value
   $('#newCheckout').modal('toggle')

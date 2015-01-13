@@ -5,11 +5,14 @@
 </head>
 
 <template name="layoutTemplate">
-{{> navBar}}
 <div class="container">
+  <div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    {{> navBar}}
+</div></div>
 {{#if currentUser}}
   <div class="row">
-    <div class="col-xs-12 col-md-9">
+    <div class="col-xs-12 col-sm-12 col-md-9">
       {{> yield}}
     </div>
     <div class="col-md-3">

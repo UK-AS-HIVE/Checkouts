@@ -5,34 +5,30 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Add new Checkout Item</h4>
+        <h4 class="modal-title">{{#if item}}Edit Item{{else}}Add new Checkout Item{{/if}}</h4>
       </div>
       <div class="modal-body">
         <table>
           <th width="25%"></th><th></th>
           <tr>
             <td><label for="name">Item Name:</label></td>
-            <td><input type="text" size="35" class="input input-xlarge name checkoutInput" name="name" id="name"></td>
+            <td><input type="text" size="35" class="input input-xlarge name checkoutInput" name="name" id="name" value="{{item.name}}"></td>
           </tr>
           <tr>
             <td><label for="description">Description:</label></td>
-            <td><input type="text" size="60" class="input input-xlarge description checkoutInput" name="description" id="description"></td>
+            <td><input type="text" size="60" class="input input-xlarge description checkoutInput" name="description" id="description" value="{{item.description}}"></td>
           </tr>
           <tr>
             <td><label for="serialNo">Serial Number or Service Tag:</label></td>
-            <td><input type="text" placeholder="optional" class="input input-xlarge serialNo checkoutInput" name="serialNo" id="serialNo"></td>
+            <td><input type="text" placeholder="optional" class="input input-xlarge serialNo checkoutInput" name="serialNo" id="serialNo" value="{{item.serialNo}}"></td>
           </tr>
           <tr>
             <td><label for="propertyTag">Property Tag:</label></td>
-            <td><input type="text" placeholder="optional" class="input input-xlarge propertyTag checkoutInput" name="propertyTag" id="propertyTag"></td>
+            <td><input type="text" placeholder="optional" class="input input-xlarge propertyTag checkoutInput" name="propertyTag" id="propertyTag" value="{{item.propertyTag}}"></td>
           </tr>
           <tr>
             <td><label>Category:</label></td>
-            <td><select id="category" style="width:80%" placeholder="Select a category or enter your own">
-                {{#each category}}
-                <option value="{{this}}">{{this}}</option>
-                {{/each}}
-            </select></td>
+            <td>{{> inputAutocomplete settings=categoryHelper id="newCheckoutCategory" class="input-xlarge" placeholder="Enter a category..." value=item.category }}</td>
           </tr>
           <tr>
             <td><label>Picture:</label></td>
@@ -46,7 +42,7 @@
         </table>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" id="cancelButton" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="submitButton">Submit Item</button>
+          <button type="button" class="btn btn-primary" id="submitButton">{{#if item}}Edit Item{{else}}Submit Item{{/if}}</button>
         </div>
       </div>
     </div>
@@ -54,3 +50,6 @@
 </div>
 </template>
 
+<template name="noMatchTemplate">
+Create new category: {{input}}
+</template>

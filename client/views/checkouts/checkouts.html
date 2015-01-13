@@ -66,8 +66,9 @@
   <td colspan='7' class="hiddenRow">
     <div class="accordian-body collapse" id="{{_id}}">
       Serial No: {{serialNo}}
-      <button class="checkoutItemBtn pull-right btn-success btn btn-sm" id="{{name}}">{{#if assignedTo}}{{#if isAdmin}}Check In{{/if}}{{else}}{{#if isAdmin}}Check Out{{else}}Reserve this item{{/if}}{{/if}}</button><br />
+      <button class="checkoutItemBtn pull-right btn-success btn btn-sm" data-target="{{name}}">{{#if assignedTo}}{{#if isAdmin}}Check In{{/if}}{{else}}{{#if isAdmin}}Check Out{{else}}Reserve this item{{/if}}{{/if}}</button><br />
       Property Tag: {{propertyTag}}
+      {{#if isAdmin}}<br><button class="editItemBtn pull-right btn-success btn btn-sm" data-target="{{name}}">Edit Item</button>{{/if}}
     </div>
   </td>
 </tr>
