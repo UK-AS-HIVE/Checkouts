@@ -8,30 +8,38 @@
         <h4 class="modal-title">Check an item in or out</h4>
       </div>
       <div class="modal-body">
-        <table>
-          <th width="25%"></th><th></th>
-          <tr>
-            <td><label for="Search">Find an item by Name or Barcode:</label></td>
-            <td>{{> inputAutocomplete settings=settings id="searchFields" class="form-control" value=item.name name="searchFields" placeholder="Search by name or barcode..."}}</td>
-          </tr>
-          <th width="142px"></th><th></th>
-          <tr class="hiddenRow" style="display: {{hidden}};">
-            <td><label for="Description">Description:</label></td>
-            <td><input type="text" size="60" class="input input-xlarge description checkoutInput" name="description" id="codDescription" disabled="disabled" value="{{item.description}}"></td>
-          </tr>
-          <tr class="hiddenRow" style="display: {{hidden}};">
-            <td><label for="Picture">Picture:</label></td>
-            <td><span>Picture goes here</span></td>
-          </tr>
-           <tr class="hiddenRow" style="display: {{hidden}};">
-            <td><label for="codAssignedTo" id="codAssignedToLabel">Assign this item to:</label></td>
-            <td><input type="text" size="25" class="input input-xlarge assignedTo checkoutInput" style="{{attr}}" {{disabled}} id="codAssignedTo" value="{{item.assignedTo}}"></td>
-          </tr>
-          <tr class="hiddenRow" style="display: {{hidden}};">
-            <td><label for="codDatepicker">Expected Date Returned:</label></td>
-            <td><input type="text" id="codDatepicker" class="input input-xlarge datepicker checkoutInput" style="{{attr}}" {{disabled}} placeholder="optional" value="{{item.schedule.expectedReturn}}"></td>
-          </tr>
-        </table>
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="codSearch" class="col-xs-4 control-label">Find an item by Name or Barcode:</label>
+            <div class="col-xs-8">
+              {{> inputAutocomplete settings=settings id="codSearch" class="form-control" value=item.name name="searchFields" placeholder="Search by name or barcode..."}}
+            </div>
+          </div>
+          <div class="form-group" style="display: {{hidden}};">
+            <label for="codDescription" class="col-xs-4 control-label">Description:</label>
+            <div class="col-xs-8">
+              <input type="text" class="form-control" name="description" id="codDescription" disabled="disabled" value="{{item.description}}">
+            </div>
+          </div>
+          <div class="form-group" style="display: {{hidden}};">
+            <label for="codPicture" class="col-xs-4 control-label">Picture:</label>
+            <div class="col-xs-8">
+              <span>Picture goes here</span>
+            </div>
+          </div>
+          <div class="form-group" style="display: {{hidden}};">
+            <label for="codAssignedTo" id="codAssignedToLabel" class="col-xs-4 control-label">Assign item to:</label>
+            <div class="col-xs-8">
+              <input type="text" class="form-control" style="{{attr}}" {{disabled}} id="codAssignedTo" value="{{item.assignedTo}}">
+            </div>
+          </div>
+          <div class="form-group" style="display: {{hidden}};">
+            <label for="codDatepicker" class="col-xs-4 control-label">Expected Return Date:</label>
+            <div class="col-xs-8">
+              <input type="text" id="codDatepicker" class="form-control" style="{{attr}}" {{disabled}} placeholder="optional" value="{{item.schedule.expectedReturn}}">
+            </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" id="cancelButton" data-dismiss="modal">Cancel</button>

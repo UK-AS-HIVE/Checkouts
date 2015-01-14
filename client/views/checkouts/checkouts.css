@@ -1,3 +1,14 @@
 .hiddenRow {
     padding: 0 !important;
 }
+
+.available {
+  font-weight: bold;
+  color: green;
+}
+
+.unavailable {
+  font-weight: bold;
+  color: red;
+}
+~                                          

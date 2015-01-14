@@ -8,38 +8,52 @@
         <h4 class="modal-title">{{#if item}}Edit Item{{else}}Add new Checkout Item{{/if}}</h4>
       </div>
       <div class="modal-body">
-        <table>
-          <th width="25%"></th><th></th>
-          <tr>
-            <td><label for="name">Item Name:</label></td>
-            <td><input type="text" size="35" class="input input-xlarge name checkoutInput" name="name" id="name" value="{{item.name}}"></td>
-          </tr>
-          <tr>
-            <td><label for="description">Description:</label></td>
-            <td><input type="text" size="60" class="input input-xlarge description checkoutInput" name="description" id="description" value="{{item.description}}"></td>
-          </tr>
-          <tr>
-            <td><label for="serialNo">Serial Number or Service Tag:</label></td>
-            <td><input type="text" placeholder="optional" class="input input-xlarge serialNo checkoutInput" name="serialNo" id="serialNo" value="{{item.serialNo}}"></td>
-          </tr>
-          <tr>
-            <td><label for="propertyTag">Property Tag:</label></td>
-            <td><input type="text" placeholder="optional" class="input input-xlarge propertyTag checkoutInput" name="propertyTag" id="propertyTag" value="{{item.propertyTag}}"></td>
-          </tr>
-          <tr>
-            <td><label>Category:</label></td>
-            <td>{{> inputAutocomplete settings=categoryHelper id="newCheckoutCategory" class="input-xlarge" placeholder="Enter a category..." value=item.category }}</td>
-          </tr>
-          <tr>
-            <td><label>Picture:</label></td>
-            <td>{{#if isCordova}}<button type="button" class="btn btn-primary" id="takePicture">Take Picture</button>{{/if}}<button type="button" class="btn btn-primary" id="uploadPicture">Upload Picture</button></td>
-          </tr>
-          <tr>
-            <td><label>Barcode:</label></td>
-            <td>{{#if isCordova}}<button type="button" class="btn btn-primary" id="scanBarcode">Scan Barcode</button>{{/if}}
-              <input type="text" size="35" name="barcode" placeholder="Enter barcode numerical value" value="{{item.barcode}}"></td>
-          </tr>
-        </table>
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="name" class="col-xs-4 control-label">Item Name:</label>
+            <div class="col-xs-8">
+              <input type="text" class="form-control" name="name" id="name" value="{{item.name}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description" class="col-xs-4 control-label">Description:</label>
+            <div class="col-xs-8">
+              <input type="text" class="form-control" name="description" id="description" value="{{item.description}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="serialNo" class="col-xs-4 control-label">Serial Number/Service Tag:</label>
+            <div class="col-xs-8">
+              <input type="text" placeholder="optional" class="form-control" name="serialNo" id="serialNo" value="{{item.serialNo}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="propertyTag" class="col-xs-4 control-label">Property Tag:</label>
+            <div class="col-xs-8">
+              <input type="text" placeholder="optional" class="form-control" name="propertyTag" id="propertyTag" value="{{item.propertyTag}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="category" class="col-xs-4 control-label">Category:</label>
+            <div class="col-xs-8">
+              {{> inputAutocomplete settings=categoryHelper id="newCheckoutCategory" class="form-control" placeholder="Enter a category..." value=item.category }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="picture" class="col-xs-4 control-label">Picture:</label>
+            <div class="col-xs-8">
+              {{#if isCordova}}<button type="button" class="btn btn-primary" id="takePicture">Take Picture</button>{{/if}}
+              <button type="button" class="btn btn-primary" id="uploadPicture">Upload Picture</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="barcode" class="col-xs-4 control-label">Barcode:</label>
+            <div class="col-xs-8">
+              {{#if isCordova}}<button type="button" class="btn btn-primary" id="scanBarcode">Scan Barcode</button>{{/if}}
+              <input type="text" name="barcode" class="form-control" placeholder="Enter barcode number" value="{{item.barcode}}">
+            </div>
+          </div>
+        </form>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" id="cancelButton" data-dismiss="modal">Cancel</button>
           <button type="button" class="btn btn-primary" id="submitButton">{{#if item}}Edit Item{{else}}Submit Item{{/if}}</button>
@@ -51,5 +65,5 @@
 </template>
 
 <template name="noMatchTemplate">
-Create new category: {{input}}
+reate new category: {{input}}
 </template>

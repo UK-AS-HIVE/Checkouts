@@ -1,27 +1,25 @@
 <head>
   <title>A&S Checkouts</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" sizes="32x32" href="/favicon.png">
 </head>
 
 <template name="layoutTemplate">
 <div class="container">
   <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-    {{> navBar}}
-</div></div>
-{{#if currentUser}}
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-9">
-      {{> yield}}
-    </div>
-    <div class="col-md-3">
-      {{> sidebar}}
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      {{> navBar}}
     </div>
   </div>
-{{else}}
-{{>login}}
-{{/if}}
+  {{#if currentUser}}
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      {{> yield}}
+    </div>
+  </div>
+  {{else}}
+  {{> login}}
+  {{/if}}
 </div>
 </template>
 

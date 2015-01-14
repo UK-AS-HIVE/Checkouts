@@ -65,3 +65,5 @@ Template.checkouts.events
     Session.set "deleteItem", item
     $('#deleteItem').modal('toggle')
 
+Template.checkoutRow.helpers
+  isAdmin: -> return isAdmin(Meteor.user().id)
