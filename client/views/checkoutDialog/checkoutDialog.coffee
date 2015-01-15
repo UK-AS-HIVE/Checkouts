@@ -33,8 +33,8 @@ Template.checkoutDialog.events
           Session.set "codItem", null
     else if $('#submitButton').html() is 'Check In'
       Meteor.call "checkInItem", name
-      $('#checkoutDialog').modal('toggle')
       Session.set "codItem", null
+      $('#checkoutDialog').modal('toggle')
 
   'click #cancelButton': (e, tmpl) ->
     Session.set "codItem", null

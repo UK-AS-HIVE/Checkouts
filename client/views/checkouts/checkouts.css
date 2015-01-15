@@ -11,3 +11,9 @@
   font-weight: bold;
   color: red;
 }
+
+.table {
+  white-space: nowrap;
+  max-width: none;
+  word-wrap: break-word;
+}

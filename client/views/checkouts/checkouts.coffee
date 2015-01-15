@@ -40,6 +40,12 @@ Template.checkouts.events
     else
       $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-minus"></span>')
 
+  'click .reserveItemBtn': (e, tmpl) ->
+    id = $(e.target).data("item")
+    item = Inventory.findOne {_id: id}
+    Session.set "reserveItem", item
+    $('#reserveDialog').modal('toggle')
+
   'click .checkoutItemBtn': (e, tmpl) ->
     id = $(e.target).data("item")
     item = Inventory.findOne {_id: id}

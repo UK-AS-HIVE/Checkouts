@@ -3,28 +3,28 @@
 {{> checkoutDialog}}
 {{> newCheckoutDialog}}
 {{> deleteItemDialog}}
+{{else}}
+{{> reserveDialog}}
 {{/if}}
 <br/>
 <br/>
-<div class="panel-body">
-  <table class="table table-striped" style="border-collapse:collapse;">
-    <thead>
-      <tr>
-        <th>&nbsp;</th>
-        <th>Picture</th>
-        <th>Name</th>
-        <th>Item Type</th>
-        <th>Checked Out</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr></tr>
-      {{#each checkoutItem}}
-      {{> checkoutRow}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
+<table class="table table-striped table-condensed" style="border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>Picture</th>
+      <th>Name</th>
+      <th>Item Type</th>
+      <th>Checked Out</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr></tr>
+    {{#each checkoutItem}}
+    {{> checkoutRow}}
+    {{/each}}
+  </tbody>
+</table>
 </template>
 
 <template name="checkoutButtons">
@@ -33,19 +33,19 @@
 
 <template name="checkoutRow">
 <tr data-toggle="collapse" data-target="#{{_id}}" class="accordion-toggle">
-  <td style="work break:break-all'">
+  <td>
     <span class="glyphicon glyphicon-plus"></span>
   </td>
-  <td style="work break:break-all'">
+  <td>
     <img src="http://placehold.it/50x50">
   </td>
-  <td style="work break:break-all'">
+  <td>
     <strong>{{name}}</strong>
   </td>
-  <td style="work break:break-all'">
+  <td>
     {{category}}
   </td>
-  <td style="work break:break-all'">
+  <td>
     {{#if assignedTo}}<span class="unavailable">
       {{#if isAdmin}}
       Checked out to: {{assignedTo}}
@@ -65,8 +65,10 @@
       {{#if isAdmin}}
       &nbsp;<button class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
       &nbsp;<button class="editItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
+      <button class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
+      {{else}}
+      <button class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve this Item</button>
       {{/if}}
-      <button class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}{{#if isAdmin}}Check In{{/if}}{{else}}{{#if isAdmin}}Check Out{{else}}Reserve this item{{/if}}{{/if}}</button>
       <br>
       Property Tag: {{propertyTag}}
 
