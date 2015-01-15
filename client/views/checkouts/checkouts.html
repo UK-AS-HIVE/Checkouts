@@ -6,25 +6,25 @@
 {{/if}}
 <br/>
 <br/>
-<table class="table table-striped" style="border-collapse:collapse;">
-  <thead>
-    <tr>
-      <th>&nbsp;</th>
-      <th>Picture</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Item Type</th>
-      <th>Checked Out</th>
-      <th>Expected Return Date</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr></tr>
-    {{#each checkoutItem}}
-    {{> checkoutRow}}
-    {{/each}}
-  </tbody>
-</table>
+<div class="panel-body">
+  <table class="table table-striped" style="border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th>&nbsp;</th>
+        <th>Picture</th>
+        <th>Name</th>
+        <th>Item Type</th>
+        <th>Checked Out</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr></tr>
+      {{#each checkoutItem}}
+      {{> checkoutRow}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>
 </template>
 
 <template name="checkoutButtons">
@@ -33,22 +33,19 @@
 
 <template name="checkoutRow">
 <tr data-toggle="collapse" data-target="#{{_id}}" class="accordion-toggle">
-  <td>
+  <td style="work break:break-all'">
     <span class="glyphicon glyphicon-plus"></span>
   </td>
-  <td>
+  <td style="work break:break-all'">
     <img src="http://placehold.it/50x50">
   </td>
-  <td>
+  <td style="work break:break-all'">
     <strong>{{name}}</strong>
   </td>
-  <td>
-    {{description}}
-  </td>
-  <td>
+  <td style="work break:break-all'">
     {{category}}
   </td>
-  <td>
+  <td style="work break:break-all'">
     {{#if assignedTo}}<span class="unavailable">
       {{#if isAdmin}}
       Checked out to: {{assignedTo}}
@@ -59,13 +56,11 @@
     <span class="available">Available</span>
     {{/if}}
   </td>
-  <td>
-    {{#if schedule.expectedReturn}}{{schedule.expectedReturn}}{{/if}}
-  </td>
 </tr>
 <tr>
   <td colspan='7' class="hiddenRow">
     <div class="accordian-body collapse" id="{{_id}}">
+      Expected Return: {{#if schedule.expectedReturn}}{{schedule.expectedReturn}}{{/if}}<br>
       Serial No: {{serialNo}}
       {{#if isAdmin}}
       &nbsp;<button class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>

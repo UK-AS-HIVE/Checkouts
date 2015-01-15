@@ -1,5 +1,5 @@
 <template name="checkoutDialog">
-<button data-toggle="modal" data-target="#checkoutDialog" class="checkoutDialogBtn pull-left btn-success btn btn-sm">{{#if isCordova}}Scan an item{{else}}Check an item in or out{{/if}}</button>
+<button data-toggle="modal" data-action="openCheckoutDialog" class="pull-left btn-success btn btn-sm">{{#if isCordova}}Scan an item{{else}}Check an item in or out{{/if}}</button>
 <div class="modal fade" id="checkoutDialog">
   <div class="modal-dialog">
     <div class="modal-content">
