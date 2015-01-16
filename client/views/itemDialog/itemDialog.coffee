@@ -14,7 +14,7 @@ Template.itemDialog.helpers
   item: -> Session.get "editCheckoutItem"
 
 Template.noMatchTemplate.helpers
-  input: -> $('#newCheckoutCategory').val()
+  input: -> $('#itemCategory').val()
 
 Template.itemDialog.events
   'click #itemSubmitButton': (e, tmpl) ->
@@ -48,7 +48,7 @@ addItem = (e, tmpl) ->
   description = tmpl.find('input[name=description]').value
   serialNo = tmpl.find('input[name=serialNo]').value
   propertyTag = tmpl.find('input[name=propertyTag]').value
-  category = tmpl.find('#newCheckoutCategory').value
+  category = tmpl.find('#itemCategory').value
   imageId = "test"
   barcode = tmpl.find('input[name=barcode]').value
   $('#newCheckout').modal('toggle')

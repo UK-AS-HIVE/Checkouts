@@ -1,12 +1,17 @@
 Template.reserveDialog.events
   'click [data-action=reserveItem]': (e, tmpl) ->
-    $('#reserveDialog').modal('toggle')
     item = Session.get 'reserveItem'
+    if $('#reserveRequestDate').val()
+      #Since our input fields are in a div for the column width, we need the parent of that div for the error class.
+      dateReserved = new Date($('#reserveRequestDate').val())
+      $('#reserveRequestDate').parent().parent().removeClass('has-error')
+    else
+      $('#reserveRequestDate').parent().parent().addClass('has-error')
     if $('#reserveAssignedTo').val()
       assignedTo = $('#reserveAssignedTo').val()
     else
       assignedTo = Meteor.user().username
-    dateReserved = new Date($('#reserveRequestDate').val())
+
     if $('#reserveExpectedReturn').val()
       expectedReturn = new Date($('#reserveExpectedReturn').val())
     else
@@ -16,8 +21,9 @@ Template.reserveDialog.events
       expectedReturn: expectedReturn
       assignedTo: assignedTo
     }
-    Meteor.call 'reserveItem', item._id, reservation
-
+    if tmpl.findAll('.has-error').length is 0
+      Meteor.call 'reserveItem', item._id, reservation
+      $('#reserveDialog').modal('toggle')
   'click #cancelButton': (e, tmpl) ->
     Session.set "reserveItem", null
 

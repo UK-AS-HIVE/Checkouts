@@ -49,7 +49,7 @@ Template.checkouts.events
   'click .checkoutItemBtn': (e, tmpl) ->
     id = $(e.target).data("item")
     item = Inventory.findOne {_id: id}
-    Session.set "codItem", item
+    Session.set "checkoutItem", item
     $('#checkoutDialog').modal('toggle')
 
   'click .editItemBtn': (e, tmpl) ->
@@ -66,3 +66,7 @@ Template.checkouts.events
 
 Template.checkoutRow.helpers
   isAdmin: -> return isAdmin(Meteor.user().id)
+  dateReserved: ->
+    if @reservation
+      return @reservation.dateReserved.getMonth()+1 + '/' + @reservation.dateReserved.getDate() + '/' + @reservation.dateReserved.getFullYear()
+    else return null

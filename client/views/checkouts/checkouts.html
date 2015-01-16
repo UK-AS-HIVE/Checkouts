@@ -53,7 +53,7 @@
       Unavailable
       {{/if}}</span>
     {{else}}
-    <span class="available">Available</span>
+    <span class="available">Available{{#if dateReserved}} until {{dateReserved}}{{/if}}</span>
     {{/if}}
   </td>
 </tr>

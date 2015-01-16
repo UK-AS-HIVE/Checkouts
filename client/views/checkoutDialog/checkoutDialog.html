@@ -8,35 +8,35 @@
         <h4 class="modal-title">Check an item in or out</h4>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal">
+        <form class="form-horizontal" id="checkoutForm">
           <div class="form-group">
-            <label for="codSearch" class="col-xs-4 control-label">Find an item by Name or Barcode:</label>
+            <label for="checkoutSearch" class="col-xs-4 control-label">Find an item by Name or Barcode:</label>
             <div class="col-xs-8">
-              {{> inputAutocomplete settings=settings id="codSearch" class="form-control" value=item.name name="searchFields" placeholder="Search by name or barcode..."}}
+              {{> inputAutocomplete settings=settings id="checkoutSearch" class="form-control" value=item.name name="checkoutSearch" placeholder="Search by name or barcode..."}}
             </div>
           </div>
           <div class="form-group" style="display: {{hidden}};">
-            <label for="codDescription" class="col-xs-4 control-label">Description:</label>
+            <label for="checkoutDescription" class="col-xs-4 control-label">Description:</label>
             <div class="col-xs-8">
-              <input type="text" class="form-control" name="description" id="codDescription" disabled="disabled" value="{{item.description}}">
+              <input type="text" class="form-control" name="description" id="checkoutDescription" disabled="disabled" value="{{item.description}}">
             </div>
           </div>
           <div class="form-group" style="display: {{hidden}};">
-            <label for="codPicture" class="col-xs-4 control-label">Picture:</label>
+            <label for="checkoutPicture" class="col-xs-4 control-label">Picture:</label>
             <div class="col-xs-8">
               <span>Picture goes here</span>
             </div>
           </div>
           <div class="form-group" style="display: {{hidden}};">
-            <label for="codAssignedTo" id="codAssignedToLabel" class="col-xs-4 control-label">Assign item to:</label>
+            <label for="checkoutAssignedTo" id="checkoutAssignedToLabel" class="col-xs-4 control-label">Assign item to:</label>
             <div class="col-xs-8">
-              <input type="text" class="form-control" style="{{attr}}" {{disabled}} id="codAssignedTo" value="{{item.assignedTo}}">
+              <input type="text" class="form-control" style="{{attr}}" {{disabled}}  rqeuired id="checkoutAssignedTo" value="{{item.assignedTo}}">
             </div>
           </div>
           <div class="form-group" style="display: {{hidden}};">
-            <label for="codDatepicker" class="col-xs-4 control-label">Expected Return Date:</label>
+            <label for="checkoutDatepicker" class="col-xs-4 control-label">Expected Return Date:</label>
             <div class="col-xs-8">
-              <input type="text" id="codDatepicker" class="form-control datepicker" style="{{attr}}" {{disabled}} placeholder="{{#unless item.assignedTo}}optional{{/unless}}" value="{{item.schedule.expectedReturn}}">
+              <input type="text" id="checkoutDatepicker" class="form-control datepicker" style="{{attr}}" {{disabled}} placeholder="{{#unless item.assignedTo}}optional{{/unless}}" value="{{item.schedule.expectedReturn}}">
             </div>
           </div>
         </form>
