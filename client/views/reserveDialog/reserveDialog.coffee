@@ -1,7 +1,23 @@
 Template.reserveDialog.events
   'click [data-action=reserveItem]': (e, tmpl) ->
     $('#reserveDialog').modal('toggle')
-    Meteor.call 'reserveItem', username, date
+    item = Session.get 'reserveItem'
+    if $('#reserveAssignedTo').val()
+      assignedTo = $('#reserveAssignedTo').val()
+    else
+      assignedTo = Meteor.user().username
+    dateReserved = new Date($('#reserveRequestDate').val())
+    if $('#reserveExpectedReturn').val()
+      expectedReturn = new Date($('#reserveExpectedReturn').val())
+    else
+      expectedReturn = null
+    reservation = {
+      dateReserved: dateReserved
+      expectedReturn: expectedReturn
+      assignedTo: assignedTo
+    }
+    Meteor.call 'reserveItem', item._id, reservation
+
   'click #cancelButton': (e, tmpl) ->
     Session.set "reserveItem", null
 

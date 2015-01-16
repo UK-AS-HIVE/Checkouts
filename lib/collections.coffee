@@ -55,22 +55,35 @@
   assignedTo:
     type: String
     optional: true
-  schedule:
+  expectedReturn:
+    #Expected Return for a currently checked out item.
+    type: new Date()
+    optional: true
+  reservation:
     type: Object
     optional: true
-  'schedule.timeCheckedOut':
+  checkoutLog:
+    #Stores time checked in, checked out, and user checked out to. 
+    type: Object
+    optional: true
+  'checkoutLog.$.timeCheckedOut':
     type: new Date()
     label: "Time Checked Out"
-    optional: true
-  'schedule.timeCheckedIn':
+  'checkoutLog.$.timeCheckedIn':
     type: new Date()
     label: "Time Checked In"
-    optional: true
-  'schedule.timeReserved':
+  'checkoutLog.$.assignedTo':
+    type: String
+    label: "Log Assigned To"
+  'reservation.dateReserved':
     type: new Date()
-    label: "Time Reserved"
+    label: "Date Reserved"
     optional: true
-  'schedule.expectedReturn':
+  'reservation.expectedReturn':
     type: new Date()
     label: "Expected Return"
+    optional: true
+  'reservation.assignedTo':
+    type: String
+    label: "Reservation Assigned To"
     optional: true

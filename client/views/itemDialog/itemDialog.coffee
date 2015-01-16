@@ -1,4 +1,4 @@
-Template.newCheckoutDialog.helpers
+Template.itemDialog.helpers
   categoryHelper: {
     position: 'bottom'
     limit: 3
@@ -16,18 +16,18 @@ Template.newCheckoutDialog.helpers
 Template.noMatchTemplate.helpers
   input: -> $('#newCheckoutCategory').val()
 
-Template.newCheckoutDialog.events
-  'click #submitButton': (e, tmpl) ->
+Template.itemDialog.events
+  'click #itemSubmitButton': (e, tmpl) ->
     addItem(e, tmpl)
     tmpl.$(':input').val('')
-  'click #cancelButton': (e, tmpl) ->
+  'click #itemCancelButton': (e, tmpl) ->
     Session.set "editCheckoutItem", null
     tmpl.$(':input').val('')
   'keyup .itemInput': (e, tmpl) ->
     if e.keyCode is 13
-      $('#submitButton').click()
+      $('#itemSubmitButton').click()
     if e.keyCode is 27
-      $('#cancelButton').click()
+      $('#itemCancelButton').click()
   'click #scanBarcode': (e, tmpl) ->
     result = cordova.plugins.barcodeScanner.scan (res, err) ->
       if res
@@ -52,7 +52,7 @@ addItem = (e, tmpl) ->
   imageId = "test"
   barcode = tmpl.find('input[name=barcode]').value
   $('#newCheckout').modal('toggle')
-  if $('#submitButton').html() is "Add Item"
+  if $('#itemSubmitButton').html() is "Add Item"
     item = Inventory.insert  {
       name: name
       description: description

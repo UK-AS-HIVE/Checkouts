@@ -31,13 +31,16 @@ Template.checkoutDialog.events
           Meteor.call "checkOutItem", name, assignedTo, expectedReturn
           $('#checkoutDialog').modal('toggle')
           Session.set "codItem", null
+          $('#codDatepicker').val('')
     else if $('#submitButton').html() is 'Check In'
       Meteor.call "checkInItem", name
       Session.set "codItem", null
+      $('#codDatepicker').val('')
       $('#checkoutDialog').modal('toggle')
 
   'click #cancelButton': (e, tmpl) ->
     Session.set "codItem", null
+    $('#codDatepicker').val('')
 
   'keyup': (e, tmpl) ->
     if e.keyCode is 27

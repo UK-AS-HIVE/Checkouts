@@ -1,4 +1,4 @@
-<template name="newCheckoutDialog">
+<template name="itemDialog">
 <button  data-toggle="modal" data-target="#newCheckout" class="newCheckoutBtn pull-right btn-success btn btn-sm">Add new Checkout item</button>
 <div class="modal fade" id='newCheckout'>
   <div class="modal-dialog">
@@ -55,8 +55,8 @@
           </div>
         </form>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" id="cancelButton" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="submitButton">{{#if item}}Edit Item{{else}}Submit Item{{/if}}</button>
+          <button type="button" class="btn btn-default pull-left" id="itemCancelButton" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="itemSubmitButton">{{#if item}}Edit Item{{else}}Add Item{{/if}}</button>
         </div>
       </div>
     </div>

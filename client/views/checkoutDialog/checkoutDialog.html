@@ -36,14 +36,14 @@
           <div class="form-group" style="display: {{hidden}};">
             <label for="codDatepicker" class="col-xs-4 control-label">Expected Return Date:</label>
             <div class="col-xs-8">
-              <input type="text" id="codDatepicker" class="form-control datepicker" style="{{attr}}" {{disabled}} placeholder="optional" value="{{item.schedule.expectedReturn}}">
+              <input type="text" id="codDatepicker" class="form-control datepicker" style="{{attr}}" {{disabled}} placeholder="{{#unless item.assignedTo}}optional{{/unless}}" value="{{item.schedule.expectedReturn}}">
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" id="cancelButton" data-dismiss="modal">Cancel</button>
-        <button style="display: {{hidden}};"  type="button" class="btn btn-primary pull-right" id="submitButton">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
+        <button style="display: {{hidden}};"  type="button" class="btn btn-primary pull-right" id="submitButton">{{#if item.assignedTo}}Check In{{else}}Check Out{{/if}}</button>
       </div>
     </div>
   </div>
