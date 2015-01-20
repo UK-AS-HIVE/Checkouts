@@ -1,78 +1,32 @@
 Template.navBar.events
   'click #logout': ->
     Meteor.logout()
-
-#This is fairly junk code to produce helper collections for meteor-autocomplete.
-#Until I know of a better way to only have autocomplete return unique selections from each field, these approximate that behavior.
-Help = new Mongo.Collection(null)
-Help.insert {name: ""}
-Status = new Mongo.Collection(null)
-Status.insert {status: "Any"}
-Status.insert {status: "Available"}
-Status.insert {status: "Unavailable"}
-
+  'click [data-action=setAvailableFilter]': (e, tmpl) ->
+    Session.set "availableFilter", $(e.target).data('item')
+  'change .categoryBox': (e, tmpl) ->
+    filters = Session.get "filters"
+    if e.target.checked
+      filters.push "#." + $(e.target).data('item')
+    else
+      index = filters.indexOf('#.' + $(e.target).data('item'))
+      filters.splice(index,1)
+    Session.set "filters", filters
 
 Template.navBar.helpers
-  settings: ->
-    return {
-      position: "bottom"
-      limit: 3
-      rules: [
-        {
-          token: '@'
-          collection: Inventory
-          field: "assignedTo"
-          template: Template.searchTokenAssigned
-          callback: (doc, element) ->
-            filters = Session.get "filters"
-            filters.push('@.' + doc.assignedTo)
-            Session.set "filters", filters
-            $('#textSearch').val('')
-        }
-        {
-          token: '!help'
-          collection: Help
-          field: "name"
-          template: Template.searchHelp
-          selector: () ->
-            return ""
-        }
-        {
-          token: '#'
-          collection: Inventory
-          field: "category"
-          matchAll: true
-          template: Template.searchTokenCategory
-          callback: (doc, element) ->
-            filters = Session.get "filters"
-            filters.push("#." + doc.category)
-            Session.set "filters", filters
-            $('#textSearch').val('')
-        }
-        {
-          token: 'name:'
-          collection: Inventory
-          field: "name"
-          matchAll: true
-          template: Template.searchFields
-          selector: (match) ->
-            regex = new RegExp match, 'i'
-            return $or: [{'name': regex}, {'barcode': regex}]
-          callback: (doc, element) ->
-            filters = Session.get "filters"
-            filters.push('name.' + doc.name)
-            Session.set "filters", filters
-            $('#textSearch').val('')
-        }
-        {
-          token: 'status:'
-          collection: Status
-          field: "status"
-          matchAll: true
-          template: Template.searchTokenStatus
-          callback: (doc, element) ->
-            Session.set "availableFilter", doc.status
-            $('#textSearch').val('')
-        }
-      ]
-    }
+  category: ->
+    cats = _.uniq Inventory.find().fetch().map (x) ->
+      return x.category
+    filters = Session.get "filters"
+    array = []
+    cats.map (x) ->
+      if ("#" + x) in filters
+        array.push {name: x, checked: "checked"}
+      else
+        array.push {name: x, checked: null}
+    return array
+
+  availableFilter: -> Session.get "availableFilter"
+
+Template.navBar.rendered = ->
+  $(document).on 'click', '.yamm .dropdown-menu', (e) ->
+    e.stopPropagation()

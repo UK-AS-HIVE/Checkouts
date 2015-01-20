@@ -1,8 +1,8 @@
 <template name="navBar">
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar yamm navbar-default" role="navigation">
 <div class="container-fluid">
   <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
       <span class="sr-only">A&S Checkouts</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -12,7 +12,49 @@
   </div>
   {{#if currentUser }}
   <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <div class="collapse navbar-collapse" id="navbar-collapse">
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+        Filters<b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+        <div class="yamm-content">
+          <div class="row">
+            <ul class="col-sm-2 list-unstyled">
+              <li>
+              <p><strong>Category</strong></p>
+              </li>
+              {{#each category}}
+              <li>
+              <label for="filter{{name}}">
+                <input type="checkbox" id="filter{{name}}" name="{{name}}" data-item="{{name}}" {{checked}} class="categoryBox">
+                <a class="changeCategoryFilter">{{name}}</a>
+              </label>
+              </li>
+              {{/each}}
+            </ul>
+            <ul class="col-sm-2 list-unstyled">
+              <li>
+              <p><strong>Availability</strong></p>
+              </li>
+              <li><label for="filterAll"><input id="filterAll" name="radio" type="radio" data-action="setAvailableFilter" data-item="Any" checked="checked">
+                <a class="changeAvailabilityFilter">All</a>
+              </label></li>
+              <li><label for="filterAvailable"><input id="filterAvailable" name="radio" type="radio" data-action="setAvailableFilter" data-item="Available">
+                <a class="changeAvailabilityFilter">Available</a>
+              </label></li>
+              <li><label for="filterUnavailable"><input id="filterUnavailable" name="radio" type="radio" data-action="setAvailableFilter" data-item="Unavailable">
+                <a class="changeAvailabilityFilter">Unavailable</a>
+              </label></li>
+            </ul>
+          </div>
+        </div>
+        </li>
+      </ul>
+      </li>
+    </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -27,37 +69,8 @@
       </ul>
       </li>
     </ul>
-
-    <form class="navbar-form navbar-right" role="search">
-      <div class="form-group">
-        {{> inputAutocomplete settings=settings class="form-control" id="textSearch" placeholder="Filter by token, or type !help" size="25"}}
-      </div>
-    </form>
-
   </div><!-- /.navbar-collapse -->
   {{/if}}
 </div><!-- /.container-fluid -->
 </nav>
-</template>
-
-<template name="searchHelp">
-Enter a token to search by category, user assigned to, status, or name. Examples:
-<ul>
-  <li>#laptop</li>
-  <li>@sdsmit2</li>
-  <li>status:unavailable</li>
-  <li>name:vostro</li>
-</ul>
-</template>
-
-<template name="searchTokenCategory">
-{{category}}
-</template>
-
-<template name="searchTokenAssigned">
-{{assignedTo}}
-</template>
-
-<template name="searchTokenStatus">
-{{status}}
 </template>

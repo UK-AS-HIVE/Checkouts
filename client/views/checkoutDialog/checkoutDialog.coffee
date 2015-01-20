@@ -54,7 +54,6 @@ Template.checkoutDialog.events
 
 Template.checkoutDialog.rendered = ->
   $('#checkoutDatepicker').datepicker()
-  $('#checkoutForm').validate()
 
 Template.checkoutDialog.helpers
   error: -> Session.get "checkoutError"

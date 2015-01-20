@@ -15,7 +15,7 @@ iron:router
 aldeed:collection2
 jeremy:selectize
 deepwell:bootstrap-datepicker2
-mizzao:autocomplete
 twbs:bootstrap
 rajit:bootstrap3-datepicker
 aldeed:autoform
+mizzao:autocomplete

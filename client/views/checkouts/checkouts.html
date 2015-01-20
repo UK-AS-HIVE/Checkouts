@@ -14,7 +14,7 @@
       <th>&nbsp;</th>
       <th>Picture</th>
       <th>Name</th>
-      <th>Item Type</th>
+      <th class="hidden-xs">Item Type</th>
       <th>Checked Out</th>
     </tr>
   </thead>
@@ -42,7 +42,7 @@
   <td>
     <strong>{{name}}</strong>
   </td>
-  <td>
+  <td class="hidden-xs">
     {{category}}
   </td>
   <td>
@@ -53,7 +53,7 @@
       Unavailable
       {{/if}}</span>
     {{else}}
-    <span class="available">Available{{#if dateReserved}} until {{dateReserved}}{{/if}}</span>
+    <span class="available">{{#if dateReserved}}Reserved: {{dateReserved}}{{else}}Available{{/if}}</span>
     {{/if}}
   </td>
 </tr>

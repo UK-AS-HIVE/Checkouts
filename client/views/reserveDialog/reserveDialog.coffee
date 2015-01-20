@@ -1,12 +1,26 @@
 Template.reserveDialog.events
   'click [data-action=reserveItem]': (e, tmpl) ->
     item = Session.get 'reserveItem'
+    now = new Date()
+
     if $('#reserveRequestDate').val()
-      #Since our input fields are in a div for the column width, we need the parent of that div for the error class.
-      dateReserved = new Date($('#reserveRequestDate').val())
-      $('#reserveRequestDate').parent().parent().removeClass('has-error')
+      #Error checking for the reserve date, if it exists.
+      dateReserved = $('#reserveRequestDate').val()
+      if new Date(dateReserved) < now
+        $('#reserveRequestDate').parent().parent().addClass('has-error')
+        Session.set "reserveError", "Reservation date must be after today."
+      else if item.reservation.dateReserved and new Date(dateReserved) > item.reservation.dateReserved and new Date(dateReserved) < item.reservation.expectedReturn
+        $('#reserveRequestDate').parent().parent().addClass('has-error')
+        Session.set "reserveError", "Item is already reserved for that timeframe. Please select a different date."
+      else
+        Session.set "reserveError", null
+        $('#reserveRequestDate').parent().parent().removeClass('has-error')
+
     else
+      #If the field is empty, note that.
       $('#reserveRequestDate').parent().parent().addClass('has-error')
+      Session.set "reserveError", "A request date is required."
+
     if $('#reserveAssignedTo').val()
       assignedTo = $('#reserveAssignedTo').val()
     else
@@ -16,15 +30,21 @@ Template.reserveDialog.events
       expectedReturn = new Date($('#reserveExpectedReturn').val())
     else
       expectedReturn = null
+
     reservation = {
       dateReserved: dateReserved
       expectedReturn: expectedReturn
       assignedTo: assignedTo
     }
+    
+    #Make sure we don't have any errors. Could also just check if reserveError is null.
     if tmpl.findAll('.has-error').length is 0
       Meteor.call 'reserveItem', item._id, reservation
       $('#reserveDialog').modal('toggle')
-  'click #cancelButton': (e, tmpl) ->
+
+  'click [data-action=cancelReserve]': (e, tmpl) ->
+    tmpl.$('.has-error').removeClass('has-error')
+    Session.set "reserveError", null
     Session.set "reserveItem", null
 
   'keyup': (e, tmpl) ->
@@ -37,3 +57,4 @@ Template.reserveDialog.rendered = ->
 
 Template.reserveDialog.helpers
   item: -> Session.get "reserveItem"
+  reserveError: -> Session.get "reserveError"

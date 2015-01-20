@@ -24,9 +24,9 @@ Template.checkouts.helpers
       when "Any"
         return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}}
       when "Available"
-        return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: ""}
+        return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: null}
       when "Unavailable"
-        return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: {$not: ""}}
+        return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: {$not: null}}
       else
         return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: {$in: assignedToFilter}}
 
