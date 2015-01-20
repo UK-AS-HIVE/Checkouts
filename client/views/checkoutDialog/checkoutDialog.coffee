@@ -4,10 +4,13 @@ Template.checkoutDialog.events
       result = cordova.plugins.barcodeScanner.scan (res, err) ->
         if res
           item = Inventory.find {barcode: item.text}
-          Session.set "checkoutItem", item
+          if item
+            Session.set "checkoutItem", item
+          else
+            Session.set "checkoutError", "Item not found. Try searching by name or barcode number."
           $('#checkoutDialog').modal('toggle')
         else
-          alert("Error in scanning barcode. Try searching by name or number.")
+          Session.set "checkoutError", "Error in scanning barcode. Try searching by name or barcode number."
           $('#checkoutDialog').modal('toggle')
     else
       $('#checkoutDialog').modal('toggle')
@@ -31,14 +34,17 @@ Template.checkoutDialog.events
           Meteor.call "checkOutItem", name, assignedTo, expectedReturn
           $('#checkoutDialog').modal('toggle')
           Session.set "checkoutItem", null
+          Session.set "checkoutError", null
           $('#checkoutDatepicker').val('')
     else if $('#submitButton').html() is 'Check In'
       Meteor.call "checkInItem", name
       Session.set "checkoutItem", null
+      Session.set "checkoutError", null
       $('#checkoutDatepicker').val('')
       $('#checkoutDialog').modal('toggle')
 
   'click #cancelButton': (e, tmpl) ->
+    Session.set "checkoutError", null
     Session.set "checkoutItem", null
     $('#checkoutDatepicker').val('')
 
@@ -51,6 +57,7 @@ Template.checkoutDialog.rendered = ->
   $('#checkoutForm').validate()
 
 Template.checkoutDialog.helpers
+  error: -> Session.get "checkoutError"
   item: -> Session.get "checkoutItem"
   hidden: ->
     if Session.get "checkoutItem"
@@ -83,6 +90,7 @@ Template.checkoutDialog.helpers
           regex = new RegExp match, 'i'
           return $or: [{'name': regex}, {'barcode': regex}]
         callback: (doc, element) ->
+          Session.set "checkoutError", null
           Session.set "checkoutItem", doc
       }
     ]

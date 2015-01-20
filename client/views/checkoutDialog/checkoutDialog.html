@@ -8,6 +8,7 @@
         <h4 class="modal-title">Check an item in or out</h4>
       </div>
       <div class="modal-body">
+        {{#if error}}<span class="unavailable">{{error}}</span>{{/if}}
         <form class="form-horizontal" id="checkoutForm">
           <div class="form-group">
             <label for="checkoutSearch" class="col-xs-4 control-label">Find an item by Name or Barcode:</label>
