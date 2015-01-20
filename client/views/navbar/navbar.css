@@ -26,3 +26,7 @@
 .list-unstyled,
 .list-unstyled ul { min-width: 120px }
 
+label {
+  font-weight: normal;
+  color: #000;
+}

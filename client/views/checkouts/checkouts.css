@@ -12,8 +12,7 @@
   color: red;
 }
 
-.table {
-  white-space: nowrap;
+table {
   max-width: none;
   word-wrap: break-word;
 }

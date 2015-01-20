@@ -60,18 +60,23 @@
 <tr>
   <td colspan='7' class="hiddenRow">
     <div class="accordian-body collapse" id="{{_id}}">
-      Expected Return: {{#if schedule.expectedReturn}}{{schedule.expectedReturn}}{{/if}}<br>
-      Serial No: {{serialNo}}
-      {{#if isAdmin}}
-      &nbsp;<button class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
-      &nbsp;<button class="editItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
-      <button class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
-      {{else}}
-      <button class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve this Item</button>
-      {{/if}}
-      <br>
-      Property Tag: {{propertyTag}}
-
+      <div class="row">
+        <div class="col-md-2">
+          Expected Return: {{#if schedule.expectedReturn}}{{schedule.expectedReturn}}{{/if}}<br>
+          Serial No: {{serialNo}}<br>
+          Property Tag: {{propertyTag}}
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-4">
+          {{#if isAdmin}}
+          &nbsp;<button class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
+          &nbsp;<button class="editItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
+          <button class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
+          {{else}}
+          <button class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve this Item</button>
+          {{/if}}
+        </div>
+      </div>
     </div>
   </td>
 </tr>
