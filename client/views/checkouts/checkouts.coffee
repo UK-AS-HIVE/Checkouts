@@ -42,6 +42,7 @@ Template.checkouts.events
   
   'click .reserveItemBtn': (e, tmpl) ->
     id = $(e.target).data("item")
+    console.log id
     item = Inventory.findOne {_id: id}
     Session.set "reserveItem", item
     $('#reserveDialog').modal('toggle')
@@ -65,6 +66,12 @@ Template.checkouts.events
     Session.set "deleteItem", item
     $('#deleteItem').modal('toggle')
 
+  'click .cancelReserveBtn': (e, tmpl) ->
+    if $(e.target).html() is "Cancel Reservation"
+      $(e.target).html("Click again to confirm")
+    else if $(e.target).html() is "Click again to confirm"
+      Meteor.call "cancelReservation", $(e.target).data("item")
+
 Template.checkoutRow.helpers
   rootUrl: ->
     if Meteor.isCordova
@@ -82,3 +89,9 @@ Template.checkoutRow.helpers
     if @reservation?.dateReserved
       return @reservation.dateReserved.getMonth()+1 + '/' + @reservation.dateReserved.getDate() + '/' + @reservation.dateReserved.getFullYear()
     else return null
+
+  assignedToMe: ->
+    if @reservation?.assignedTo is Meteor.user().username
+      return true
+    else
+      return false

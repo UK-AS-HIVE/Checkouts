@@ -42,8 +42,9 @@
           <div class="form-group">
             <label for="picture" class="col-xs-4 control-label">Picture:</label>
             <div class="col-xs-8">
-              {{#if isCordova}}<button type="button" class="btn btn-primary" id="takePicture">Take Picture</button>{{/if}}
-              <button type="button" class="btn btn-primary" id="uploadPicture">Upload Picture</button>
+              {{#if isCordova}}<button type="button" class="btn btn-primary pull-left" id="takePicture">Take Picture</button>{{/if}}
+              <button type="button" class="btn btn-primary pull-left" id="uploadPicture">Upload Picture</button>
+              &nbsp;&nbsp;{{imageName}}
             </div>
           </div>
           <div class="form-group">
@@ -66,4 +67,8 @@
 
 <template name="noMatchTemplate">
 Create new category: {{input}}
+</template>
+
+<template name="categorySearch">
+{{category}}
 </template>

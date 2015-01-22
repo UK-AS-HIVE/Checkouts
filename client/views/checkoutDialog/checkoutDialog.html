@@ -31,7 +31,12 @@
           <div class="form-group" style="display: {{hidden}};">
             <label for="checkoutAssignedTo" id="checkoutAssignedToLabel" class="col-xs-4 control-label">Assign item to:</label>
             <div class="col-xs-8">
-              <input type="text" class="form-control" style="{{attr}}" {{disabled}}  rqeuired id="checkoutAssignedTo" value="{{item.assignedTo}}">
+              <div class="input-group">
+                <input type="text" class="form-control" style="{{attr}}" {{disabled}} id="checkoutAssignedTo" value="{{item.assignedTo}}">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-success" id="checkoutCheckBtn">Check Username</button>
+                </span>
+              </div>
             </div>
           </div>
           <div class="form-group" style="display: {{hidden}};">

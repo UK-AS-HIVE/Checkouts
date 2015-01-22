@@ -2,7 +2,8 @@ Meteor.methods
   checkOutItem: (name, username, expectedReturn) ->
     #TODO: Query LDAP to find user (maybe before this method is called). Insert into checkout log.
     now = new Date()
-    Inventory.update {name: name}, {$set: {assignedTo: username, 'checkoutLog.timeCheckedOut': now, expectedReturn: expectedReturn, 'checkoutLog.timeCheckedIn': ''}}
+    #In addition to checking out the item, we nullify any reservation. This might not be ideal.
+    Inventory.update {name: name}, {$set: {assignedTo: username, 'checkoutLog.timeCheckedOut': now, expectedReturn: expectedReturn, 'checkoutLog.timeCheckedIn': '', reservation: null}}
 
   checkInItem: (name) ->
     now = new Date()
@@ -24,3 +25,6 @@ Meteor.methods
 
   reserveItem: (id, reservation) ->
     Inventory.update {_id: id}, {$set: {reservation: {dateReserved: reservation.dateReserved, expectedReturn: reservation.expectedReturn, assignedTo: reservation.assignedTo}}}
+
+  cancelReservation: (id) ->
+    Inventory.update {_id: id}, {$set: {reservation: null}}

@@ -3,11 +3,8 @@
 {{> checkoutDialog}}
 {{> itemDialog}}
 {{> deleteItemDialog}}
-{{else}}
-{{> reserveDialog}}
 {{/if}}
-<br/>
-<br/>
+{{> reserveDialog}}
 <table class="table table-striped table-condensed" style="border-collapse:collapse;">
   <thead>
     <tr>
@@ -112,15 +109,27 @@
         </div>
         <div class="col-xs-4 col-md-2 col-md-offset-2">
           <button type="button" class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
-        </div>
-        <div class="col-xs-4 col-xs-offset-4 col-md-2 col-md-offset-4">
-          <button type="button" class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
           <button type="button" class="editItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
         </div>
-        {{else}}
-        <div class="col-xs-4 col-xs-offset-4 col-md-2 col-md-offset-6">
-          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve this Item</button>
+        <div class="col-xs-4 col-xs-offset-4 col-md-3 col-md-offset-3">
+          <button type="button" class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
+          {{#unless reservation.assignedTo}}
+          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve Item</button>
+          {{else}}
+          <button type="button" class="cancelReserveBtn pull-right btn-danger btn btn-sm" data-item="{{_id}}">Cancel Reservation</button>
+          {{/unless}}
         </div>
+        {{else}}
+        {{#unless reservation.assignedTo}}
+        <div class="col-xs-4 col-xs-offset-8 col-md-2 col-md-offset-8">
+          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve Item</button>
+        </div>
+        {{/unless}}
+        {{#if assignedToMe}}
+        <div class="col-xs-4 col-xs-offset-8 col-md-2 col-md-offset-8">
+          <button type="button" class="cancelReserveBtn pull-right btn-danger btn btn-sm" data-item="{{_id}}">Cancel Reservation</button>
+        </div>
+        {{/if}}
         {{/if}}
       </form>
     </div>

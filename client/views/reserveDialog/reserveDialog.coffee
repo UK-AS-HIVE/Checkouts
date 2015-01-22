@@ -8,10 +8,10 @@ Template.reserveDialog.events
       if dateReserved < now
         $('#reserveRequestDate').parent().parent().addClass('has-error')
         Session.set "reserveError", "Reservation date must be after today."
-      else if item.reservation.dateReserved and dateReserved > item.reservation.dateReserved and item.reservation.expectedReturn? < new Date(dateReserved)
+      else if item.reservation?.dateReserved and dateReserved > item.reservation?.dateReserved and item.reservation?.expectedReturn? < new Date(dateReserved)
         $('#reserveRequestDate').parent().parent().addClass('has-error')
         Session.set "reserveError", "Item is already reserved for that timeframe. Please select a different date."
-      else if item.reservation.dateReserved and dateReserved > item.reservation.dateReserved
+      else if item.reservation?.dateReserved and dateReserved > item.reservation?.dateReserved
         Session.set "reserveError", "Item is already reserved after that date without an expected return date."
       else
         Session.set "reserveError", null

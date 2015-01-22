@@ -26,6 +26,19 @@
               <span>Picture goes here</span>
             </div>
           </div>
+          {{#if isAdmin}}
+          <div class="form-group">
+            <label for="reserveAssignedTo" class="col-xs-4 control-label">Reserve To:</label>
+            <div class="col-xs-8">
+              <div class="input-group">
+                <input type="text" id="reserveAssignedTo" class="form-control">
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-success" id="reserveCheckName">Check Username</button>
+                </span>
+              </div>
+            </div>
+          </div>
+          {{/if}}
           <div class="form-group">
             <label for="reserveRequestDate" class="col-xs-4 control-label datepicker">Date Requested:</label>
             <div class="col-xs-8">
