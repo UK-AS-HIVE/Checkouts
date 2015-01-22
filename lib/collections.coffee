@@ -25,6 +25,7 @@
   description:
     type: String
     label: "Description"
+    optional: true
   imageId:
     type: String
   propertyTag:

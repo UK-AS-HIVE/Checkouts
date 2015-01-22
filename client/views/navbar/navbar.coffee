@@ -14,6 +14,7 @@ Template.navBar.events
 
 Template.navBar.helpers
   category: ->
+    #This is really elaborate if were not allowing text-based filtering. The "checked" logic was for making the boxes and text filters align.
     cats = _.uniq Inventory.find().fetch().map (x) ->
       return x.category
     filters = Session.get "filters"

@@ -17,7 +17,7 @@ Template.checkoutDialog.events
 
   'click #submitButton': (e, tmpl) ->
     #Putting this all into one button might make things a bit tough on readability.
-    name = tmpl.find('input[name=searchFields]').value
+    name = tmpl.find('input[name=checkoutSearch]').value
     if $('#submitButton').html() is 'Check Out'
       now = new Date()
       assignedTo = $('#checkoutAssignedTo').val()

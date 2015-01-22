@@ -1,5 +1,6 @@
 Template.checkouts.helpers
   checkoutItem: ->
+    #For the moment, I'm leaving the filter parsing logic in here. It might be unnecessary if we don't reintroduce a text search.
     catFilter = []
     nameFilter = []
     assignedToFilter = []
@@ -29,17 +30,16 @@ Template.checkouts.helpers
         return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: {$not: null}}
       else
         return Inventory.find {category: {$in: catFilter}, name: {$in: nameFilter}, assignedTo: {$in: assignedToFilter}}
-
-
   isAdmin: -> return isAdmin(Meteor.user().id)
 
 Template.checkouts.events
   'click .accordion-toggle': (e, tmpl) ->
-    if $(e.target).closest("tr").find("td:first").html() is '<span class="glyphicon glyphicon-minus"></span>'
-      $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-plus"></span>')
-    else
+    #This still doesn't work perfectly, but will at least return to the norm eventually.
+    if $(e.target).closest("tr").attr('aria-expanded') is "false" or $(e.target).closest("tr").attr('aria-expanded') is undefined
       $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-minus"></span>')
-
+    else
+      $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-plus"></span>')
+  
   'click .reserveItemBtn': (e, tmpl) ->
     id = $(e.target).data("item")
     item = Inventory.findOne {_id: id}
@@ -53,6 +53,7 @@ Template.checkouts.events
     $('#checkoutDialog').modal('toggle')
 
   'click .editItemBtn': (e, tmpl) ->
+    console.log $(e.target).data('item')
     id = $(e.target).data("item")
     item = Inventory.findOne {_id: id}
     Session.set "editCheckoutItem", item
@@ -65,8 +66,19 @@ Template.checkouts.events
     $('#deleteItem').modal('toggle')
 
 Template.checkoutRow.helpers
+  rootUrl: ->
+    if Meteor.isCordova
+      __meteor_runtime_config__.ROOT_URL.replace(/\/$/, '') + __meteor_runtime_config__.ROOT_URL_PATH_PREFIX
+    else
+      __meteor_runtime_config__.ROOT_URL.replace /\/$/, ''
+  thumbnailUrl: ->
+    if @imageId
+      item = FileRegistry.findOne {_id: @imageId}
+      return item.thumbnail
+    else
+      return null
   isAdmin: -> return isAdmin(Meteor.user().id)
   dateReserved: ->
-    if @reservation
+    if @reservation?.dateReserved
       return @reservation.dateReserved.getMonth()+1 + '/' + @reservation.dateReserved.getDate() + '/' + @reservation.dateReserved.getFullYear()
     else return null

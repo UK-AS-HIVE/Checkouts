@@ -32,12 +32,12 @@
 </template>
 
 <template name="checkoutRow">
-<tr data-toggle="collapse" data-target="#{{_id}}" class="accordion-toggle">
+<tr data-toggle="collapse" data-target="#row{{_id}}" class="accordion-toggle">
   <td>
     <span class="glyphicon glyphicon-plus"></span>
   </td>
   <td>
-    <img src="http://placehold.it/50x50">
+    {{#if thumbnailUrl}}<img style="max-height: 50px;" src="{{rootUrl}}/file//{{thumbnailUrl}}">{{/if}}
   </td>
   <td>
     <strong>{{name}}</strong>
@@ -59,24 +59,70 @@
 </tr>
 <tr>
   <td colspan='7' class="hiddenRow">
-    <div class="accordian-body collapse" id="{{_id}}">
-      <div class="row">
-        <div class="col-md-2">
-          Expected Return: {{#if schedule.expectedReturn}}{{schedule.expectedReturn}}{{/if}}<br>
-          Serial No: {{serialNo}}<br>
-          Property Tag: {{propertyTag}}
+    <div class="accordion-body collapse" id="row{{_id}}">
+      <form class="form-horizontal">
+        {{#if expectedReturn}}
+        <div class="form-group">
+          <label for="expectedReturn" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Expected Return:</label>
+          <div class="col-xs-8 col-md-6">
+            <input type="text" value="{{expectedReturn}}" name="expectedReturn" id="{{_id}}expectedReturn" class="form-control" disabled>
+          </div>
         </div>
-        <div class="col-md-6"></div>
-        <div class="col-md-4">
-          {{#if isAdmin}}
-          &nbsp;<button class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
-          &nbsp;<button class="editItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
-          <button class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
-          {{else}}
-          <button class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve this Item</button>
-          {{/if}}
+        {{/if}}
+        {{#if reservation.expectedReturn}}
+        <div class="form-group">
+          <label for="resExpectedReturn" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Expected Return:</label>
+          <div class="col-xs-8 col-md-6">
+            <input type="text" value="{{reservation.expectedReturn}}" name="resExpectedReturn" id="{{_id}}resExpectedReturn" class="form-control" disabled>
+          </div>
         </div>
-      </div>
+        {{/if}}
+        <div class="form-group">
+          <label for="description" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Description:</label>
+          <div class="col-xs-8 col-md-6">
+            <input type="text" value="{{description}}" name="description" id="{{_id}}description" class="form-control" disabled>
+          </div>
+        </div>
+        {{#if isAdmin}}
+        {{#if reservation.assignedTo}}
+        <div class="form-group">
+          <label for="resAssignedTo" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Reserved To:</label>
+          <div class="col-xs-8 col-md-6">
+            <input type="text" value="{{reservation.assignedTo}}" name="resAssignedTo" id="{{_id}}resAssignedTo" class="form-control" disabled>
+          </div>
+        </div>
+        {{/if}}
+        <div class="form-group">
+          <label for="serialNo" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Serial No:</label>
+          <div class="col-xs-8 col-md-6">
+            <input type="text" value="{{serialNo}}" name="serialNo" id="{{_id}}serialNo" class="form-control" disabled>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="propertyTag" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Property Tag:</label>
+          <div class="col-xs-8 col-md-6">
+            <input type="text" value="{{propertyTag}}" name="propertyTag" id="{{_id}}propertyTag" class="form-control" disabled>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="barcode" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Barcode:</label>
+          <div class="col-xs-8 col-md-6">
+            <input type="text" value="{{barcode}}" name="{{barcode}}" id="{{_id}}barcode" class="form-control" disabled>
+          </div>
+        </div>
+        <div class="col-xs-4 col-md-2 col-md-offset-2">
+          <button type="button" class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
+        </div>
+        <div class="col-xs-4 col-xs-offset-4 col-md-2 col-md-offset-4">
+          <button type="button" class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
+          <button type="button" class="editItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
+        </div>
+        {{else}}
+        <div class="col-xs-4 col-xs-offset-4 col-md-2 col-md-offset-6">
+          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve this Item</button>
+        </div>
+        {{/if}}
+      </form>
     </div>
   </td>
 </tr>

@@ -6,7 +6,7 @@ Meteor.methods
 
   checkInItem: (name) ->
     now = new Date()
-    Inventory.update {name: name}, {$set: {assignedTo: "", 'checkoutLog.timeCheckedIn': now}}
+    Inventory.update {name: name}, {$set: {assignedTo: null, expectedReturn: null, 'checkoutLog.timeCheckedIn': now}}
 
   addItem: (itemObj) ->
     #This is done very explicitly due to errors in just inserting/updating objects.

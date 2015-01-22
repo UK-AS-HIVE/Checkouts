@@ -2,16 +2,17 @@ Template.reserveDialog.events
   'click [data-action=reserveItem]': (e, tmpl) ->
     item = Session.get 'reserveItem'
     now = new Date()
-
     if $('#reserveRequestDate').val()
       #Error checking for the reserve date, if it exists.
-      dateReserved = $('#reserveRequestDate').val()
-      if new Date(dateReserved) < now
+      dateReserved = new Date($('#reserveRequestDate').val())
+      if dateReserved < now
         $('#reserveRequestDate').parent().parent().addClass('has-error')
         Session.set "reserveError", "Reservation date must be after today."
-      else if item.reservation.dateReserved and new Date(dateReserved) > item.reservation.dateReserved and new Date(dateReserved) < item.reservation.expectedReturn
+      else if item.reservation.dateReserved and dateReserved > item.reservation.dateReserved and item.reservation.expectedReturn? < new Date(dateReserved)
         $('#reserveRequestDate').parent().parent().addClass('has-error')
         Session.set "reserveError", "Item is already reserved for that timeframe. Please select a different date."
+      else if item.reservation.dateReserved and dateReserved > item.reservation.dateReserved
+        Session.set "reserveError", "Item is already reserved after that date without an expected return date."
       else
         Session.set "reserveError", null
         $('#reserveRequestDate').parent().parent().removeClass('has-error')
@@ -48,8 +49,10 @@ Template.reserveDialog.events
     Session.set "reserveItem", null
 
   'keyup': (e, tmpl) ->
+    if e.keyCode is 13
+      tmpl.find('[data-action=reserveItem]').click()
     if e.keyCode is 27
-      ('#cancelButton').click()
+      tmpl.find('[data-action=cancelReserve]').click()
 
 Template.reserveDialog.rendered = ->
   $('#reserveReturnDate').datepicker()
