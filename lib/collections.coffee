@@ -44,7 +44,8 @@
   barcode:
     type: String
     label: "Barcode"
-    unique: true
+    unique: false
+    optional: true
   quantity:
     type: Number
     label: "Quantity"

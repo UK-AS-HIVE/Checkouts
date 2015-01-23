@@ -6,7 +6,7 @@ Template.itemDialog.helpers
       {
         collection: Inventory
         field: "category"
-        template: Template.categoryTokenSearch
+        template: Template.categorySearch
         noMatchTemplate: Template.noMatchTemplate
       }
     ]
@@ -18,23 +18,27 @@ Template.noMatchTemplate.helpers
 
 Template.itemDialog.events
   'click #itemSubmitButton': (e, tmpl) ->
-    addItem(e, tmpl)
-    tmpl.$(':input').val('')
+    validateItemForm(e, tmpl
+    )
   'click #itemCancelButton': (e, tmpl) ->
     Session.set "editCheckoutItem", null
     tmpl.$(':input').val('')
+    tmpl.$('.has-error').removeClass('has-error')
+
   'keyup .itemInput': (e, tmpl) ->
     if e.keyCode is 13
       $('#itemSubmitButton').click()
     if e.keyCode is 27
       $('#itemCancelButton').click()
+
   'click #scanBarcode': (e, tmpl) ->
     result = cordova.plugins.barcodeScanner.scan (res, err) ->
       if res
         console.log res
-        $('input[name=barcode]').val(res.text)
+        $('#itemBarcode').val(res.text)
       else
         alert("Error in scanning barcode.")
+
    'click #takePicture': ->
      #TODO: Show a thumbnail, associate image with inventory item, remove upload if cancelled. 
      getMediaFunctions.capturePhoto()
@@ -43,37 +47,43 @@ Template.itemDialog.events
      getMediaFunctions().pickLocalFile()
 
 addItem = (e, tmpl) ->
-  #TODO: Check and see if everything is cool. "Name", "description", "category" are definitely required; probably image too. Clear form after submission.
-  name = tmpl.find('input[name=name]').value
-  description = tmpl.find('input[name=description]').value
-  serialNo = tmpl.find('input[name=serialNo]').value
-  propertyTag = tmpl.find('input[name=propertyTag]').value
-  category = tmpl.find('#itemCategory').value
-  imageId = "test"
-  barcode = tmpl.find('input[name=barcode]').value
-  $('#newCheckout').modal('toggle')
   if $('#itemSubmitButton').html() is "Add Item"
     item = Inventory.insert  {
-      name: name
-      description: description
-      serialNo: serialNo
-      propertyTag: propertyTag
-      category: category
-      imageId: imageId
-      barcode: barcode
+      name: $('#itemName').val()
+      description: $('#itemDescription').val()
+      serialNo: $('#itemSerialNo').val()
+      propertyTag: $('#itemPropertyTag').val()
+      category: $('#itemCategory').val()
+      imageId: 'test'
+      barcode: $('#itemBarcode').val()
     }
   else
     item = Session.get "editCheckoutItem"
     Inventory.update {_id: item._id}, {$set: {
-      name: name
-      description: description
-      serialNo: serialNo
-      propertyTag: propertyTag
-      category: category
-      imageId: imageId
-      barcode: barcode
+      name: $('#itemName').val()
+      description: $('#itemDescription').val()
+      serialNo: $('#itemSerialNo').val()
+      propertyTag: $('#itemPropertyTag').val()
+      category: $('#itemCategory').val()
+      imageId: 'test'
+      barcode: $('#itemBarcode').val()
     }}
+
   Session.set "editCheckoutItem", null
+  tmpl.$(':input').val('')
+  $('#itemDialog').modal('toggle')
+
+validateItemForm = (e, tmpl) ->
+  #TODO: Check uniqueness of name, barcode
+  requiredFields = ['#itemName', '#itemCategory']
+  for field in requiredFields
+    if $(field).val()
+      $(field).parent().parent().removeClass('has-error')
+    else
+      console.log $(field).val()
+      $(field).parent().parent().addClass('has-error')
+  if tmpl.findAll('.has-error').length is 0
+    addItem(e, tmpl)
 
 getMediaFunctions = ->
   requiredFunctions = ['pickLocalFile', 'capturePhoto', 'captureAudio', 'captureVideo']
