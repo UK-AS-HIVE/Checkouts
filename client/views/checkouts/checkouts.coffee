@@ -33,16 +33,8 @@ Template.checkouts.helpers
   isAdmin: -> return isAdmin(Meteor.user().id)
 
 Template.checkouts.events
-  'click .accordion-toggle': (e, tmpl) ->
-    #This still doesn't work perfectly, but will at least return to the norm eventually.
-    if $(e.target).closest("tr").attr('aria-expanded') is "false" or $(e.target).closest("tr").attr('aria-expanded') is undefined
-      $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-minus"></span>')
-    else
-      $(e.target).closest("tr").find("td:first").html('<span class="glyphicon glyphicon-plus"></span>')
-  
   'click .reserveItemBtn': (e, tmpl) ->
     id = $(e.target).data("item")
-    console.log id
     item = Inventory.findOne {_id: id}
     Session.set "reserveItem", item
     $('#reserveDialog').modal('toggle')
@@ -54,7 +46,6 @@ Template.checkouts.events
     $('#checkoutDialog').modal('toggle')
 
   'click .editItemBtn': (e, tmpl) ->
-    console.log $(e.target).data('item')
     id = $(e.target).data("item")
     item = Inventory.findOne {_id: id}
     Session.set "editCheckoutItem", item
@@ -71,6 +62,14 @@ Template.checkouts.events
       $(e.target).html("Click again to confirm")
     else if $(e.target).html() is "Click again to confirm"
       Meteor.call "cancelReservation", $(e.target).data("item")
+
+  'shown.bs.collapse': (e, tmpl) ->
+    id = $(e.target).attr('name')
+    tmpl.$('span[name='+id+']').removeClass('glyphicon-plus').addClass('glyphicon-minus')
+
+  'hidden.bs.collapse': (e, tmpl) ->
+    id = $(e.target).attr('name')
+    tmpl.$('span[name='+id+']').removeClass('glyphicon-minus').addClass('glyphicon-plus')
 
 Template.checkoutRow.helpers
   rootUrl: ->

@@ -18,8 +18,7 @@ Template.noMatchTemplate.helpers
 
 Template.itemDialog.events
   'click #itemSubmitButton': (e, tmpl) ->
-    validateItemForm(e, tmpl
-    )
+    validateItemForm(e, tmpl)
   'click #itemCancelButton': (e, tmpl) ->
     Session.set "editCheckoutItem", null
     tmpl.$(':input').val('')
@@ -76,15 +75,7 @@ addItem = (e, tmpl) ->
 validateItemForm = (e, tmpl) ->
   #TODO: Check uniqueness of name, barcode
   requiredFields = ['#itemName', '#itemCategory']
-  for field in requiredFields
-    if $(field).val()
-      $(field).parent().parent().removeClass('has-error')
-    else
-      console.log $(field).val()
-      $(field).parent().parent().addClass('has-error')
-  if tmpl.findAll('.has-error').length is 0
-    addItem(e, tmpl)
-
+  addItem(e, tmpl)
 getMediaFunctions = ->
   requiredFunctions = ['pickLocalFile', 'capturePhoto', 'captureAudio', 'captureVideo']
   if Meteor.isCordova

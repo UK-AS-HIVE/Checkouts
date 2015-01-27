@@ -1,3 +1,16 @@
+resetCheckoutDialog = (tmpl) ->
+  tmpl.$('.has-error').removeClass('has-error')
+  tmpl.$('.has-success').removeClass('has-success')
+  Session.set "checkoutError", null
+  Session.set "checkoutItem", null
+  Session.set "checkoutAssignedToError", null
+  Session.set "checkoutExpectedReturnError", null
+  $('#checkoutCheckBtn').addClass('btn-primary').removeClass('btn-success').removeClass('btn-danger')
+  $('#checkoutCheckBtn').html('Check Username')
+  $('#checkoutAssignedTo').val('')
+  $('#checkoutDatepicker').val('')
+  $('#checkoutDialog').modal('hide')
+
 Template.checkoutDialog.events
   'click [data-action=openCheckoutDialog]': ->
     if Meteor.isCordova
@@ -8,55 +21,68 @@ Template.checkoutDialog.events
             Session.set "checkoutItem", item
           else
             Session.set "checkoutError", "Item not found. Try searching by name or barcode number."
-          $('#checkoutDialog').modal('toggle')
+          $('#checkoutDialog').modal('show')
         else
           Session.set "checkoutError", "Error in scanning barcode. Try searching by name or barcode number."
-          $('#checkoutDialog').modal('toggle')
+          $('#checkoutDialog').modal('show')
     else
-      $('#checkoutDialog').modal('toggle')
+      $('#checkoutDialog').modal('show')
 
-  'click #submitButton': (e, tmpl) ->
-    #TODO: Refactor this nightmare.
-    name = tmpl.find('input[name=checkoutSearch]').value
-    if $('#submitButton').html() is 'Check Out'
+  'click #checkoutSubmitBtn': (e, tmpl) ->
+    item = Session.get "checkoutItem"
+    if $('#checkoutSubmitBtn').html() is 'Check Out'
       now = new Date()
+      #Validation - expected return date.
+      expectedReturn = $('#checkoutDatepicker').val()
+      if new Date(expectedReturn) < now
+        $('#checkoutExpectedReturn').parent().parent().addClass('has-error')
+        Session.set "checkoutExpectedReturnError", "Expected return date must be after today."
+      #Validation - User assigned to. If the user is good, we call the check out method.
       assignedTo = $('#checkoutAssignedTo').val()
       if assignedTo is ""
-        alert "You must assign the item to someone."
+        $('#checkoutAssignedTo').parent().parent().addClass('has-error')
+        Session.set "checkoutAssignedToError", "You must assign the item to someone."
       else
-        #TODO: Verify assingedTo is acceptable.
-        expectedReturn = $('#checkoutDatepicker').val()
-        #The datepicker control keeps expectedReturn acceptable. Thanks, datepicker!
-        if new Date(expectedReturn) < now
-          alert("Expected return date must be after today.")
-        else
-          #We're trusting the name, as the submit button only becomes available when selecting from autocomplete.
-          Meteor.call "checkOutItem", name, assignedTo, expectedReturn
-          $('#checkoutDialog').modal('toggle')
-          Session.set "checkoutItem", null
-          Session.set "checkoutError", null
-          $('#checkoutDatepicker').val('')
-    else if $('#submitButton').html() is 'Check In'
-      Meteor.call "checkInItem", name
-      Session.set "checkoutItem", null
-      Session.set "checkoutError", null
-      $('#checkoutDatepicker').val('')
-      $('#checkoutDialog').modal('toggle')
+        Meteor.call 'checkUsername', $('#checkoutAssignedTo').val(), (err, res) ->
+          if res
+            Meteor.call "checkOutItem", item._id, assignedTo, expectedReturn
+            resetCheckoutDialog(tmpl)
+          else
+            Session.set "checkoutAssignedToError", "User not found."
+            $('#checkoutCheckBtn').removeClass('btn-success').removeClass('btn-primary').addClass('btn-danger')
+            $('#checkoutCheckBtn').html('<span class="glyphicon glyphicon-remove"></span>')
+          
+    else if $('#checkoutSubmitBtn').html() is 'Check In'
+      Meteor.call "checkInItem", item._id
+      resetCheckoutDialog(tmpl)
 
-  'click #cancelButton': (e, tmpl) ->
-    Session.set "checkoutError", null
-    Session.set "checkoutItem", null
-    $('#checkoutDatepicker').val('')
+  'click #checkoutCancelBtn': (e, tmpl) ->
+    resetCheckoutDialog(tmpl)
 
   'keyup': (e, tmpl) ->
     if e.keyCode is 27
-      $('#cancelButton').click()
+      resetCheckoutDialog(tmpl)
+
+  'click #checkoutCheckBtn': (e, tmpl) ->
+    unless $('#checkoutAssignedTo').val() is undefined
+      Meteor.call 'checkUsername', $('#checkoutAssignedTo').val(), (err, res) ->
+        if res
+          Session.set "checkoutAssignedToError", null
+          $('#checkoutAssignedTo').parent().parent().removeClass('has-error').addClass('has-success')
+          $('#checkoutCheckBtn').html('<span class="glyphicon glyphicon-ok"></span>')
+          $('#checkoutCheckBtn').removeClass('btn-danger').removeClass('btn-primary').addClass('btn-success')
+        else
+          Session.set "checkoutAssignedToError", "User not found."
+          $('#checkoutAssignedTo').parent().parent().removeClass('has-success').addClass('has-error')
+          $('#checkoutCheckBtn').removeClass('btn-success').removeClass('btn-primary').addClass('btn-danger')
+          $('#checkoutCheckBtn').html('<span class="glyphicon glyphicon-remove"></span>')
 
 Template.checkoutDialog.rendered = ->
   $('#checkoutDatepicker').datepicker()
 
 Template.checkoutDialog.helpers
-  error: -> Session.get "checkoutError"
+  checkoutAssignedToError: -> Session.get "checkoutAssignedToError"
+  checkoutExpectedReturnError: -> Session.get "checkoutExpectedReturnError"
   item: -> Session.get "checkoutItem"
   hidden: ->
     if Session.get "checkoutItem"
