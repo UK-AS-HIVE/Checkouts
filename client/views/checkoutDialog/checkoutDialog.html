@@ -29,13 +29,13 @@
             </div>
           </div>
           <div class="form-group" style="display: {{hidden}};">
-            <label for="checkoutAssignedTo" id="checkoutAssignedToLabel" class="col-xs-4 control-label">Assign item to:</label>
+            <label for="checkoutAssignedTo" id="checkoutAssignedToLabel" class="col-xs-4 control-label">{{#if item.assignedTo}}Checked Out To:{{else}}Assign item to:{{/if}}</label>
             <div class="col-xs-8">
               <div class="input-group">
                 <input type="text" class="form-control" style="{{attr}}" {{disabled}} id="checkoutAssignedTo" value="{{item.assignedTo}}">
-                <span class="input-group-btn">
+                {{#unless item.assignedTo}}<span class="input-group-btn">
                   <button type="button" class="btn btn-primary" id="checkoutCheckBtn">Check Username</button>
-                </span>
+                </span>{{/unless}}
               </div>
               {{#if checkoutAssignedToError}}<span class="unavailable">{{checkoutAssignedToError}}</span>{{/if}}
             </div>
