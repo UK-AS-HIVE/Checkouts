@@ -12,3 +12,6 @@ Template.registerHelper 'isCordova', () ->
 Meteor.startup () ->
   Session.set "availableFilter", "Any"
   Session.set "filters", []
+
+String.prototype.capitalize = ->
+  this.charAt(0).toUpperCase() + this.substr(1)

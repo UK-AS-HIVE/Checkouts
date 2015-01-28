@@ -13,6 +13,7 @@
             <label for="name" class="col-xs-4 control-label">Item Name:</label>
             <div class="col-xs-8">
               <input type="text" class="form-control" name="name" id="itemName" value="{{item.name}}">
+              <span class="error" name="name" style="display: none;">Error</span>
             </div>
           </div>
           <div class="form-group">
@@ -36,7 +37,8 @@
           <div class="form-group">
             <label for="category" class="col-xs-4 control-label">Category:</label>
             <div class="col-xs-8">
-              {{> inputAutocomplete settings=categoryHelper id="itemCategory" class="form-control" placeholder="Enter a category..." value=item.category }}
+              {{> inputAutocomplete settings=categoryHelper id="itemCategory" name="category" class="form-control" placeholder="Enter a category..." value=item.category }}
+              <span class="error" name="category" style="display: none;">Error</span>
             </div>
           </div>
           <div class="form-group">

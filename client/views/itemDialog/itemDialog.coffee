@@ -18,11 +18,12 @@ Template.noMatchTemplate.helpers
 
 Template.itemDialog.events
   'click #itemSubmitButton': (e, tmpl) ->
-    validateItemForm(e, tmpl)
+    addItem e, tmpl
   'click #itemCancelButton': (e, tmpl) ->
     Session.set "editCheckoutItem", null
     tmpl.$(':input').val('')
     tmpl.$('.has-error').removeClass('has-error')
+    tmpl.$('span[class=error]').hide()
 
   'keyup .itemInput': (e, tmpl) ->
     if e.keyCode is 13
@@ -55,7 +56,14 @@ addItem = (e, tmpl) ->
       category: $('#itemCategory').val()
       imageId: 'test'
       barcode: $('#itemBarcode').val()
-    }
+    },
+    (err, result) ->
+      if err
+        handleError(tmpl, err.invalidKeys)
+      else
+        Session.set "editCheckoutItem", null
+        tmpl.$(':input').val('')
+        $('#itemDialog').modal('toggle')
   else
     item = Session.get "editCheckoutItem"
     Inventory.update {_id: item._id}, {$set: {
@@ -66,16 +74,31 @@ addItem = (e, tmpl) ->
       category: $('#itemCategory').val()
       imageId: 'test'
       barcode: $('#itemBarcode').val()
-    }}
+    }},
+    (err, result) ->
+      if err
+        handleError(tmpl, err.invalidKeys)
+      else
+        Session.set "editCheckoutItem", null
+        tmpl.$(':input').val('')
+        $('#itemDialog').modal('toggle')
 
-  Session.set "editCheckoutItem", null
-  tmpl.$(':input').val('')
-  $('#itemDialog').modal('toggle')
 
-validateItemForm = (e, tmpl) ->
-  #TODO: Check uniqueness of name, barcode
-  requiredFields = ['#itemName', '#itemCategory']
-  addItem(e, tmpl)
+
+handleError = (tmpl, keys) ->
+  #Clear all of our error fields before re-validating.
+  tmpl.$('.has-error').removeClass('has-error')
+  tmpl.$('span[class=error]').hide()
+  for key in keys
+    tmpl.$('input[name='+key.name+']').parent().parent().addClass('has-error')
+    if key.type is "notUnique"
+      tmpl.$('span[name='+key.name+']').text(key.name.capitalize() + " must be unique.")
+      tmpl.$('span[name='+key.name+']').show()
+    if key.type is "required"
+      tmpl.$('span[name='+key.name+']').text("A "+key.name+" is required.")
+      tmpl.$('span[name='+key.name+']').show()
+
+
 getMediaFunctions = ->
   requiredFunctions = ['pickLocalFile', 'capturePhoto', 'captureAudio', 'captureVideo']
   if Meteor.isCordova

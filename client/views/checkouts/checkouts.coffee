@@ -78,11 +78,12 @@ Template.checkoutRow.helpers
     else
       __meteor_runtime_config__.ROOT_URL.replace /\/$/, ''
   thumbnailUrl: ->
-    if @imageId
-      item = FileRegistry.findOne {_id: @imageId}
-      return item.thumbnail
-    else
-      return null
+    return "/"
+    #if @imageId
+    # item = FileRegistry.findOne {_id: @imageId}
+    # return item.thumbnail
+    #else
+    # return null
   isAdmin: -> return isAdmin(Meteor.user().id)
   dateReserved: ->
     if @reservation?.dateReserved
