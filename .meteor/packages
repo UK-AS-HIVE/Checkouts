@@ -19,3 +19,5 @@ twbs:bootstrap
 rajit:bootstrap3-datepicker
 aldeed:autoform
 mizzao:autocomplete
+mrt:moment
+email

@@ -15,8 +15,7 @@
     return isAdmin(userId)
   update: (userId, doc) ->
     return isAdmin(userId)
-  remove: (userId, doc) ->
-    return isAdmin(userId)
+
 @Inventory.attachSchema new SimpleSchema
   name:
     type: String
@@ -55,10 +54,13 @@
     label: "Units"
     optional: true
   assignedTo:
+    #Current item info is stored under the item. On check-in, these are moved into checkoutLog.
     type: String
     optional: true
+  timeCheckedOut:
+    type: new Date()
+    optional: true
   expectedReturn:
-    #Expected Return for a currently checked out item.
     type: new Date()
     optional: true
   reservation:
@@ -66,8 +68,9 @@
     optional: true
   checkoutLog:
     #Stores time checked in, checked out, and user checked out to. 
-    type: Object
+    type: [Object]
     optional: true
+    defaultValue: []
   'checkoutLog.$.timeCheckedOut':
     type: new Date()
     label: "Time Checked Out"
