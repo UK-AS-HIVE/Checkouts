@@ -6,12 +6,12 @@ Meteor.methods
     fs = Npm.require 'fs'
 
     # Make sure we aren't deep in the build structure
-    if process.cwd().indexOf('.meteor/local') > -1
-      process.chdir '../../../..'
+    #if process.cwd().indexOf('.meteor/local') > -1
+    #  process.chdir '../../../..'
 
     # Make sure directory to store uploads in exists
-    if not fs.existsSync('./files')
-      fs.mkdirSync './files'
+    #if not fs.existsSync('./files')
+    #  fs.mkdirSync './files'
 
     now = new Date()
     fn = @connection.id + '-' + filename
@@ -24,8 +24,10 @@ Meteor.methods
       timestamp: now
       userId: @userId
 
-  'uploadSlice': (filename, data, offset) ->
-    console.log 'uploadSlice', filename, offset
+    FileRegistry.scheduleJobsForFile fn
+
+  'uploadSlice': (filename, data, offset, total) ->
+    console.log 'uploadSlice', filename, offset, total
 
     check filename, String
     check data, Uint8Array
@@ -36,27 +38,34 @@ Meteor.methods
     fs = Npm.require 'fs'
 
     # Make sure we aren't deep in the build structure
-    if process.cwd().indexOf('.meteor/local') > -1
-      process.chdir '../../../..'
+    #if process.cwd().indexOf('.meteor/local') > -1
+    #  process.chdir '../../../..'
+    #
+    filesdir = FileRegistry.getFileRoot()
 
     # Make sure directory to store uploads in exists
-    if not fs.existsSync('./files')
-      fs.mkdirSync './files'
+    if not fs.existsSync(filesdir)
+      fs.mkdirSync filesdir
 
     now = new Date()
     fn = @connection.id + '-' + filename
-    fs.appendFileSync './files/' + fn, new Buffer(data)
+    fs.appendFileSync filesdir + fn, new Buffer(data)
 
     f = FileRegistry.findOne {filename: filename, filenameOnDisk: fn, userId: @userId}
     if f?
       FileRegistry.update f._id,
         $set:
-          size: f.size+data.length
+          uploaded: f.size+data.length
     else
       FileRegistry.insert
         filename: filename
         filenameOnDisk: fn
-        size: data.length
+        uploaded: offset+data.length
+        size: total
         timestamp: now
         userId: @userId
+
+  
+    if offset+data.length >= total
+      FileRegistry.scheduleJobsForFile fn
 
