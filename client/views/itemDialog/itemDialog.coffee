@@ -12,6 +12,7 @@ Template.itemDialog.helpers
     ]
   }
   item: -> Session.get "editCheckoutItem"
+  imageName: -> FileRegistry.findOne(Session.get('currentUploadId'))?.filename
 
 Template.noMatchTemplate.helpers
   input: -> $('#itemCategory').val()
@@ -44,7 +45,9 @@ Template.itemDialog.events
      getMediaFunctions.capturePhoto()
    'click #uploadPicture': ->
      #TODO: See above.
-     getMediaFunctions().pickLocalFile()
+     getMediaFunctions().pickLocalFile (fileId) ->
+       console.log 'Uploaded a file, got _id: ', fileId
+       Session.set 'currentUploadId', fileId
 
 addItem = (e, tmpl) ->
   if $('#itemSubmitButton').html() is "Add Item"
