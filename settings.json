@@ -4,5 +4,9 @@
     "serverDc": "DC=ad,DC=uky,DC=edu",
     "serverUrl": "ldap://gc.ad.uky.edu:3268",
     "whiteListedFields": [ "displayName", "givenName", "department", "employeeNumber", "mail", "title", "address", "phone", "memberOf"]
+  },
+  "email": {
+    "fromEmail": "reservations@help.as.uky.edu",
+    "emailDomain": "uky.edu"
   }
 }
