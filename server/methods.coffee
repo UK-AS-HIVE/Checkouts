@@ -57,12 +57,14 @@ Meteor.methods
         timeCheckedOut: item.timeCheckedOut
         timeCheckedIn: now
         assignedTo: item.assignedTo
+        checkedInBy: Meteor.user().username
       }
     else
       checkoutLog =[{
-       timeCheckedOut: item.timeCheckedOut
-       timeCheckedIn: now
-       assignedTo: item.assignedTo
+        timeCheckedOut: item.timeCheckedOut
+        timeCheckedIn: now
+        assignedTo: item.assignedTo
+        checkedInBy: Meteor.user().username
       }]
 
     Inventory.update {_id: id}, {$set: {

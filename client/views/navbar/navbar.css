@@ -24,7 +24,7 @@
   right: 0;
 }
 .list-unstyled,
-.list-unstyled ul { min-width: 120px }
+.list-unstyled ul { min-width: 160px }
 
 label {
   font-weight: normal;

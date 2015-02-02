@@ -15,6 +15,8 @@
     return isAdmin(userId)
   update: (userId, doc) ->
     return isAdmin(userId)
+  remove: (userId, doc) ->
+    return isAdmin(userId)
 
 @Inventory.attachSchema new SimpleSchema
   name:
@@ -26,6 +28,7 @@
     label: "Description"
     optional: true
   imageId:
+    optional: true
     type: String
   propertyTag:
     type: String
@@ -79,7 +82,10 @@
     label: "Time Checked In"
   'checkoutLog.$.assignedTo':
     type: String
-    label: "Log Assigned To"
+    label: "Assigned To"
+  'checkoutLog.$.checkedInBy':
+    type: String
+    label: "Checked In By"
   'reservation.dateReserved':
     type: new Date()
     label: "Date Reserved"

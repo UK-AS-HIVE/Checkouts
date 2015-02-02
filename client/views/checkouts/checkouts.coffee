@@ -49,7 +49,7 @@ Template.checkouts.events
     id = $(e.target).data("item")
     item = Inventory.findOne {_id: id}
     Session.set "editCheckoutItem", item
-    $('#newCheckout').modal('toggle')
+    $('#itemDialog').modal('toggle')
 
   'click .deleteItemBtn': (e, tmpl) ->
     id = $(e.target).data("item")
@@ -78,12 +78,11 @@ Template.checkoutRow.helpers
     else
       __meteor_runtime_config__.ROOT_URL.replace /\/$/, ''
   thumbnailUrl: ->
-    return "/"
-    #if @imageId
-    # item = FileRegistry.findOne {_id: @imageId}
-    # return item.thumbnail
-    #else
-    # return null
+    if @imageId
+      item = FileRegistry.findOne {_id: @imageId}
+      return item.thumbnail
+    else
+      return null
   isAdmin: -> return isAdmin(Meteor.user().id)
   dateReserved: ->
     if @reservation?.dateReserved

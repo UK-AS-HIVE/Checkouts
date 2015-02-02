@@ -12,7 +12,12 @@ Template.itemDialog.helpers
     ]
   }
   item: -> Session.get "editCheckoutItem"
-  imageName: -> FileRegistry.findOne(Session.get('currentUploadId'))?.filename
+  imageName: ->
+    if Session.get 'currentUploadId'
+      return FileRegistry.findOne(Session.get('currentUploadId'))?.filename
+    else if Session.get 'editCheckoutItem'
+      return FileRegistry.findOne(Session.get('editCheckoutItem').imageId)?.filename
+    else return null
 
 Template.noMatchTemplate.helpers
   input: -> $('#itemCategory').val()
@@ -21,6 +26,7 @@ Template.itemDialog.events
   'click #itemSubmitButton': (e, tmpl) ->
     addItem e, tmpl
   'click #itemCancelButton': (e, tmpl) ->
+    Session.set "currentUploadId", null
     Session.set "editCheckoutItem", null
     tmpl.$(':input').val('')
     tmpl.$('.has-error').removeClass('has-error')
@@ -57,7 +63,7 @@ addItem = (e, tmpl) ->
       serialNo: $('#itemSerialNo').val()
       propertyTag: $('#itemPropertyTag').val()
       category: $('#itemCategory').val()
-      imageId: 'test'
+      imageId: Session.get "currentUploadId"
       barcode: $('#itemBarcode').val()
     },
     (err, result) ->
@@ -69,21 +75,29 @@ addItem = (e, tmpl) ->
         $('#itemDialog').modal('toggle')
   else
     item = Session.get "editCheckoutItem"
+    if Session.get "currentUploadId"
+      imageId = Session.get "currentUploadId"
+    else if item
+      imageId = item.imageId
+    else
+      imageId = null
     Inventory.update {_id: item._id}, {$set: {
       name: $('#itemName').val()
       description: $('#itemDescription').val()
       serialNo: $('#itemSerialNo').val()
       propertyTag: $('#itemPropertyTag').val()
       category: $('#itemCategory').val()
-      imageId: 'test'
+      imageId: imageId
       barcode: $('#itemBarcode').val()
     }},
     (err, result) ->
       if err
         handleError(tmpl, err.invalidKeys)
       else
+        Session.set "currentUploadId", null
         Session.set "editCheckoutItem", null
         tmpl.$(':input').val('')
+        tmpl.$('span[class=error]').hide()
         $('#itemDialog').modal('toggle')
 
 
