@@ -17,9 +17,16 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="category" class="col-xs-4 control-label">Category:</label>
+            <div class="col-xs-8">
+              {{> inputAutocomplete settings=categoryHelper id="itemCategory" name="category" class="form-control" placeholder="Enter a category..." value=item.category }}
+              <span class="error" name="category" style="display: none;">Error</span>
+            </div>
+          </div>
+          <div class="form-group">
             <label for="description" class="col-xs-4 control-label">Description:</label>
             <div class="col-xs-8">
-              <input type="text" class="form-control" name="description" id="itemDescription" value="{{item.description}}">
+              <input type="text" class="form-control" name="description" placeholder="optional" id="itemDescription" value="{{item.description}}">
             </div>
           </div>
           <div class="form-group">
@@ -35,18 +42,13 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="category" class="col-xs-4 control-label">Category:</label>
-            <div class="col-xs-8">
-              {{> inputAutocomplete settings=categoryHelper id="itemCategory" name="category" class="form-control" placeholder="Enter a category..." value=item.category }}
-              <span class="error" name="category" style="display: none;">Error</span>
-            </div>
-          </div>
-          <div class="form-group">
             <label for="picture" class="col-xs-4 control-label">Picture:</label>
             <div class="col-xs-8">
-              {{#if isCordova}}<button type="button" class="btn btn-primary pull-left" id="takePicture">Take Picture</button>{{/if}}
-              <button type="button" class="btn btn-primary pull-left" id="uploadPicture">Upload Picture</button>
-              &nbsp;&nbsp;{{imageName}}
+              <div class="input-group">
+                {{#if isCordova}}<span class="input-group-btn"><button type="button" class="btn btn-primary pull-left" id="takePicture">Take Picture</button></span>{{/if}}
+                <span class="input-group-btn"><button type="button" class="btn btn-primary pull-left" id="uploadPicture">Upload Picture</button></span>
+                <input type="text" name="imageName" class="form-control" disabled value="{{imageName}}">
+              </div>
             </div>
           </div>
           <div class="form-group">
