@@ -61,19 +61,19 @@
         <div class="col-xs-12 col-md-6 col-md-offset-4">
           {{#if isAdmin}}
           <!-- Admin Buttons -->
-          <button type="button" class="checkoutItemBtn pull-left btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
+          <button type="button" class="pull-left btn btn-sm btn-success" data-item="{{_id}}" data-action="checkout">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
           {{#unless reservation.assignedTo}}
-          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve Item</button>
+          <button type="button" class="pull-right btn btn-sm btn-success" data-item="{{_id}}" data-action="reserve">Reserve Item</button>
           {{else}}
-          <button type="button" class="cancelReserveBtn pull-right btn-danger btn btn-sm" data-item="{{_id}}">Cancel Reservation</button>
+          <button type="button" class="pull-right btn btn-sm btn-danger" data-item="{{_id}}" data-action="cancelReserve">Cancel Reservation</button>
           {{/unless}}
           {{else}}
           <!-- Non-Admin Buttons -->
           {{#unless reservation.assignedTo}}
-          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve Item</button>
+          <button type="button" class="pull-right btn btn-sm btn-success" data-item="{{_id}}" data-action="reserve">Reserve Item</button>
           {{/unless}}
           {{#if assignedToMe}}
-          <button type="button" class="cancelReserveBtn pull-right btn-danger btn btn-sm" data-item="{{_id}}">Cancel Reservation</button>
+          <button type="button" class="pull-right btn btn-sm btn-danger" data-item="{{_id}}" data-action="cancelReserve">Cancel Reservation</button>
           {{/if}}
           {{/if}}
         </div>
@@ -83,7 +83,7 @@
         <div class="form-group">
           <label for="expectedReturn" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Expected Return:</label>
           <div class="col-xs-8 col-md-6">
-            <input type="text" value="{{expectedReturn}}" name="expectedReturn" id="{{_id}}expectedReturn" class="form-control" disabled>
+            <input type="text" value="{{expectedReturn}}" name="expectedReturn" class="form-control" disabled>
           </div>
         </div>
         {{/if}}
@@ -91,14 +91,14 @@
         <div class="form-group">
           <label for="resExpectedReturn" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Expected Return:</label>
           <div class="col-xs-8 col-md-6">
-            <input type="text" value="{{reservation.expectedReturn}}" name="resExpectedReturn" id="{{_id}}resExpectedReturn" class="form-control" disabled>
+            <input type="text" value="{{reservation.expectedReturn}}" name="resExpectedReturn" class="form-control" disabled>
           </div>
         </div>
         {{/if}}
         <div class="form-group">
           <label for="description" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Description:</label>
           <div class="col-xs-8 col-md-6">
-            <input type="text" value="{{description}}" name="description" id="{{_id}}description" class="form-control" disabled>
+            <input type="text" value="{{description}}" name="description" class="form-control" disabled>
           </div>
         </div>
         {{#if isAdmin}}
@@ -106,26 +106,26 @@
         <div class="form-group">
           <label for="resAssignedTo" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Reserved To:</label>
           <div class="col-xs-8 col-md-6">
-            <input type="text" value="{{reservation.assignedTo}}" name="resAssignedTo" id="{{_id}}resAssignedTo" class="form-control" disabled>
+            <input type="text" value="{{reservation.assignedTo}}" name="resAssignedTo" class="form-control" disabled>
           </div>
         </div>
         {{/if}}
         <div class="form-group">
           <label for="serialNo" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Serial No:</label>
           <div class="col-xs-8 col-md-6">
-            <input type="text" value="{{serialNo}}" name="serialNo" id="{{_id}}serialNo" class="form-control" disabled>
+            <input type="text" value="{{serialNo}}" name="serialNo" class="form-control" disabled>
           </div>
         </div>
         <div class="form-group">
           <label for="propertyTag" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Property Tag:</label>
           <div class="col-xs-8 col-md-6">
-            <input type="text" value="{{propertyTag}}" name="propertyTag" id="{{_id}}propertyTag" class="form-control" disabled>
+            <input type="text" value="{{propertyTag}}" name="propertyTag" class="form-control" disabled>
           </div>
         </div>
         <div class="form-group">
           <label for="barcode" class="col-xs-4 col-md-2 col-md-offset-2 control-label">Barcode:</label>
           <div class="col-xs-8 col-md-6">
-            <input type="text" value="{{barcode}}" name="{{barcode}}" id="{{_id}}barcode" class="form-control" disabled>
+            <input type="text" value="{{barcode}}" name="{{barcode}}" class="form-control" disabled>
           </div>
         </div>
         {{/if}}
@@ -133,8 +133,8 @@
       {{#if isAdmin}}
       <div class="row">
         <div class="col-xs-12 col-md-6 col-md-offset-4">
-          <button type="button" class="editItemBtn pull-left btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
-          <button type="button" class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
+          <button type="button" class="pull-left btn btn-sm btn-success" data-item="{{_id}}" data-action="edit">Edit Item</button>
+          <button type="button" class="pull-right btn btn-sm btn-danger" data-item="{{_id}}" data-action="delete">Delete Item</button>
         </div>
       </div>
       {{/if}}

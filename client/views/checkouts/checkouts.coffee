@@ -33,38 +33,34 @@ Template.checkouts.helpers
   isAdmin: -> return isAdmin(Meteor.user().id)
 
 Template.checkouts.events
-  'click .reserveItemBtn': (e, tmpl) ->
+  'click button[data-action=reserve]': (e, tmpl) ->
     id = $(e.target).data("item")
-    item = Inventory.findOne {_id: id}
-    Session.set "reserveItem", item
+    Session.set "reserveItem", Inventory.findOne({_id: id})
     $('#reserveDialog').modal('toggle')
 
-  'click .checkoutItemBtn': (e, tmpl) ->
+  'click button[data-action=checkout]': (e, tmpl) ->
     id = $(e.target).data("item")
-    item = Inventory.findOne {_id: id}
-    Session.set "checkoutItem", item
+    Session.set "checkoutItem", Inventory.findOne({_id: id})
     $('#checkoutDialog').modal('toggle')
 
-  'click .editItemBtn': (e, tmpl) ->
+  'click button[data-action=edit]': (e, tmpl) ->
     id = $(e.target).data("item")
-    item = Inventory.findOne {_id: id}
-    Session.set "editCheckoutItem", item
+    Session.set "editCheckoutItem", Inventory.findOne({_id: id})
     $('#itemDialog').modal('toggle')
 
-  'click .deleteItemBtn': (e, tmpl) ->
+  'click button[data-action=delete]': (e, tmpl) ->
     id = $(e.target).data("item")
-    item = Inventory.findOne {_id: id}
-    Session.set "deleteItem", item
+    Session.set "deleteItem", Inventory.findOne({_id: id})
     $('#deleteItem').modal('toggle')
 
-  'click .cancelReserveBtn': (e, tmpl) ->
+  'click button[data-action=cancelReserve]': (e, tmpl) ->
     if $(e.target).html() is "Cancel Reservation"
       $(e.target).html("Click again to confirm")
     else if $(e.target).html() is "Click again to confirm"
-      console.log $(e.target).data("item")
       Meteor.call "cancelReservation", $(e.target).data("item")
 
   'shown.bs.collapse': (e, tmpl) ->
+    #Change the plus to a minus and vice-versa on row expand and collapse."
     id = $(e.target).attr('name')
     tmpl.$('span[name='+id+']').removeClass('glyphicon-plus').addClass('glyphicon-minus')
 
