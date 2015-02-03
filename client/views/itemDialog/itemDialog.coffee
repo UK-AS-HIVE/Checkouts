@@ -23,9 +23,9 @@ Template.noMatchTemplate.helpers
   input: -> $('#itemCategory').val()
 
 Template.itemDialog.events
-  'click #itemSubmitButton': (e, tmpl) ->
+  'click button[data-action=submit]': (e, tmpl) ->
     addItem e, tmpl
-  'click #itemCancelButton': (e, tmpl) ->
+  'click button[data-action=cancel]': (e, tmpl) ->
     Session.set "currentUploadId", null
     Session.set "editCheckoutItem", null
     tmpl.$(':input').val('')
@@ -34,15 +34,15 @@ Template.itemDialog.events
 
   'keyup .itemInput': (e, tmpl) ->
     if e.keyCode is 13
-      $('#itemSubmitButton').click()
+      tmpl.$('button[data-action=submit]').click()
     if e.keyCode is 27
-      $('#itemCancelButton').click()
+      tmpl.$('button[data-action=cancel]').click()
 
   'click #scanBarcode': (e, tmpl) ->
     result = cordova.plugins.barcodeScanner.scan (res, err) ->
       if res
         console.log res
-        $('#itemBarcode').val(res.text)
+        tmpl.$('input[name=barcode]').val(res.text)
       else
         alert("Error in scanning barcode.")
 
@@ -56,15 +56,15 @@ Template.itemDialog.events
        Session.set 'currentUploadId', fileId
 
 addItem = (e, tmpl) ->
-  if $('#itemSubmitButton').html() is "Add Item"
+  if tmpl.$('button[data-action=submit]').html() is "Add Item"
     item = Inventory.insert  {
-      name: $('#itemName').val()
-      description: $('#itemDescription').val()
-      serialNo: $('#itemSerialNo').val()
-      propertyTag: $('#itemPropertyTag').val()
-      category: $('#itemCategory').val()
+      name: tmpl.find('input[name=name]').value
+      description: tmpl.find('input[name=description]').value
+      serialNo: tmpl.find('input[name=serialNo]').value
+      propertyTag: tmpl.find('input[name=propertyTag]').value
+      category: tmpl.find('input[name=category]').value
       imageId: Session.get "currentUploadId"
-      barcode: $('#itemBarcode').val()
+      barcode: tmpl.find('input[name=barcode]').value
     },
     (err, result) ->
       if err
@@ -74,21 +74,18 @@ addItem = (e, tmpl) ->
         tmpl.$(':input').val('')
         $('#itemDialog').modal('toggle')
   else
-    item = Session.get "editCheckoutItem"
     if Session.get "currentUploadId"
       imageId = Session.get "currentUploadId"
-    else if item
-      imageId = item.imageId
     else
-      imageId = null
-    Inventory.update {_id: item._id}, {$set: {
-      name: $('#itemName').val()
-      description: $('#itemDescription').val()
-      serialNo: $('#itemSerialNo').val()
-      propertyTag: $('#itemPropertyTag').val()
-      category: $('#itemCategory').val()
+      imageId = Session.get("editCheckoutItem")?.imageId?
+    Inventory.update {_id: Session.get("editCheckoutItem")._id}, {$set: {
+      name: tmpl.find('input[name=name]').value
+      description: tmpl.find('input[name=description]').value
+      serialNo: tmpl.find('input[name=serialNo]').value
+      propertyTag: tmpl.find('input[name=propertyTag]').value
+      category: tmpl.find('input[name=category]').value
       imageId: imageId
-      barcode: $('#itemBarcode').val()
+      barcode: tmpl.find('input[name=barcode]').value
     }},
     (err, result) ->
       if err

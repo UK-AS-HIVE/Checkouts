@@ -2,13 +2,13 @@ Meteor.methods
   checkOutItem: (id, username, expectedReturn) ->
     now = new Date()
     #In addition to checking out the item, we nullify any reservation. This might not be ideal.
-    item = Inventory.update {_id: id}, {$set:
+    Inventory.update {_id: id}, {$set:
       assignedTo: username
       timeCheckedOut: now
       expectedReturn: expectedReturn,
       reservation: null
     }
-    console.log item 
+    item = Inventory.findOne {_id: id}
     #Email to confirm checkout.
     emailBody = "<p>Your item checkout is confirmed:</p>
       <h3>#{item.name}</h3>
@@ -34,7 +34,7 @@ Meteor.methods
               <p>Expected Return: #{moment(item.expectedReturn).format('dddd, MMMM Do YYYY')}</p>
               <p>Please return the item to POT 915 at your convenience.</p>"
 
-        date: moment(item.expectedReturn).subtract(1, 'days').hours(17).minutes(0).seconds(0) #One day before expected return at 5pm. 
+        date: moment(item.expectedReturn).subtract(1, 'days').hours(17).minutes(0).seconds(0).toDate() #One day before expected return at 5pm. 
 
       scheduleMail(returnDetails)
 
@@ -48,7 +48,7 @@ Meteor.methods
       html: "Your item has been returned:</p>
       <h3>#{item.name}</h3>
       <p>Checked out on: #{moment(item.timeCheckedOut).format('dddd, MMMM Do YYYY')}</p>
-      <p>Checked in on: #{moment(now).format('dddd, MMMM Do YYYY')}</p>"
+      <p>Checked in on: #{moment().format('dddd, MMMM Do YYYY')}</p>"
       
     sendMail(details)
 
@@ -125,12 +125,12 @@ Meteor.methods
       username: item.reservation.assignedTo
       subject: "Your A&S Reservation"
       html: reservationBody
-      date: moment(item.reservation.dateReserved).subtract(1, 'days').hours(17).minutes(0).seconds(0) #One day before expected return at 5pm. 
+      date: moment(item.reservation.dateReserved).subtract(1, 'days').hours(17).minutes(0).seconds(0).toDate() #One day before expected return at 5pm. 
 
     scheduleMail(reservationDetails)
 
   cancelReservation: (id) ->
-    id = Inventory.findOne {_id: id}
+    item = Inventory.findOne {_id: id}
     emailDetails =
       username: item.reservation.assignedTo
       subject: "Your A&S reservation has been cancelled."
@@ -177,6 +177,7 @@ sendMail = (details) ->
     html: details.html
 
 Meteor.startup ->
+  SyncedCron.start()
   if not Meteor.settings.email
     throw new Error "Email settings missing."
 

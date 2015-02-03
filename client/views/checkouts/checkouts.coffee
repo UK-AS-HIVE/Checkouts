@@ -61,6 +61,7 @@ Template.checkouts.events
     if $(e.target).html() is "Cancel Reservation"
       $(e.target).html("Click again to confirm")
     else if $(e.target).html() is "Click again to confirm"
+      console.log $(e.target).data("item")
       Meteor.call "cancelReservation", $(e.target).data("item")
 
   'shown.bs.collapse': (e, tmpl) ->

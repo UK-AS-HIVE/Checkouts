@@ -12,33 +12,33 @@
           <div class="form-group">
             <label for="name" class="col-xs-4 control-label">Item Name:</label>
             <div class="col-xs-8">
-              <input type="text" class="form-control" name="name" id="itemName" value="{{item.name}}">
+              <input type="text" class="form-control" name="name" value="{{item.name}}">
               <span class="error" name="name" style="display: none;">Error</span>
             </div>
           </div>
           <div class="form-group">
             <label for="category" class="col-xs-4 control-label">Category:</label>
             <div class="col-xs-8">
-              {{> inputAutocomplete settings=categoryHelper id="itemCategory" name="category" class="form-control" placeholder="Enter a category..." value=item.category }}
+              <input type="text" class="form-control" name="category" value="{{item.category}}">
               <span class="error" name="category" style="display: none;">Error</span>
             </div>
           </div>
           <div class="form-group">
             <label for="description" class="col-xs-4 control-label">Description:</label>
             <div class="col-xs-8">
-              <input type="text" class="form-control" name="description" placeholder="optional" id="itemDescription" value="{{item.description}}">
+              <input type="text" class="form-control" name="description" placeholder="optional" value="{{item.description}}">
             </div>
           </div>
           <div class="form-group">
             <label for="serialNo" class="col-xs-4 control-label">Serial Number/Service Tag:</label>
             <div class="col-xs-8">
-              <input type="text" placeholder="optional" class="form-control" name="serialNo" id="itemSerialNo" value="{{item.serialNo}}">
+              <input type="text" placeholder="optional" class="form-control" name="serialNo" value="{{item.serialNo}}">
             </div>
           </div>
           <div class="form-group">
             <label for="propertyTag" class="col-xs-4 control-label">Property Tag:</label>
             <div class="col-xs-8">
-              <input type="text" placeholder="optional" class="form-control" name="propertyTag" id="itemPropertyTag" value="{{item.propertyTag}}">
+              <input type="text" placeholder="optional" class="form-control" name="propertyTag" value="{{item.propertyTag}}">
             </div>
           </div>
           <div class="form-group">
@@ -55,13 +55,13 @@
             <label for="barcode" class="col-xs-4 control-label">Barcode:</label>
             <div class="col-xs-8">
               {{#if isCordova}}<button type="button" class="btn btn-primary" id="scanBarcode">Scan Barcode</button>{{/if}}
-              <input type="text" name="barcode" class="form-control" id="itemBarcode" placeholder="Enter barcode number" value="{{item.barcode}}">
+              <input type="text" name="barcode" class="form-control" placeholder="Enter barcode number" value="{{item.barcode}}">
             </div>
           </div>
         </form>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" id="itemCancelButton" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="itemSubmitButton">{{#if item}}Edit Item{{else}}Add Item{{/if}}</button>
+          <button type="button" class="btn btn-default pull-left" data-action="cancel" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-action="submit">{{#if item}}Edit Item{{else}}Add Item{{/if}}</button>
         </div>
       </div>
     </div>

@@ -11,47 +11,49 @@
         {{#if error}}<span class="unavailable">{{error}}</span>{{/if}}
         <form class="form-horizontal" id="checkoutForm">
           <div class="form-group">
-            <label for="checkoutSearch" class="col-xs-4 control-label">Find an item by Name or Barcode:</label>
+            <label for="name" class="col-xs-4 control-label">Find an item by Name or Barcode:</label>
             <div class="col-xs-8">
-              {{> inputAutocomplete settings=settings id="checkoutSearch" class="form-control" value=item.name name="checkoutSearch" placeholder="Search by name or barcode..."}}
+              {{> inputAutocomplete settings=settings class="form-control" value=item.name name="name" placeholder="Search by name or barcode..."}}
             </div>
           </div>
           <div class="form-group" style="display: {{hidden}};">
-            <label for="checkoutDescription" class="col-xs-4 control-label">Description:</label>
+            <label for="description" class="col-xs-4 control-label">Description:</label>
             <div class="col-xs-8">
-              <input type="text" class="form-control" name="description" id="checkoutDescription" disabled="disabled" value="{{item.description}}">
+              <input type="text" class="form-control" name="description" disabled="disabled" value="{{item.description}}">
             </div>
           </div>
-          <div class="form-group" style="display: {{hidden}};">
-            <label for="checkoutPicture" class="col-xs-4 control-label">Picture:</label>
+          {{#if item.imageId}}
+          <div class="form-group">
+            <label for="picture" class="col-xs-4 control-label">Picture:</label>
             <div class="col-xs-8">
-              <span>Picture goes here</span>
+              <img style="max-height:100px;" src="{{rootUrl}}/file/{{thumbnailUrl}}">
             </div>
           </div>
+          {{/if}}
           <div class="form-group" style="display: {{hidden}};">
-            <label for="checkoutAssignedTo" id="checkoutAssignedToLabel" class="col-xs-4 control-label">{{#if item.assignedTo}}Checked Out To:{{else}}Assign item to:{{/if}}</label>
+            <label for="assignedTo" class="col-xs-4 control-label">{{#if item.assignedTo}}Checked Out To:{{else}}Assign item to:{{/if}}</label>
             <div class="col-xs-8">
               <div class="input-group">
-                <input type="text" class="form-control" style="{{attr}}" {{disabled}} id="checkoutAssignedTo" value="{{item.assignedTo}}">
+                <input type="text" class="form-control" style="{{attr}}" {{disabled}} name="assignedTo" value="{{item.assignedTo}}">
                 {{#unless item.assignedTo}}<span class="input-group-btn">
-                  <button type="button" class="btn btn-primary" id="checkoutCheckBtn">Check Username</button>
+                  <button type="button" class="btn btn-primary" data-action="checkUsername">Check Username</button>
                 </span>{{/unless}}
               </div>
               {{#if checkoutAssignedToError}}<span class="unavailable">{{checkoutAssignedToError}}</span>{{/if}}
             </div>
           </div>
           <div class="form-group" style="display: {{hidden}};">
-            <label for="checkoutDatepicker" class="col-xs-4 control-label">Expected Return Date:</label>
+            <label for="returnDate" class="col-xs-4 control-label">Expected Return Date:</label>
             <div class="col-xs-8">
-              <input type="text" id="checkoutDatepicker" class="form-control datepicker" style="{{attr}}" {{disabled}} placeholder="{{#unless item.assignedTo}}optional{{/unless}}" value="{{item.schedule.expectedReturn}}">
+              <input type="text" name="returnDate" class="form-control datepicker" style="{{attr}}" {{disabled}} placeholder="{{#unless item.assignedTo}}optional{{/unless}}" value="{{item.expectedReturn}}">
               {{#if checkoutExpectedReturnError}}<span class="unavailable">{{checkoutExpectedReturnError}}</span>{{/if}}
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" id="checkoutCancelBtn" data-dismiss="modal">Cancel</button>
-        <button style="display: {{hidden}};"  type="button" class="btn btn-primary pull-right" id="checkoutSubmitBtn">{{#if item.assignedTo}}Check In{{else}}Check Out{{/if}}</button>
+        <button type="button" class="btn btn-default pull-left" data-action="cancel" data-dismiss="modal">Cancel</button>
+        <button style="display: {{hidden}};"  type="button" class="btn btn-primary pull-right" data-action="submit">{{#if item.assignedTo}}Check In{{else}}Check Out{{/if}}</button>
       </div>
     </div>
   </div>

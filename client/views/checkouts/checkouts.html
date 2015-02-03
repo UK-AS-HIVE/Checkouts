@@ -57,6 +57,27 @@
 <tr>
   <td colspan='7' class="hiddenRow">
     <div class="accordion-body collapse" id="row{{_id}}" name="{{_id}}">
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-4">
+          {{#if isAdmin}}
+          <!-- Admin Buttons -->
+          <button type="button" class="checkoutItemBtn pull-left btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
+          {{#unless reservation.assignedTo}}
+          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve Item</button>
+          {{else}}
+          <button type="button" class="cancelReserveBtn pull-right btn-danger btn btn-sm" data-item="{{_id}}">Cancel Reservation</button>
+          {{/unless}}
+          {{else}}
+          <!-- Non-Admin Buttons -->
+          {{#unless reservation.assignedTo}}
+          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve Item</button>
+          {{/unless}}
+          {{#if assignedToMe}}
+          <button type="button" class="cancelReserveBtn pull-right btn-danger btn btn-sm" data-item="{{_id}}">Cancel Reservation</button>
+          {{/if}}
+          {{/if}}
+        </div>
+      </div>
       <form class="form-horizontal">
         {{#if expectedReturn}}
         <div class="form-group">
@@ -107,33 +128,16 @@
             <input type="text" value="{{barcode}}" name="{{barcode}}" id="{{_id}}barcode" class="form-control" disabled>
           </div>
         </div>
-        <div class="col-xs-4 col-md-2 col-md-offset-2">
-          <button type="button" class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
-          <button type="button" class="editItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
-        </div>
-        <div class="col-xs-4 col-xs-offset-4 col-md-3 col-md-offset-3">
-          <button type="button" class="checkoutItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
-          {{#unless reservation.assignedTo}}
-          {{#unless assignedTo}}
-          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve Item</button>
-          {{/unless}}
-          {{else}}
-          <button type="button" class="cancelReserveBtn pull-right btn-danger btn btn-sm" data-item="{{_id}}">Cancel Reservation</button>
-          {{/unless}}
-        </div>
-        {{else}}
-        {{#unless reservation.assignedTo}}
-        <div class="col-xs-4 col-xs-offset-8 col-md-2 col-md-offset-8">
-          <button type="button" class="reserveItemBtn pull-right btn-success btn btn-sm" data-item="{{_id}}">Reserve Item</button>
-        </div>
-        {{/unless}}
-        {{#if assignedToMe}}
-        <div class="col-xs-4 col-xs-offset-8 col-md-2 col-md-offset-8">
-          <button type="button" class="cancelReserveBtn pull-right btn-danger btn btn-sm" data-item="{{_id}}">Cancel Reservation</button>
-        </div>
-        {{/if}}
         {{/if}}
       </form>
+      {{#if isAdmin}}
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-4">
+          <button type="button" class="editItemBtn pull-left btn-success btn btn-sm" data-item="{{_id}}">Edit Item</button>
+          <button type="button" class="deleteItemBtn pull-right btn btn-danger btn-sm" data-item="{{_id}}">Delete Item</button>
+        </div>
+      </div>
+      {{/if}}
     </div>
   </td>
 </tr>

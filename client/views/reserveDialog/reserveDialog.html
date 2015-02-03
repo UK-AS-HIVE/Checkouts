@@ -9,54 +9,57 @@
       <div class="modal-body">
         <form class="form-horizontal" id="reserveForm">
           <div class="form-group">
-            <label for="reserveName" class="col-xs-4 control-label">Name: </label>
+            <label for="name" class="col-xs-4 control-label">Name: </label>
             <div class="col-xs-8">
-              <input type="text" class="form-control" name="name" id="reserveName" disabled="disabled" value="{{item.name}}">
+              <input type="text" class="form-control" name="name" disabled="disabled" value="{{item.name}}">
             </div>
           </div>
           <div class="form-group">
-            <label for="reserveDescription" class="col-xs-4 control-label">Description:</label>
+            <label for="description" class="col-xs-4 control-label">Description:</label>
             <div class="col-xs-8">
-              <input type="text" class="form-control" name="description" id="reserveDescription" disabled="disabled" value="{{item.description}}">
+              <input type="text" class="form-control" name="description" disabled="disabled" value="{{item.description}}">
             </div>
           </div>
+          {{#if item.imageId}}
           <div class="form-group">
-            <label for="reservePicture" class="col-xs-4 control-label">Picture:</label>
+            <label for="picture" class="col-xs-4 control-label">Picture:</label>
             <div class="col-xs-8">
-              <span>Picture goes here</span>
+              <img style="max-height:100px;" src="{{rootUrl}}/file/{{thumbnailUrl}}">
             </div>
           </div>
+          {{/if}}
           {{#if isAdmin}}
           <div class="form-group">
-            <label for="reserveAssignedTo" class="col-xs-4 control-label">Reserve To:</label>
+            <label for="assignedTo" class="col-xs-4 control-label">Reserve To:</label>
             <div class="col-xs-8">
               <div class="input-group">
-                <input type="text" id="reserveAssignedTo" class="form-control">
+                <input type="text" name="assignedTo" class="form-control">
                 <span class="input-group-btn">
-                  <button type="button" class="btn btn-primary" id="reserveCheckBtn">Check Username</button>
+                  <button type="button" class="btn btn-primary" data-action="checkUsername">Check Username</button>
                 </span>
               </div>
             </div>
           </div>
           {{/if}}
           <div class="form-group">
-            <label for="reserveRequestDate" class="col-xs-4 control-label datepicker">Date Requested:</label>
+            <label for="requestDate" class="col-xs-4 control-label datepicker">Date Requested:</label>
             <div class="col-xs-8">
-              <input type="text" id="reserveRequestDate" class="form-control">
-              {{#if reserveRequestDateError}}<span class="unavailable">{{reserveRequestDateError}}</span>{{/if}}
+              <input type="text" name="requestDate" class="form-control">
+              {{#if reserveRequestDateError}}<span class="error">{{reserveRequestDateError}}</span>{{/if}}
             </div>
           </div>
           <div class="form-group">
-            <label for="reserveReturnDate" class="col-xs-4 control-label datepicker">Expected Return Date:</label>
+            <label for="returnDate" class="col-xs-4 control-label datepicker">Expected Return Date:</label>
             <div class="col-xs-8">
-              <input type="text" id="reserveReturnDate" class="form-control" placeholder="optional">
+              <input type="text" name="returnDate" class="form-control" placeholder="optional">
+              {{#if reserveReturnDateError}}<span class="error">{{reserveReturnDateError}}</span>{{/if}}
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" id="reserveCancelBtn">Cancel</button>
-        <button type="button" class="btn btn-primary pull-right" id="reserveSubmitBtn">Reserve Item</button>
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal" data-action="cancel">Cancel</button>
+        <button type="button" class="btn btn-primary pull-right" data-action="submit">Reserve Item</button>
       </div>
     </div>
   </div>
