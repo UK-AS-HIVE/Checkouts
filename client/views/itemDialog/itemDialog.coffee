@@ -21,6 +21,9 @@ Template.itemDialog.helpers
 
 Template.noMatchTemplate.helpers
   input: -> $('#itemCategory').val()
+  
+Template.itemDialog.rendered = ->
+  this.$('input[name=category]').autocomplete { lookup: _.uniq(_(Inventory.find().fetch()).pluck "category") }
 
 Template.itemDialog.events
   'click button[data-action=submit]': (e, tmpl) ->
