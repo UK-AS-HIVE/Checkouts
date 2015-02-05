@@ -11,7 +11,7 @@
         {{#if error}}<span class="unavailable">{{error}}</span>{{/if}}
         <form class="form-horizontal" id="checkoutForm">
           <div class="form-group">
-            <label for="name" class="col-xs-4 control-label">Find an item by Name or Barcode:</label>
+            <label for="name" class="col-xs-4 control-label">Name or Barcode:</label>
             <div class="col-xs-8">
               {{> inputAutocomplete settings=settings class="form-control" value=item.name name="name" placeholder="Search by name or barcode..."}}
             </div>
@@ -36,7 +36,7 @@
               <div class="input-group">
                 <input type="text" class="form-control" style="{{attr}}" {{disabled}} name="assignedTo" value="{{item.assignedTo}}">
                 {{#unless item.assignedTo}}<span class="input-group-btn">
-                  <button type="button" class="btn btn-primary" data-action="checkUsername">Check Username</button>
+                  <button type="button" class="btn btn-primary" data-action="checkUsername">Check{{#unless isCordova}} Username{{/unless}}</button>
                 </span>{{/unless}}
               </div>
               {{#if checkoutAssignedToError}}<span class="unavailable">{{checkoutAssignedToError}}</span>{{/if}}

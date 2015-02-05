@@ -79,8 +79,9 @@ addItem = (e, tmpl) ->
   else
     if Session.get "currentUploadId"
       imageId = Session.get "currentUploadId"
-    else
-      imageId = Session.get("editCheckoutItem")?.imageId?
+    else if Session.get("editCheckoutItem")?.imageId?
+      imageId = Session.get("editCheckoutItem").imageId
+    else imageId = null
     Inventory.update {_id: Session.get("editCheckoutItem")._id}, {$set: {
       name: tmpl.find('input[name=name]').value
       description: tmpl.find('input[name=description]').value
