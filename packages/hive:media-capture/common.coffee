@@ -29,6 +29,8 @@
   sendSlice file, 0
   return
 
-@sendFileEntry = (fileEntry) ->
-  fileEntry.file sendFile
+@sendFileEntry = (fileEntry, cb) ->
+  send = (f) ->
+    sendFile(f, cb)
+  fileEntry.file send
 

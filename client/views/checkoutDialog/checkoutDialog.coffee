@@ -16,15 +16,15 @@ Template.checkoutDialog.events
     if Meteor.isCordova
       result = cordova.plugins.barcodeScanner.scan (res, err) ->
         if res
-          item = Inventory.find {barcode: item.text}
-          if item
+          item = Inventory.findOne {barcode: res.text}
+          if item?
             Session.set "checkoutItem", item
           else
             Session.set "checkoutError", "Item not found. Try searching by name or barcode number."
-          $('#checkoutDialog').modal('show')
         else
+          console.log err
           Session.set "checkoutError", "Error in scanning barcode. Try searching by name or barcode number."
-          $('#checkoutDialog').modal('show')
+        $('#checkoutDialog').modal('show')
     else
       $('#checkoutDialog').modal('show')
 

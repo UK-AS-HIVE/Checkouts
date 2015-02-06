@@ -14,4 +14,5 @@ Meteor.startup () ->
   Session.set "filters", []
 
 String.prototype.capitalize = ->
+  #A method to automatically capitalize the first letter of a string.
   this.charAt(0).toUpperCase() + this.substr(1)

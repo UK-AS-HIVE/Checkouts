@@ -5,7 +5,6 @@
 
 standard-app-packages
 coffeescript
-meteorhacks:fast-render
 hive:file-registry
 hive:uploads
 hive:media-capture
@@ -22,3 +21,4 @@ mizzao:autocomplete
 mrt:moment
 email
 percolate:synced-cron
+meteorhacks:fast-render@2.3.1

@@ -50,10 +50,10 @@ Template.itemDialog.events
         alert("Error in scanning barcode.")
 
    'click #takePicture': ->
-     #TODO: Show a thumbnail, associate image with inventory item, remove upload if cancelled. 
-     getMediaFunctions.capturePhoto()
+     getMediaFunctions().capturePhoto (fileId) ->
+       console.log 'Uploaded a file, got _id: ', fileId
+       Session.set 'currentUploadId', fileId
    'click #uploadPicture': ->
-     #TODO: See above.
      getMediaFunctions().pickLocalFile (fileId) ->
        console.log 'Uploaded a file, got _id: ', fileId
        Session.set 'currentUploadId', fileId
