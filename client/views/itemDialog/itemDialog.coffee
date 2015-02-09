@@ -35,25 +35,25 @@ Template.itemDialog.events
     tmpl.$('.has-error').removeClass('has-error')
     tmpl.$('span[class=error]').hide()
 
-  'keyup .itemInput': (e, tmpl) ->
+  'keyup': (e, tmpl) ->
     if e.keyCode is 13
       tmpl.$('button[data-action=submit]').click()
     if e.keyCode is 27
       tmpl.$('button[data-action=cancel]').click()
 
-  'click #scanBarcode': (e, tmpl) ->
+  'click button[data-action=scanBarcode]': (e, tmpl) ->
     result = cordova.plugins.barcodeScanner.scan (res, err) ->
       if res
         console.log res
         tmpl.$('input[name=barcode]').val(res.text)
       else
-        alert("Error in scanning barcode.")
+        Session.set "scanError", "Error in scanning barcode. Please enter manually."
 
-   'click #takePicture': ->
+   'click button[data-action=takePicture]': ->
      getMediaFunctions().capturePhoto (fileId) ->
        console.log 'Uploaded a file, got _id: ', fileId
        Session.set 'currentUploadId', fileId
-   'click #uploadPicture': ->
+   'click button[data-action=uploadPicture]': ->
      getMediaFunctions().pickLocalFile (fileId) ->
        console.log 'Uploaded a file, got _id: ', fileId
        Session.set 'currentUploadId', fileId

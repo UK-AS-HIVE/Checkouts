@@ -1,5 +1,4 @@
 <template name="checkoutDialog">
-<button data-toggle="modal" data-action="openCheckoutDialog" class="pull-left btn-success btn btn-sm">{{#if isCordova}}Scan an item{{else}}Check an item in or out{{/if}}</button>
 <div class="modal fade" id="checkoutDialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -14,6 +13,7 @@
             <label for="name" class="col-xs-4 control-label">Name or Barcode:</label>
             <div class="col-xs-8">
               {{> inputAutocomplete settings=settings class="form-control" value=item.name name="name" placeholder="Search by name or barcode..."}}
+              {{#if checkoutError}}<span class="error">{{checkoutError}}</span>{{/if}}
             </div>
           </div>
           <div class="form-group" style="display: {{hidden}};">

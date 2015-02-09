@@ -1,5 +1,4 @@
 <template name="itemDialog">
-<button  data-toggle="modal" data-target="#itemDialog" class="newCheckoutBtn pull-right btn-success btn btn-sm">Add Item</button>
 <div class="modal fade" id='itemDialog'>
   <div class="modal-dialog">
     <div class="modal-content">
@@ -45,17 +44,24 @@
             <label for="picture" class="col-xs-4 control-label">Picture:</label>
             <div class="col-xs-8">
               <div class="input-group">
-                {{#if isCordova}}<span class="input-group-btn"><button type="button" class="btn btn-primary pull-left" id="takePicture">Take Picture</button></span>{{/if}}
-                <span class="input-group-btn"><button type="button" class="btn btn-primary pull-left" id="uploadPicture">Upload Picture</button></span>
                 <input type="text" name="imageName" class="form-control" disabled value="{{imageName}}">
+                {{#if isCordova}}<span class="input-group-btn"><button type="button" class="btn btn-primary" data-action="takePicture">Take Picture</button></span>
+                {{else}}<span class="input-group-btn"><button type="button" class="btn btn-primary" data-action="uploadPicture">Upload Picture</button></span>{{/if}}
               </div>
             </div>
           </div>
           <div class="form-group">
             <label for="barcode" class="col-xs-4 control-label">Barcode:</label>
             <div class="col-xs-8">
-              {{#if isCordova}}<button type="button" class="btn btn-primary" id="scanBarcode">Scan Barcode</button>{{/if}}
+              {{#if isCordova}}
+              <div class="input-group">
+                <input type="text" name="barcode" class="form-control" placeholder="Enter barcode number" value="{{item.barcode}}">
+                <span class="input-group-btn"><button type="button" class="btn btn-primary" data-action="scanBarcode">Scan Barcode</button></span>
+              </div>
+              {{#if scanError}}<span class="error">{{scanError}}</span>{{/if}}
+              {{else}}
               <input type="text" name="barcode" class="form-control" placeholder="Enter barcode number" value="{{item.barcode}}">
+              {{/if}}
             </div>
           </div>
         </form>

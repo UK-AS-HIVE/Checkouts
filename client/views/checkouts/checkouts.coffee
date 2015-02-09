@@ -33,6 +33,19 @@ Template.checkouts.helpers
   isAdmin: -> return isAdmin(Meteor.user().id)
 
 Template.checkouts.events
+  'click button[data-action=checkoutByBarcode]': ->
+    result = cordova.plugins.barcodeScanner.scan (res, err) ->
+      if res
+        item = Inventory.findOne {barcode: res.text}
+        if item?
+          Session.set "checkoutItem", item
+        else
+          Session.set "checkoutError", "Item not found. Try searching by name or barcode number."
+      else
+        console.log err
+        Session.set "checkoutError", "Error in scanning barcode. Try searching by name or barcode number."
+      $('#checkoutDialog').modal('show')
+
   'click button[data-action=reserve]': (e, tmpl) ->
     id = $(e.target).data("item")
     Session.set "reserveItem", Inventory.findOne({_id: id})

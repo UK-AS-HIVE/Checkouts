@@ -12,22 +12,6 @@ resetCheckoutDialog = (tmpl) ->
   $('#checkoutDialog').modal('hide')
 
 Template.checkoutDialog.events
-  'click [data-action=openCheckoutDialog]': ->
-    if Meteor.isCordova
-      result = cordova.plugins.barcodeScanner.scan (res, err) ->
-        if res
-          item = Inventory.findOne {barcode: res.text}
-          if item?
-            Session.set "checkoutItem", item
-          else
-            Session.set "checkoutError", "Item not found. Try searching by name or barcode number."
-        else
-          console.log err
-          Session.set "checkoutError", "Error in scanning barcode. Try searching by name or barcode number."
-        $('#checkoutDialog').modal('show')
-    else
-      $('#checkoutDialog').modal('show')
-
   'click button[data-action=submit]': (e, tmpl) ->
     item = Session.get "checkoutItem"
     if tmpl.$('button[data-action=submit]').html() is 'Check Out'
@@ -81,6 +65,7 @@ Template.checkoutDialog.rendered = ->
   this.$('input[name=returnDate]').datepicker()
 
 Template.checkoutDialog.helpers
+  checkoutError: -> Session.get "checkoutError"
   checkoutAssignedToError: -> Session.get "checkoutAssignedToError"
   checkoutExpectedReturnError: -> Session.get "checkoutExpectedReturnError"
   rootUrl: ->

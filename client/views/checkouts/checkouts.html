@@ -1,5 +1,15 @@
 <template name="checkouts">
 {{#if isAdmin}}
+{{#if isCordova}} 
+<div class="col-xs-12"> 
+  <button data-action="checkoutByBarcode" class="btn-success btn btn-sm">Scan an Item</button> 
+  <button data-toggle="modal" data-target="#checkoutDialog" class="btn-success btn btn-sm">Check an item in or out</button> 
+  <button data-toggle="modal" data-target="#itemDialog" class="btn-success btn btn-sm">Add Item</button>
+</div> 
+{{else}} 
+<button data-toggle="modal" data-target="#checkoutDialog" class="pull-left btn-success btn btn-sm">Check an item in or out</button> 
+<button data-toggle="modal" data-target="#itemDialog" class="pull-right btn-success btn btn-sm">Add Item</button>
+{{/if}}
 {{> checkoutDialog}}
 {{> itemDialog}}
 {{> deleteItemDialog}}
@@ -57,27 +67,6 @@
 <tr>
   <td colspan='7' class="hiddenRow">
     <div class="accordion-body collapse" id="row{{_id}}" name="{{_id}}">
-      <div class="row">
-        <div class="col-xs-12 col-md-6 col-md-offset-4">
-          {{#if isAdmin}}
-          <!-- Admin Buttons -->
-          <button type="button" class="pull-left btn btn-sm btn-success" data-item="{{_id}}" data-action="checkout">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
-          {{#unless reservation.assignedTo}}
-          <button type="button" class="pull-right btn btn-sm btn-success" data-item="{{_id}}" data-action="reserve">Reserve Item</button>
-          {{else}}
-          <button type="button" class="pull-right btn btn-sm btn-danger" data-item="{{_id}}" data-action="cancelReserve">Cancel Reservation</button>
-          {{/unless}}
-          {{else}}
-          <!-- Non-Admin Buttons -->
-          {{#unless reservation.assignedTo}}
-          <button type="button" class="pull-right btn btn-sm btn-success" data-item="{{_id}}" data-action="reserve">Reserve Item</button>
-          {{/unless}}
-          {{#if assignedToMe}}
-          <button type="button" class="pull-right btn btn-sm btn-danger" data-item="{{_id}}" data-action="cancelReserve">Cancel Reservation</button>
-          {{/if}}
-          {{/if}}
-        </div>
-      </div>
       <form class="form-horizontal">
         {{#if expectedReturn}}
         <div class="form-group">
@@ -130,14 +119,33 @@
         </div>
         {{/if}}
       </form>
-      {{#if isAdmin}}
       <div class="row">
-        <div class="col-xs-12 col-md-6 col-md-offset-4">
-          <button type="button" class="pull-left btn btn-sm btn-success" data-item="{{_id}}" data-action="edit">Edit Item</button>
-          <button type="button" class="pull-right btn btn-sm btn-danger" data-item="{{_id}}" data-action="delete">Delete Item</button>
+        <div class="col-xs-12 col-sm-6 col-sm-offset-4">
+          {{#if isAdmin}}
+          <!-- Admin Buttons -->
+          <div class="btn-group" role="group" aria-label="Admin Buttons">
+            <button type="button" class="btn btn-sm btn-success" data-item="{{_id}}" data-action="checkout">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
+            {{#unless reservation.assignedTo}}
+            {{#unless assignedTo}}
+            <button type="button" class="btn btn-sm btn-success" data-item="{{_id}}" data-action="reserve">Reserve Item</button>
+            {{/unless}}
+            {{else}}
+            <button type="button" class="btn btn-sm btn-danger" data-item="{{_id}}" data-action="cancelReserve">Cancel Reservation</button>
+            {{/unless}}
+            <button type="button" class="btn btn-sm btn-success" data-item="{{_id}}" data-action="edit">Edit Item</button>
+            <button type="button" class="btn btn-sm btn-danger" data-item="{{_id}}" data-action="delete">Delete Item</button>
+          </div>
+          {{else}}
+          <!-- Non-Admin Buttons -->
+          {{#unless reservation.assignedTo}}
+          <button type="button" class="pull-right btn btn-sm btn-success" data-item="{{_id}}" data-action="reserve">Reserve Item</button>
+          {{/unless}}
+          {{#if assignedToMe}}
+          <button type="button" class="pull-right btn btn-sm btn-danger" data-item="{{_id}}" data-action="cancelReserve">Cancel Reservation</button>
+          {{/if}}
+          {{/if}}
         </div>
       </div>
-      {{/if}}
     </div>
   </td>
 </tr>
