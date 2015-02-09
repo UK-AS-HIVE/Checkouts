@@ -96,7 +96,15 @@ Meteor.methods
         expectedReturn: reservation.expectedReturn
         assignedTo: reservation.assignedTo
     }}
-    
+    #Remove the reservation on the reservation date.
+    SyncedCron.add
+      name: id
+      schedule: (parser) ->
+        parser.recur().on(reservation.expectedReturn).fullDate()
+      job: ->
+        Inventory.update {_id: id}, {$set: {reservation: null}}
+        SyncedCron.remove id
+        
     #Instant email to confirm reservation.
     emailBody = "<p>Your item reservation is confirmed:</p>
       <h3>#{item.name}</h3>
