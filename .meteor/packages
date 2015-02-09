@@ -20,5 +20,5 @@ aldeed:autoform
 mizzao:autocomplete
 mrt:moment
 email
-percolate:synced-cron
 meteorhacks:fast-render@2.3.1
+percolatestudio:synced-cron
