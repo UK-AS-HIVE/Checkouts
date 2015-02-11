@@ -53,7 +53,6 @@ Template.reserveDialog.events
         Meteor.call 'checkUsername', tmpl.$('input[name=assignedTo]').val(), (err, res) ->
           if res
             Meteor.call 'reserveItem', item._id, reservation
-            resetDialog(tmpl)
           else
             tmpl.$('button[data-action=checkUsername]').removeClass('btn-success').removeClass('btn-primary').addClass('btn-danger')
             tmpl.$('button[data-action=checkUsername]').html('<span class="glyphicon glyphicon-remove"></span>')
@@ -61,9 +60,6 @@ Template.reserveDialog.events
       else
         Meteor.call 'reserveItem', item._id, reservation
         $('#reserveDialog').modal('hide')
-
-  'click button[data-action=cancel]': (e, tmpl) ->
-    resetDialog(tmpl)
 
   'click button[data-action=checkUsername]': (e, tmpl) ->
     unless tmpl.$('input[name=assignedTo]').val() is ""
@@ -82,6 +78,9 @@ Template.reserveDialog.events
       tmpl.$('button[data-action=submit]').click()
     if e.keyCode is 27
       tmpl.$('reserveCancelBtn').click()
+
+  'hidden.bs.modal #reserveDialog': (e, tmpl) ->
+    resetDialog(tmpl)
 
 Template.reserveDialog.rendered = ->
   this.$('input[name=returnDate]').datepicker()

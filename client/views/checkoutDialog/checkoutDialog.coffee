@@ -9,7 +9,6 @@ resetCheckoutDialog = (tmpl) ->
   tmpl.$('button[data-action=checkUsername]').html('Check Username')
   tmpl.$('input[name=assignedTo]').val('')
   tmpl.$('input[name=returnDate]').val('')
-  $('#checkoutDialog').modal('hide')
 
 Template.checkoutDialog.events
   'click button[data-action=submit]': (e, tmpl) ->
@@ -30,7 +29,7 @@ Template.checkoutDialog.events
         Meteor.call 'checkUsername', tmpl.$('input[name=assignedTo]').val(), (err, res) ->
           if res
             Meteor.call "checkOutItem", item._id, assignedTo, expectedReturn
-            resetCheckoutDialog(tmpl)
+            $('#checkoutDialog').modal('hide')
           else
             Session.set "checkoutAssignedToError", "User not found."
             tmpl.$('button[data-action=checkUsername]').removeClass('btn-success').removeClass('btn-primary').addClass('btn-danger')
@@ -38,14 +37,14 @@ Template.checkoutDialog.events
           
     else if tmpl.$('button[data-action=submit]').html() is 'Check In'
       Meteor.call "checkInItem", item._id
-      resetCheckoutDialog(tmpl)
+      $('#checkoutDialog').modal('hide')
 
-  'click button[data-action=cancel]': (e, tmpl) ->
+  'hidden.bs.modal #checkoutDialog': (e, tmpl) ->
     resetCheckoutDialog(tmpl)
 
   'keyup': (e, tmpl) ->
     if e.keyCode is 27
-      resetCheckoutDialog(tmpl)
+      $('#checkoutDialog').modal('hide')
 
   'click button[data-action=checkUsername]': (e, tmpl) ->
     unless tmpl.$('input[name=assignedTo]').val() is undefined

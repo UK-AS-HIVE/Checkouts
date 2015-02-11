@@ -28,7 +28,7 @@ Template.itemDialog.rendered = ->
 Template.itemDialog.events
   'click button[data-action=submit]': (e, tmpl) ->
     addItem e, tmpl
-  'click button[data-action=cancel]': (e, tmpl) ->
+  'hidden.bs.modal #itemDialog': (e, tmpl) ->
     Session.set "currentUploadId", null
     Session.set "editCheckoutItem", null
     tmpl.$(':input').val('')
@@ -73,9 +73,7 @@ addItem = (e, tmpl) ->
       if err
         handleError(tmpl, err.invalidKeys)
       else
-        Session.set "editCheckoutItem", null
-        tmpl.$(':input').val('')
-        $('#itemDialog').modal('toggle')
+        $('#itemDialog').modal('hide')
   else
     if Session.get "currentUploadId"
       imageId = Session.get "currentUploadId"
@@ -95,11 +93,7 @@ addItem = (e, tmpl) ->
       if err
         handleError(tmpl, err.invalidKeys)
       else
-        Session.set "currentUploadId", null
-        Session.set "editCheckoutItem", null
-        tmpl.$(':input').val('')
-        tmpl.$('span[class=error]').hide()
-        $('#itemDialog').modal('toggle')
+        $('#itemDialog').modal('hide')
 
 
 
@@ -123,4 +117,3 @@ getMediaFunctions = ->
     CordovaMedia
   else
     WebMedia
-
