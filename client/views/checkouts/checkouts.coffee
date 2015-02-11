@@ -72,6 +72,11 @@ Template.checkouts.events
     else if $(e.target).html() is "Click again to confirm"
       Meteor.call "cancelReservation", $(e.target).data("item")
 
+  'click button[data-action=checkoutLog]': (e, tmpl) ->
+    item = Inventory.findOne {_id: $(e.target).data("item")}
+    Session.set "checkoutLogItem", item
+    $('#checkoutLog').modal('show')
+
   'shown.bs.collapse': (e, tmpl) ->
     #Change the plus to a minus and vice-versa on row expand and collapse."
     id = $(e.target).attr('name')

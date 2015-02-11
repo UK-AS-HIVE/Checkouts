@@ -1,0 +1,36 @@
+<template name="checkoutLog">
+<div class="modal fade" id="checkoutLog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Checkout Log for {{item.name}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <table class="table table-bordered" style="width:90%; margin-left: auto; margin-right: auto;">
+            <thead>
+              <tr>
+                <th>Checked Out To</th>
+                <th>Checked In By</th>
+                <th>Check Out Date</th>
+                <th>Check In Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each item.checkoutLog}}
+              <tr>
+                <td>{{assignedTo}}</td>
+                <td>{{checkedInBy}}</td>
+                <td>{{> dateFormatter date=timeCheckedOut}}</td>
+                <td>{{> dateFormatter date=timeCheckedIn}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>

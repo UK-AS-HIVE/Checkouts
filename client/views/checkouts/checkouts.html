@@ -10,9 +10,12 @@
 <button data-toggle="modal" data-target="#checkoutDialog" class="pull-left btn-success btn btn-sm">Check an item in or out</button> 
 <button data-toggle="modal" data-target="#itemDialog" class="pull-right btn-success btn btn-sm">Add Item</button>
 {{/if}}
-{{> checkoutDialog}}
-{{> itemDialog}}
-{{> deleteItemDialog}}
+<div id="adminModals">
+  {{> checkoutDialog}}
+  {{> itemDialog}}
+  {{> deleteItemDialog}}
+  {{> checkoutLog}}
+</div>
 {{/if}}
 {{> reserveDialog}}
 <table class="table table-striped table-condensed" style="border-collapse:collapse;">
@@ -124,6 +127,7 @@
           {{#if isAdmin}}
           <!-- Admin Buttons -->
           <div class="btn-group" role="group" aria-label="Admin Buttons">
+            {{#if checkoutLog}}<button type="button" class="btn btn-sm btn-primary" data-item="{{_id}}" data-action="checkoutLog">View Checkout Logs</button>{{/if}}
             <button type="button" class="btn btn-sm btn-success" data-item="{{_id}}" data-action="checkout">{{#if assignedTo}}Check In{{else}}Check Out{{/if}}</button>
             {{#unless reservation.assignedTo}}
             {{#unless assignedTo}}
