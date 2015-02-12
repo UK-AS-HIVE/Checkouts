@@ -1,5 +1,8 @@
 Template.deleteItemDialog.helpers
   item: -> return Session.get "deleteItem"
+  thumbnailUrl: ->
+    FileRegistry.findOne({_id: Session.get("deleteItem").imageId}).thumbnail
+    
 
 Template.deleteItemDialog.events
   'click [data-action=deleteItem]': ->

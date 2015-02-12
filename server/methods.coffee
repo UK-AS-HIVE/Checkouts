@@ -51,6 +51,7 @@ Meteor.methods
       <p>Checked in on: #{moment().format('dddd, MMMM Do YYYY')}</p>"
       
     sendMail(details)
+    SyncedCron.remove {name: id}
 
     if item.checkoutLog
       item.checkoutLog.push {
@@ -100,17 +101,18 @@ Meteor.methods
     SyncedCron.add
       name: id
       schedule: (parser) ->
-        parser.recur().on(reservation.expectedReturn).fullDate()
+        parser.recur().on(reservation.dateReserved).fullDate()
       job: ->
         Inventory.update {_id: id}, {$set: {reservation: null}}
         SyncedCron.remove id
         
+    item = Inventory.findOne {_id: id}
     #Instant email to confirm reservation.
     emailBody = "<p>Your item reservation is confirmed:</p>
       <h3>#{item.name}</h3>
       <p>Reserved for: #{moment(item.reservation.dateReserved).format('dddd, MMMM Do YYYY')}</p>"
     
-    if item.reservation.expectedReturn
+    if item.reservation.expectedReturn?
       emailBody = emailBody + "<p>Until: #{moment(item.reservation.expectedReturn).format('dddd, MMMM Do YYYY')} </p>"
 
     emailDetails =
@@ -133,7 +135,7 @@ Meteor.methods
       username: item.reservation.assignedTo
       subject: "Your A&S Reservation"
       html: reservationBody
-      date: moment(item.reservation.dateReserved).subtract(1, 'days').hours(17).minutes(0).seconds(0).toDate() #One day before expected return at 5pm. 
+      date: moment(item.reservation.dateReserved).subtract(1, 'days').hours(17).minutes(0).seconds(0).toDate() #One day before expected reservation at 5pm.
 
     scheduleMail(reservationDetails)
 
@@ -147,7 +149,7 @@ Meteor.methods
       <p>Reserved for: #{moment(item.reservation.dateReserved).format('dddd, MMMM Do YYYY')}</p>"
 
     sendMail(emailDetails)
-    
+    SyncedCron.remove {name: id}
     Inventory.update {_id: id}, {$set: {reservation: null}}
 
   checkUsername: (username) ->
@@ -180,7 +182,7 @@ sendMail = (details) ->
   #Wrapper for Email.send.
   Email.send
     from: Meteor.settings.email.fromEmail
-    to: details.username + "@" + Meteor.settings.email.emailDomain
+    to: details.username + "@" + Meteor.settings.email.domain
     subject: details.subject
     html: details.html
 

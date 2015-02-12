@@ -8,38 +8,11 @@
       </div>
       <div class="modal-body">
         <form class="form-horizontal">
-          <div class="form-group">
-            <label for="name" class="col-xs-4 control-label">Item Name:</label>
-            <div class="col-xs-8">
-              <input type="text" class="form-control" name="name" value="{{item.name}}">
-              <span class="error" name="name" style="display: none;">Error</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="category" class="col-xs-4 control-label">Category:</label>
-            <div class="col-xs-8">
-              <input type="text" class="form-control" name="category" value="{{item.category}}">
-              <span class="error" name="category" style="display: none;">Error</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="description" class="col-xs-4 control-label">Description:</label>
-            <div class="col-xs-8">
-              <input type="text" class="form-control" name="description" placeholder="optional" value="{{item.description}}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="serialNo" class="col-xs-4 control-label">Serial Number/Service Tag:</label>
-            <div class="col-xs-8">
-              <input type="text" placeholder="optional" class="form-control" name="serialNo" value="{{item.serialNo}}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="propertyTag" class="col-xs-4 control-label">Property Tag:</label>
-            <div class="col-xs-8">
-              <input type="text" placeholder="optional" class="form-control" name="propertyTag" value="{{item.propertyTag}}">
-            </div>
-          </div>
+          {{> formGroup name="name" label="Item Name" value=item.name}}
+          {{> formGroup name="category" label="Category" value=item.category}}
+          {{> formGroup name="description" label="Description" value=item.description placeholder="optional"}}
+          {{> formGroup name="serialNo" label="Serial No" value=item.serialNo placeholder="optional"}}
+          {{> formGroup name="propertyTag" label="Property Tag" value=item.propertyTag placeholder="optional"}}
           <div class="form-group">
             <label for="picture" class="col-xs-4 control-label">Picture:</label>
             <div class="col-xs-8">
@@ -55,12 +28,12 @@
             <div class="col-xs-8">
               {{#if isCordova}}
               <div class="input-group">
-                <input type="text" name="barcode" class="form-control" placeholder="Enter barcode number" value="{{item.barcode}}">
+                <input type="text" name="barcode" class="form-control" placeholder="Enter barcode number (optional)" value="{{item.barcode}}">
                 <span class="input-group-btn"><button type="button" class="btn btn-primary" data-action="scanBarcode">Scan Barcode</button></span>
               </div>
-              {{#if scanError}}<span class="error">{{scanError}}</span>{{/if}}
+              <span class="error" style="display: none;" name="barcode">Error</span>
               {{else}}
-              <input type="text" name="barcode" class="form-control" placeholder="Enter barcode number" value="{{item.barcode}}">
+              <input type="text" name="barcode" class="form-control" placeholder="Enter barcode number (optional)" value="{{item.barcode}}">
               {{/if}}
             </div>
           </div>
@@ -73,12 +46,4 @@
     </div>
   </div>
 </div>
-</template>
-
-<template name="noMatchTemplate">
-Create new category: {{input}}
-</template>
-
-<template name="categorySearch">
-{{category}}
 </template>

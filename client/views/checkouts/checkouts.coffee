@@ -67,6 +67,7 @@ Template.checkouts.events
     $('#deleteItem').modal('toggle')
 
   'click button[data-action=cancelReserve]': (e, tmpl) ->
+    #This is kind of abrupt. Maybe show a modal for this.
     if $(e.target).html() is "Cancel Reservation"
       $(e.target).html("Click again to confirm")
     else if $(e.target).html() is "Click again to confirm"
@@ -78,7 +79,7 @@ Template.checkouts.events
     $('#checkoutLog').modal('show')
 
   'shown.bs.collapse': (e, tmpl) ->
-    #Change the plus to a minus and vice-versa on row expand and collapse."
+    #Change the plus to a minus and vice-versa on row expand and collapse.
     id = $(e.target).attr('name')
     tmpl.$('span[name='+id+']').removeClass('glyphicon-plus').addClass('glyphicon-minus')
 

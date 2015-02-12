@@ -1,45 +1,47 @@
-resetDialog = (tmpl) ->
-  Session.set "reserveError", null
-  Session.set "reserveItem", null
-  tmpl.$('.has-error').removeClass('has-error')
-  tmpl.$('.has-success').removeClass('has-success')
-  tmpl.$(":input").val('')
-  tmpl.$('button[data-action=checkUsername]').removeClass('btn-success').removeClass('btn-danger').addClass('btn-primary')
-  tmpl.$('button[data-action=checkUsername]').html('Check Username')
-  $('#reserveDialog').modal('hide')
-
 Template.reserveDialog.events
   'click button[data-action=submit]': (e, tmpl) ->
-    #A whole lotta form validation in here. Kinda monolithic. Can we tighten this up?
     item = Session.get 'reserveItem'
     now = new Date()
+    
+    #Error checking for the reserve date.
     if tmpl.$('input[name=requestDate]').val()
-      #Error checking for the reserve date, if it exists.
+      reqError = null
       dateReserved = new Date(tmpl.$('input[name=requestDate]').val())
       if dateReserved < now
-        #Date Reserved before today?
-        tmpl.$('input[name=requestDate]').parent().parent().addClass('has-error')
-        Session.set "reserveRequestDateError", "Reservation date must be after today."
+        reqError = "Reservation date must be after today."
       else if item.reservation?.dateReserved and dateReserved > item.reservation?.dateReserved and item.reservation?.expectedReturn? < new Date(dateReserved)
-        tmpl.$('input[name=requestDate]').parent().parent().addClass('has-error')
-        Session.set "reserveRequestDateError", "Item is already reserved for that timeframe. Please select a different date."
+        reqError = "Item is already reserved for that timeframe. Please select a different date."
       else if item.reservation?.dateReserved and dateReserved > item.reservation?.dateReserved
-        Session.set "reserveRequestDateError", "Item is already reserved after that date without an expected return date."
-      else
-        Session.set "reserveRequestDateError", null
-        tmpl.$('input[name=requestDate]').parent().parent().removeClass('has-error')
-    else
-      #Reserve request date field is empty.
-      tmpl.$('input[name=requestDate]').parent().parent().addClass('has-error')
-      Session.set "reserveRequestDateError", "A request date is required."
+       reqError = "Item is already reserved after that date without an expected return date."
 
+    #Reserve request date field is empty.
+    else
+      reqError = "A request date is required."
+
+    #Error checking for the return date.
     if tmpl.$('input[name=returnDate]').val()
+      retError = null
       expectedReturn = new Date(tmpl.$('input[name=returnDate]').val())
       if dateReserved >= expectedReturn
-        Session.set "reserveReturnDateError", "Return date must be after request date."
+        retError = "Return date must be after request date."
     else
+      retError = null
       expectedReturn = null
-      
+    
+    #Error handling - manual DOM manipulation.
+    if reqError
+      tmpl.$('span[name=requestDate]').text(reqError).show()
+      tmpl.$('input[name=requestDate]').parent().parent().addClass('has-error')
+    else
+      tmpl.$('input[name=requestDate]').parent().parent().removeClass('has-error')
+      tmpl.$('span[name=requestDate]').hide()
+
+    if retError
+      tmpl.$('span[name=returnDate]').text(retError).show()
+      tmpl.$('input[name=returnDate]').parent().parent().addClass('has-error')
+    else
+      tmpl.$('input[name=returnDate]').parent().parent().removeClass('has-error')
+      tmpl.$('span[name=returnDate]').hide()
 
     if tmpl.findAll('.has-error').length is 0
       reservation = {
@@ -77,10 +79,15 @@ Template.reserveDialog.events
     if e.keyCode is 13
       tmpl.$('button[data-action=submit]').click()
     if e.keyCode is 27
-      tmpl.$('reserveCancelBtn').click()
+      $('#reserveDialog').modal('hide')
 
   'hidden.bs.modal #reserveDialog': (e, tmpl) ->
-    resetDialog(tmpl)
+    Session.set "reserveItem", null
+    tmpl.$('.has-error').removeClass('has-error')
+    tmpl.$('.has-success').removeClass('has-success')
+    tmpl.$(":input").val('')
+    tmpl.$('button[data-action=checkUsername]').removeClass('btn-success').removeClass('btn-danger').addClass('btn-primary')
+    tmpl.$('button[data-action=checkUsername]').html('Check Username')
 
 Template.reserveDialog.rendered = ->
   this.$('input[name=returnDate]').datepicker()
@@ -88,7 +95,6 @@ Template.reserveDialog.rendered = ->
 
 Template.reserveDialog.helpers
   item: -> Session.get "reserveItem"
-  reserveRequestDateError: -> Session.get "reserveRequestDateError"
   rootUrl: ->
     if Meteor.isCordova
       __meteor_runtime_config__.ROOT_URL.replace(/\/$/, '') + __meteor_runtime_config__.ROOT_URL_PATH_PREFIX
@@ -100,4 +106,3 @@ Template.reserveDialog.helpers
       return FileRegistry.findOne({_id: item.imageId})?.thumbnail
     else
       return null
- 

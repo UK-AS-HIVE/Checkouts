@@ -8,18 +8,8 @@
       </div>
       <div class="modal-body">
         <form class="form-horizontal" id="reserveForm">
-          <div class="form-group">
-            <label for="name" class="col-xs-4 control-label">Name: </label>
-            <div class="col-xs-8">
-              <input type="text" class="form-control" name="name" disabled="disabled" value="{{item.name}}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="description" class="col-xs-4 control-label">Description:</label>
-            <div class="col-xs-8">
-              <input type="text" class="form-control" name="description" disabled="disabled" value="{{item.description}}">
-            </div>
-          </div>
+          {{> formGroup name="name" label="Name" value=item.name disabled="disabled"}}
+          {{> formGroup name="description" label="Description" value=item.description disabled="disabled"}}
           {{#if item.imageId}}
           <div class="form-group">
             <label for="picture" class="col-xs-4 control-label">Picture:</label>
@@ -41,20 +31,8 @@
             </div>
           </div>
           {{/if}}
-          <div class="form-group">
-            <label for="requestDate" class="col-xs-4 control-label datepicker">Date Requested:</label>
-            <div class="col-xs-8">
-              <input type="text" name="requestDate" class="form-control">
-              {{#if reserveRequestDateError}}<span class="error">{{reserveRequestDateError}}</span>{{/if}}
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="returnDate" class="col-xs-4 control-label datepicker">Expected Return Date:</label>
-            <div class="col-xs-8">
-              <input type="text" name="returnDate" class="form-control" placeholder="optional">
-              {{#if reserveReturnDateError}}<span class="error">{{reserveReturnDateError}}</span>{{/if}}
-            </div>
-          </div>
+          {{> formGroup name="requestDate" class="datepicker" label="Date Requested"}}
+          {{> formGroup name="returnDate" class="datepicker" label="Expected Return Date" placeholder="optional"}}
         </form>
       </div>
       <div class="modal-footer">

@@ -1,3 +1,24 @@
 <template name="dateFormatter">
 {{renderedDate}}
 </template>
+
+<template name="formGroup">
+<div class="form-group" style="{{style}}">
+  <label for="{{name}}" class="col-xs-4 control-label">{{label}}:</label>
+  <div class="col-xs-8">
+    <input type="text" class="form-control {{class}}" name="{{name}}" value="{{value}}" placeholder="{{placeholder}}" {{disabled}}>
+    <span class="error" name="{{name}}" style="display: none;">Error</span>
+  </div>
+</div>
+</template>
+
+<!-- Template for our table form groups. These could maybe be combined, but for now I'm just keeping them separate. -->
+
+<template name="tableFormGroup">
+<div class="form-group" style="{{divStyle}}">
+  <label for="{{name}}" class="control-label col-xs-4 col-md-2 col-md-offset-2">{{label}}:</label>
+  <div class="col-xs-8 col-md-6">
+    <input type="text" value="{{value}}" name="{{name}}" class="form-control {{class}}" {{disabled}}>
+  </div>
+</div>
+</template>

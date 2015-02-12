@@ -1,16 +1,4 @@
 Template.itemDialog.helpers
-  categoryHelper: {
-    position: 'bottom'
-    limit: 3
-    rules: [
-      {
-        collection: Inventory
-        field: "category"
-        template: Template.categorySearch
-        noMatchTemplate: Template.noMatchTemplate
-      }
-    ]
-  }
   item: -> Session.get "editCheckoutItem"
   imageName: ->
     if Session.get 'currentUploadId'
@@ -19,15 +7,13 @@ Template.itemDialog.helpers
       return FileRegistry.findOne(Session.get('editCheckoutItem').imageId)?.filename
     else return null
 
-Template.noMatchTemplate.helpers
-  input: -> $('#itemCategory').val()
-  
 Template.itemDialog.rendered = ->
   this.$('input[name=category]').autocomplete { lookup: _.uniq(_(Inventory.find().fetch()).pluck "category") }
 
 Template.itemDialog.events
   'click button[data-action=submit]': (e, tmpl) ->
     addItem e, tmpl
+
   'hidden.bs.modal #itemDialog': (e, tmpl) ->
     Session.set "currentUploadId", null
     Session.set "editCheckoutItem", null
@@ -47,12 +33,14 @@ Template.itemDialog.events
         console.log res
         tmpl.$('input[name=barcode]').val(res.text)
       else
-        Session.set "scanError", "Error in scanning barcode. Please enter manually."
+        tmpl.$('span[name=barcode]').text("Error in scanning barcode. Please enter manually.")
+        tmpl.$('span[name=barcode]').show()
 
    'click button[data-action=takePicture]': ->
      getMediaFunctions().capturePhoto (fileId) ->
        console.log 'Uploaded a file, got _id: ', fileId
        Session.set 'currentUploadId', fileId
+
    'click button[data-action=uploadPicture]': ->
      getMediaFunctions().pickLocalFile (fileId) ->
        console.log 'Uploaded a file, got _id: ', fileId
@@ -94,8 +82,6 @@ addItem = (e, tmpl) ->
         handleError(tmpl, err.invalidKeys)
       else
         $('#itemDialog').modal('hide')
-
-
 
 handleError = (tmpl, keys) ->
   #Clear all of our error fields before re-validating.

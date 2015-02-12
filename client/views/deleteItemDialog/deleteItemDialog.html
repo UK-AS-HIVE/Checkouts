@@ -9,48 +9,20 @@
       <div class="modal-body">
         You are deleting the following item. <br>
         Are you sure you want to continue? This action is permanent.
-       <form class="form-horizontal">
-          <div class="form-group">
-            <label for="name" class="col-xs-4 control-label">Item Name:</label>
-            <div class="col-xs-8">
-              <input type="text" class="form-control" name="name" value="{{item.name}}" disabled>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="description" class="col-xs-4 control-label">Description:</label>
-            <div class="col-xs-8">
-              <input type="text" class="form-control" name="description" value="{{item.description}}" disabled>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="serialNo" class="col-xs-4 control-label">Serial Number/Service Tag:</label>
-            <div class="col-xs-8">
-              <input type="text" placeholder="optional" class="form-control" name="serialNo" value="{{item.serialNo}}" disabled>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="propertyTag" class="col-xs-4 control-label">Property Tag:</label>
-            <div class="col-xs-8">
-              <input type="text" name="propertyTag" class="form-control" value="{{item.propertyTag}}" disabled>
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="category" class="col-xs-4 control-label">Category:</label>
-            <div class="col-xs-8">
-              <input type="text" value="{{item.category}}" class="form-control" disabled>
-            </div>
-          </div>
+        <form class="form-horizontal">
+          {{>formGroup name="name" label="Item Name" value=item.name disabled="disabled"}}
+          {{>formGroup name="category" label="Category" value=item.category disabled="disabled"}}
+          {{>formGroup name="description" label="Description" value=item.description disabled="disabled"}}
+          {{>formGroup name="serialNo" label="Serial No" value=item.serialNo disabled="disabled"}}
+          {{>formGroup name="propertyTag" label="Property Tag" value=item.propertyTag disabled="disabled"}}
+          {{#if item.imageId}}
           <div class="form-group">
             <label for="picture" class="col-xs-4 control-label">Picture:</label>
             <div class="col-xs-8">
+              <img src="{{rootUrl}}/file/{{thumbnailUrl}}">
             </div>
           </div>
-          <div class="form-group">
-            <label for="barcode" class="col-xs-4 control-label">Barcode:</label>
-            <div class="col-xs-8">
-              <input type="text" name="barcode" class="form-control"  value="{{item.barcode}}" disabled>
-            </div>
-          </div>
+          {{/if}}
         </form> 
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left"  data-dismiss="modal" data-action="cancelDeleteItem">Cancel</button>
