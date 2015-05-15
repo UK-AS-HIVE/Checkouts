@@ -70,7 +70,7 @@
     type: Object
     optional: true
   checkoutLog:
-    #Stores time checked in, checked out, and user checked out to. 
+    #Stores time checked in, checked out, and user checked out to.
     type: [Object]
     optional: true
     defaultValue: []

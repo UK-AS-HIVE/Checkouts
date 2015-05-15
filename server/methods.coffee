@@ -34,7 +34,7 @@ Meteor.methods
               <p>Expected Return: #{moment(item.expectedReturn).format('dddd, MMMM Do YYYY')}</p>
               <p>Please return the item to POT 915 at your convenience.</p>"
 
-        date: moment(item.expectedReturn).subtract(1, 'days').hours(17).minutes(0).seconds(0).toDate() #One day before expected return at 5pm. 
+        date: moment(item.expectedReturn).subtract(1, 'days').hours(17).minutes(0).seconds(0).toDate() #One day before expected return at 5pm.
 
       scheduleMail(returnDetails)
 

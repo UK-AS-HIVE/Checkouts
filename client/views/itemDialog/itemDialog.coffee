@@ -36,15 +36,15 @@ Template.itemDialog.events
         tmpl.$('span[name=barcode]').text("Error in scanning barcode. Please enter manually.")
         tmpl.$('span[name=barcode]').show()
 
-   'click button[data-action=takePicture]': ->
-     getMediaFunctions().capturePhoto (fileId) ->
-       console.log 'Uploaded a file, got _id: ', fileId
-       Session.set 'currentUploadId', fileId
+  'click button[data-action=takePicture]': ->
+    getMediaFunctions().capturePhoto (fileId) ->
+      console.log 'Uploaded a file, got _id: ', fileId
+      Session.set 'currentUploadId', fileId
 
-   'click button[data-action=uploadPicture]': ->
-     getMediaFunctions().pickLocalFile (fileId) ->
-       console.log 'Uploaded a file, got _id: ', fileId
-       Session.set 'currentUploadId', fileId
+  'click button[data-action=uploadPicture]': ->
+    getMediaFunctions().pickLocalFile (fileId) ->
+      console.log 'Uploaded a file, got _id: ', fileId
+      Session.set 'currentUploadId', fileId
 
 addItem = (e, tmpl) ->
   if tmpl.$('button[data-action=submit]').html() is "Add Item"

@@ -12,7 +12,7 @@ Template.reserveDialog.events
       else if item.reservation?.dateReserved and dateReserved > item.reservation?.dateReserved and item.reservation?.expectedReturn? < new Date(dateReserved)
         reqError = "Item is already reserved for that timeframe. Please select a different date."
       else if item.reservation?.dateReserved and dateReserved > item.reservation?.dateReserved
-       reqError = "Item is already reserved after that date without an expected return date."
+        reqError = "Item is already reserved after that date without an expected return date."
 
     #Reserve request date field is empty.
     else
