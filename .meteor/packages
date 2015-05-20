@@ -8,7 +8,6 @@ coffeescript
 hive:file-registry
 hive:uploads
 hive:media-capture
-hive:accounts-ldap
 accounts-base
 iron:router
 aldeed:collection2
@@ -21,5 +20,5 @@ mizzao:autocomplete
 mrt:moment
 email
 meteorhacks:fast-render@2.3.1
-percolatestudio:synced-cron
 differential:workers
+percolate:synced-cron

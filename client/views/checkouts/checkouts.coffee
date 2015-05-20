@@ -78,12 +78,12 @@ Template.checkouts.events
     Session.set "checkoutLogItem", item
     $('#checkoutLog').modal('show')
 
-  'shown.bs.collapse': (e, tmpl) ->
+  'show.bs.collapse': (e, tmpl) ->
     #Change the plus to a minus and vice-versa on row expand and collapse.
     id = $(e.target).attr('name')
     tmpl.$('span[name='+id+']').removeClass('glyphicon-plus').addClass('glyphicon-minus')
 
-  'hidden.bs.collapse': (e, tmpl) ->
+  'hide.bs.collapse': (e, tmpl) ->
     id = $(e.target).attr('name')
     tmpl.$('span[name='+id+']').removeClass('glyphicon-minus').addClass('glyphicon-plus')
 
